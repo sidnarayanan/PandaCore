@@ -23,6 +23,8 @@ processes =	{
 'DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8','MC',2008.4*3*3.78),
 'DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8','MC',2008.4*3),
 'DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8','MC',2008.4*3),
+'DYJetsToLL_Zpt-100to200_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('DYJetsToLL_Zpt-100to200_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8','MC',69.586),
+'DYJetsToLL_Zpt-200toInf_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('DYJetsToLL_Zpt-200toInf_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8','MC',8.186),
 'ZToMuMu_NNPDF30_13TeV-powheg_M_50_120':('ZToMuMu_NNPDF30_13TeV-powheg_M_50_120','MC',1975),
 'ZToEE_NNPDF30_13TeV-powheg_M_50_120':('ZToEE_NNPDF30_13TeV-powheg_M_50_120','MC',1975),
 'ZToMuMu_NNPDF30_13TeV-powheg_M_120_200':('ZToMuMu_NNPDF30_13TeV-powheg_M_120_200','MC',19.32),
