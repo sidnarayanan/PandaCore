@@ -82,4 +82,6 @@ processes =	{
 'WGToLNuG_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('WGToLNuG_TuneCUETP8M1_13TeV-madgraphMLM-pythia8','MC',489.0),
 'ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8','MC',123.9*1.06),
 
+'WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8','MC',20508.9*3),
+
 						}
