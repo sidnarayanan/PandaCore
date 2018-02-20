@@ -69,6 +69,10 @@ processes =	{
 'WWTo2L2Nu_DoubleScattering_13TeV-pythia8':('WWTo2L2Nu_DoubleScattering_13TeV-pythia8','MC',0.1729),
 'GluGluWWTo2L2Nu_MCFM_13TeV':('GluGluWWTo2L2Nu_MCFM_13TeV','MC',3.974*0.1086*0.1086*9*1.4),
 
+#'WpWpJJ_EWK-QCD_TuneCUETP8M1_13TeV-madgraph-pythia8':('WpWpJJ_EWK-QCD_TuneCUETP8M1_13TeV-madgraph-pythia8','MC',0.0538980),
+'WpWpJJ_EWK_TuneCUETP8M1_13TeV-madgraph-pythia8':('WpWpJJ_EWK_TuneCUETP8M1_13TeV-madgraph-pythia8','MC',0.0269642),
+'WpWpJJ_QCD_TuneCUETP8M1_13TeV-madgraph-pythia8':('WpWpJJ_QCD_TuneCUETP8M1_13TeV-madgraph-pythia8','MC',0.0261515),
+
 'TTGJets_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8':('TTGJets_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8','MC',1.444*3.2),
 'TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8':('TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8','MC',0.2529),
 'TTZToQQ_TuneCUETP8M1_13TeV-amcatnlo-pythia8':('TTZToQQ_TuneCUETP8M1_13TeV-amcatnlo-pythia8','MC',0.5297),
@@ -84,5 +88,7 @@ processes =	{
 'TT_TuneCUETP8M2T4_13TeV-powheg-pythia8':('TT_TuneCUETP8M2T4_13TeV-powheg-pythia8','MC',831.76),
 
 'WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8','MC',20508.9*3),
+
+'DarkPhoton_ZH_powheg_M-125':('DarkPhoton_ZH_powheg_M-125','MC',0.8839*0.101*0.10),
 
 						}
