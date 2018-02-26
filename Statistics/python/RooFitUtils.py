@@ -284,14 +284,6 @@ class CategoryManager():
       ng    = getParam('norm_gauss',2)
       ne    = getParam('norm_experf',2)
       gauss  = root.RooGaussian(mname+'_gauss',mname+'_gauss',x,mu,sigma)
-      # formula = '@1*TMath::Gaus(@0,@3,@4)+@2*TMath::Exp(@7*@0)*(1+TMath::Erf((@0-@5)/@6))/2'
-      # formula = 'TMath::Exp(@3*@0)*(1+TMath::Erf((@0-@1)/@2))/2'
-      # model = root.RooGenericPdf(mname,mname,formula,
-      #                             root.RooArgList(x,ng,ne,mu,sigma,a,b,c))
-      # experfstring = 'exp(@3*@0)'
-      # experfstring = 'exp(@3*@0)*(1+TMath::Erf((@0-@1)*@2))/2'
-      # experf = root.RooGenericPdf(mname+"_experf",mname+"_experf",
-      #                             formula,root.RooArgList(x,a,b,c))
       experf = root.RooExpErf(mname+'_experf',mname+'_experf',x,a,b,c)
       model  = root.RooAddPdf(mname,mname,
                               root.RooArgList(gauss,experf),

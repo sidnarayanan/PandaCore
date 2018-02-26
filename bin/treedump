@@ -48,8 +48,6 @@ for d in to_dump:
     out_str += fmt_string%('-'*12)
 out_str += '\n'
 
-# N = arr.shape[0] 
-# for i in xrange(N):
 if not args.events:
     events = arr['eventNumber']
 for e in events:
