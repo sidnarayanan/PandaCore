@@ -283,13 +283,17 @@ class SimpleSubmission(_BaseSubmission):
 #!/bin/bash
 env
 hostname
+python -c "import socket; print socket.gethostname()" 
 cd {0} 
 eval `/cvmfs/cms.cern.ch/common/scramv1 runtime -sh`
 cd -
+jobwd=$PWD
 for i in $@; do
     arg=$(sed "${{i}}q;d" {3}) # get the ith line
     echo $arg
+    mkdir -p $i ; cd $i
     {1} $arg && echo $i >> {2};
+    cd $jobwd ; rm -rf $i
 done'''.format(self.cmssw,self.executable,self.workdir+'/progress.log',self.arglist)
         with open(self.workdir+'exec.sh','w') as frunner:
             frunner.write(runner)

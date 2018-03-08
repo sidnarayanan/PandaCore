@@ -16,6 +16,7 @@ parser.add_argument('--kill',action='store_true')
 parser.add_argument('--cache',type=str,nargs='+')
 parser.add_argument('--njobs',type=int,default=None)
 parser.add_argument('--verbose',action='store_true')
+parser.add_argument('--verbose_failures',action='store_true')
 parser.add_argument('--silent',action='store_true')
 args = parser.parse_args()
 
@@ -102,6 +103,7 @@ for cache in args.cache:
             print 'Running:'
             for arg in statii['running']:
                 print '   ',arg,'=>',farglist[int(arg)-1].strip()
+    if args.verbose or args.verbose_failures:
         if len(statii['missing']):
             farglist = open(submissions[0].arglist).readlines()
             print 'Missing:'
