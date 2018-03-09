@@ -8,7 +8,7 @@ from processes import *
 l = [data, BSM, SM, variations]
 processes = {}
 for d in l:
-    processes.update(d)
+    processes.update(d.processes)
 
 
 if __name__=='__main__':
@@ -16,4 +16,4 @@ if __name__=='__main__':
     pp = pprint.PrettyPrinter(width=160)
     for d in l:
         print 
-        pp.pprint(d)
+        pp.pprint(d.processes)

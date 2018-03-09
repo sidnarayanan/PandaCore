@@ -180,8 +180,11 @@ class _BaseSubmission(object):
             PError(self.__class__.__name__+".query_status",
                    "This submission has not been executed yet (ClusterId not set)")
             raise RuntimeError
-        results = self.schedd.query('ClusterId =?= %i'%(self.cluster_id))
         jobs = {x:[] for x in ['T3','T2','idle','held','other']}
+        try:
+            results = self.schedd.query('ClusterId =?= %i'%(self.cluster_id))
+        except IOError: # schedd is down!
+            return jobs 
         for job in results:
             proc_id = int(job['ProcId'])
             status = job['JobStatus']
