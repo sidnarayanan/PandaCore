@@ -37,5 +37,6 @@
 #pragma link C++ function SignedDeltaPhi;
 #pragma link C++ function DeltaR2;
 #pragma link C++ function ExpErf;
+#pragma link C++ function insertion_sort;
 
 #endif 

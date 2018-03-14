@@ -28,7 +28,7 @@
  * \brief Function to concatenate two vectors
  */
 template <typename T> 
-void concat(std::vector<T> &v1,std::vector<T> v2);
+void concat(std::vector<T> &v1, const std::vector<T> &v2);
 
 /**
  * \param t  input tree

@@ -59,4 +59,23 @@ double DeltaR2(double eta1, double phi1, double eta2, double phi2);
  */
 double ExpErf(double x, double a, double b, double c);
 
+/**
+ * \brief in-place insertion sort
+ */
+template <typename T>
+void insertion_sort(std::vector<T>& v)
+{
+  int n = v.size();
+  for (int i = 1; i != n; ++i) {
+    T pivot(v[i]); // current element is the pivot, make a copy
+    int j = i - 1;
+    while (j != -1 && pivot < v[j]) { // starting at pivot and going backwards
+      v[j + 1] = v[j]; // if v[j] is less than pivot, move it up one index
+      --j;
+    }
+    v[j + 1] = pivot; // end up here either because j = -1 (pivot is smallest element) or
+                      // because we found a j such that v[j]<pivot, in which case v[j+1] should be pivot
+  }
+}
+
 #endif
