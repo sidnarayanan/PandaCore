@@ -49,7 +49,7 @@ class FormulaBranchAdder:
 {
 public:
   FormulaBranchAdder() { }
-  ~FormulaBranchAdder() { delete tf; }
+  virtual ~FormulaBranchAdder() { delete tf; }
 
   virtual void addBranch(TTree *t) override;
 
