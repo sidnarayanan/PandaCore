@@ -1,161 +1,123 @@
 #include "../interface/BranchAdder.h"
 
 
-void BranchAdder::AddBranchFromFormula(TTree *t) 
+void BranchAdder::doAddBranch(TTree *t)
 {
-  float newBranchVal=0;
-  
-  t->SetBranchStatus("*",0);
-  turnOnBranches(t,formula);
-  turnOnBranches(t,cut);
+  unsigned nE = t->GetEntriesFast();
+  unsigned iE = 0; 
 
-  TBranch *b = t->Branch(newBranchName.Data(),&newBranchVal,TString::Format("%s/F",newBranchName.Data()));
+  turnOnBranches(t, cut);
 
-  TTreeFormula tformula(newBranchName.Data(),formula.Data(),t);
-  tformula.SetQuickLoad(true);
+  ProgressReporter pr("BranchAdder::doAddBranch", &iE, &nE, reportFreq);
 
-  TTreeFormula tcut("cut",cut.Data(),t);
+  float newBranchVal{0};
+
+  TBranch *b = t->Branch(newBranchName.Data(), 
+                         &newBranchVal,
+                         Form("%s/F",newBranchName.Data()));
+
+  TTreeFormula tcut("cut", cut.Data(), t);
   tcut.SetQuickLoad(true);
 
-  unsigned int nEntries = t->GetEntries();
-  unsigned int iE=0;
-  ProgressReporter pr("PandaCore::BranchAdder",&iE,&nEntries,10);
-  for (iE=0; iE!=nEntries; ++iE) {
+  for (iE = 0; iE != nE; ++iE) {
     if (verbose)
       pr.Report();
+
     t->GetEntry(iE);
     if (tcut.EvalInstance()) {
-      newBranchVal = tformula.EvalInstance();
+      newBranchVal = getValue();
     } else {
       newBranchVal = defaultValue;
     }
     b->Fill();
   }
-  t->SetBranchStatus("*",1);
+
+  t->SetBranchStatus("*", 1);
 }
 
-void BranchAdder::AddBranchFromFormula(TString fpath) 
+void FormulaBranchAdder::addBranch(TTree *t)
 {
-  TFile *fIn = TFile::Open(fpath,"UPDATE");
-  TTree *t = (TTree*)fIn->Get(treeName.Data());
-  if (t==NULL) {
-    PError("MitPanda::Tools::AddBranch",TString::Format("Could not normalize %s because tree=%p and\n",fpath.Data(),t));
-    return; 
-  }
-  AddBranchFromFormula(t);
-  fIn->WriteTObject(t,treeName,"Overwrite");
-  fIn->Close();
-}
-
-void BranchAdder::AddBranchFromHistogram(TTree *t, TH1 *h) 
-{
-  TH1D hd;
-  h->Copy(hd);
-  float newBranchVal=0;
-  
   t->SetBranchStatus("*",0);
-  turnOnBranches(t,formula);
-  turnOnBranches(t,cut);
+  turnOnBranches(t, formula);
 
-  TBranch *b = t->Branch(newBranchName.Data(),&newBranchVal,TString::Format("%s/F",newBranchName.Data()));
+  tf = new TTreeFormula(newBranchName.Data(), formula.Data(), t);
+  tf->SetQuickLoad(true);
 
-  TTreeFormula tformula(newBranchName.Data(),formula.Data(),t);
-  tformula.SetQuickLoad(true);
+  doAddBranch(t);
 
-  TTreeFormula tcut("cut",cut.Data(),t);
-  tcut.SetQuickLoad(true);
-
-  double lo = hd.GetBinCenter(1);
-  double hi = hd.GetBinCenter(hd.GetNbinsX());
-
-  unsigned int nEntries = t->GetEntries();
-  unsigned int iE=0;
-  ProgressReporter pr("PandaCore::BranchAdder",&iE,&nEntries,10);
-  for (iE=0; iE!=nEntries; ++iE) {
-    if (verbose)
-      pr.Report();
-    t->GetEntry(iE);
-    if (tcut.EvalInstance()) {
-      double xval = tformula.EvalInstance();
-      xval = bound(xval,lo,hi);
-      newBranchVal = hd.GetBinContent(hd.FindBin(xval));
-    } else {
-      newBranchVal = defaultValue;
-    }
-    b->Fill();
-  }
-  t->SetBranchStatus("*",1);
+  delete tf; tf = nullptr;
 }
 
-void BranchAdder::AddBranchFromHistogram(TString fpath, TH1 *h) 
+float FormulaBranchAdder::getValue()
 {
-  TFile *fIn = TFile::Open(fpath,"UPDATE");
-  TTree *t = (TTree*)fIn->Get(treeName.Data());
-  if (t==NULL) {
-    PError("MitPanda::Tools::AddBranch",TString::Format("Could not normalize %s because tree=%p and\n",fpath.Data(),t));
-    return; 
-  }
-  AddBranchFromHistogram(t,h);
-  fIn->WriteTObject(t,treeName,"Overwrite");
-  fIn->Close();
+  return tf->EvalInstance();
 }
 
-void BranchAdder::AddBranchFromHistogram2D(TTree *t, TH2 *h) 
+
+template <typename H>
+void HBranchAdder<H>::addBranch(TTree *t)
 {
-  TH2D hd;
-  h->Copy(hd);
-  float newBranchVal=0;
-  
   t->SetBranchStatus("*",0);
-  turnOnBranches(t,formula);
-  turnOnBranches(t,formulaY);
-  turnOnBranches(t,cut);
+  turnOnBranches(t, formulaX);
+  turnOnBranches(t, formulaY);
 
-  TBranch *b = t->Branch(newBranchName.Data(),&newBranchVal,TString::Format("%s/F",newBranchName.Data()));
+  tfX = new TTreeFormula(newBranchName.Data(), formulaX.Data(), t);
+  tfX->SetQuickLoad(true);
+  tfY = new TTreeFormula(newBranchName.Data(), formulaY.Data(), t);
+  tfY->SetQuickLoad(true);
 
-  TTreeFormula tformulaX(formula.Data(),formula.Data(),t);
-  TTreeFormula tformulaY(formulaY.Data(),formulaY.Data(),t);
-  tformulaX.SetQuickLoad(true);
-  tformulaY.SetQuickLoad(true);
+  doAddBranch(t);
 
-  TTreeFormula tcut("cut",cut.Data(),t);
-  tcut.SetQuickLoad(true);
-
-  double loX = hd.GetXaxis()->GetBinCenter(1);
-  double hiX = hd.GetXaxis()->GetBinCenter(hd.GetNbinsX());
-  double loY = hd.GetYaxis()->GetBinCenter(1);
-  double hiY = hd.GetYaxis()->GetBinCenter(hd.GetNbinsY());
-
-  unsigned int nEntries = t->GetEntries();
-  unsigned int iE=0;
-  ProgressReporter pr("PandaCore::BranchAdder",&iE,&nEntries,10);
-  for (iE=0; iE!=nEntries; ++iE) {
-    if (verbose)
-      pr.Report();
-    t->GetEntry(iE);
-    if (tcut.EvalInstance()) {
-      double xval = tformulaX.EvalInstance();
-      xval = bound(xval,loX,hiX);
-      double yval = tformulaY.EvalInstance();
-      yval = bound(yval,loY,hiY);
-      newBranchVal = hd.GetBinContent(hd.FindBin(xval,yval));
-    } else {
-      newBranchVal = defaultValue;
-    }
-    b->Fill();
-  }
-  t->SetBranchStatus("*",1);
+  delete tfX; tfX = nullptr;
+  delete tfY; tfY = nullptr;
 }
 
-void BranchAdder::AddBranchFromHistogram2D(TString fpath, TH2 *h) 
+template <>
+void HBranchAdder<TH1D>::setH(const TH1* h_)
 {
-  TFile *fIn = TFile::Open(fpath,"UPDATE");
-  TTree *t = (TTree*)fIn->Get(treeName.Data());
-  if (t==NULL) {
-    PError("MitPanda::Tools::AddBranch",TString::Format("Could not normalize %s because tree=%p and\n",fpath.Data(),t));
-    return; 
-  }
-  AddBranchFromHistogram2D(t,h);
-  fIn->WriteTObject(t,treeName,"Overwrite");
-  fIn->Close();
+  h_->Copy(h);
+  xlo = h.GetXaxis()->GetBinCenter(1);
+  xhi = h.GetXaxis()->GetBinCenter(h.GetNbinsX());
 }
+
+template <>
+float HBranchAdder<TH1D>::getValue()
+{
+  float x = tfX->EvalInstance();
+  x = bound(x, xlo, xhi);
+
+  return h.GetBinContent(h.FindBin(x));
+} 
+
+template <>
+void HBranchAdder<TH2D>::setH(const TH1* h_)
+{
+  auto* h2_ = dynamic_cast<const TH2*>(h_);
+  if (h2_ == nullptr) {
+    PError("H2BranchAdder::setH", "Histogram provided was not a TH2!");
+    exit(1);
+  }
+
+  h2_->Copy(h);
+  xlo = h.GetXaxis()->GetBinCenter(1);
+  xhi = h.GetXaxis()->GetBinCenter(h.GetNbinsX());
+  ylo = h.GetYaxis()->GetBinCenter(1);
+  yhi = h.GetYaxis()->GetBinCenter(h.GetNbinsY());
+}
+
+template <>
+float HBranchAdder<TH2D>::getValue()
+{
+  float x = tfX->EvalInstance();
+  x = bound(x, xlo, xhi);
+  float y = tfY->EvalInstance();
+  y = bound(y, ylo, yhi);
+
+  return h.GetBinContent(h.FindBin(x,y));
+} 
+
+template class HBranchAdder<TH1D>;
+typedef HBranchAdder<TH1D> H1BranchAdder;
+template class HBranchAdder<TH2D>;
+typedef HBranchAdder<TH2D> H2BranchAdder;
+

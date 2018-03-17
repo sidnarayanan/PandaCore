@@ -15,63 +15,73 @@
  * Can be used to add a branch to a tree based on a generic formula
  * or based on a histogram
  */
-class BranchAdder
+
+// abstract class 
+class BranchAdder {
+public:
+  BranchAdder() { }
+  virtual ~BranchAdder() { }
+
+  virtual void addBranch(TString fpath) { 
+    TFile *f = TFile::Open(fpath);
+    TTree *t = (TTree*)f->Get(treeName);
+    addBranch(t);
+    f->WriteTObject(t,treeName,"OVERWRITE");
+    f->Close();
+  }
+  virtual void addBranch(TTree *t) = 0;
+
+  TString newBranchName{"newBranch"};
+  TString treeName{"events"};
+  TString cut{"1==1"};
+  float defaultValue{1};
+  bool verbose{true};
+  int reportFreq{10};
+
+protected:
+  void doAddBranch(TTree *t);
+  virtual float getValue() = 0;
+};
+
+
+class FormulaBranchAdder: 
+  public BranchAdder
 {
 public:
-	BranchAdder() { }
-	~BranchAdder() { }
+  FormulaBranchAdder() { }
+  ~FormulaBranchAdder() { delete tf; }
 
-	/**
-	 * \param t tree to modify
-	 * \brief Adds a branch based on a generic formula
-	 *
-	 * formula should be set before this is called
-	 */
-	void AddBranchFromFormula(TTree *t);
+  virtual void addBranch(TTree *t) override;
 
-	/**
-	 * \param f path to file containing tree to modify
-	 * \brief Adds a branch based on a generic formula
-	 *
-	 * formula should be set before this is called
-	 */
-	void AddBranchFromFormula(TString fpath);
+  TString formula{"1"};
+protected:
+  virtual float getValue() override;
 
-	/**
-	 * \param t tree to modify
-	 * \param h histogram containing binned values
-	 * \brief Adds a branch based on a histogram
-	 */
-	void AddBranchFromHistogram(TTree *t, TH1 *h);
-
-	/**
-	 * \param f path to file containing tree to modify
-	 * \param h histogram containing binned values
-	 * \brief Adds a branch based on a histogram
-	 */
-	void AddBranchFromHistogram(TString fpath, TH1 *h);
-
-	/**
-	 * \param t tree to modify
-	 * \param h histogram containing binned values
-	 * \brief Adds a branch based on a histogram
-	 */
-	void AddBranchFromHistogram2D(TTree *t, TH2 *h);
-
-	/**
-	 * \param f path to file containing tree to modify
-	 * \param h histogram containing binned values
-	 * \brief Adds a branch based on a histogram
-	 */
-	void AddBranchFromHistogram2D(TString fpath, TH2 *h);
-
-	TString formula = ""; /**< formula to be compiled on input tree */
-	TString formulaY = ""; /**< formula to be compiled on input tree if 2D */
-	TString newBranchName = ""; /**< name of output branch */
-	TString treeName = "events"; /**< name of input tree, if file path is provided */
-	double defaultValue = 1; /**< Default value */
-	TString cut = "1==1";
-	bool verbose = true;
-	
+  TTreeFormula *tf{nullptr};
 };
+
+
+template <typename H>
+class HBranchAdder:
+  public BranchAdder
+{
+public:
+  HBranchAdder() { }
+  ~HBranchAdder() { delete tfX; delete tfY; }
+
+  void addBranch(TTree *t) override;
+
+  void setH(const TH1* h_);
+
+  TString formulaX{"1"};
+  TString formulaY{"1"};
+protected:
+  float getValue() override;
+
+  H h;
+  float xlo, xhi, ylo, yhi;
+  TTreeFormula *tfX{nullptr};
+  TTreeFormula *tfY{nullptr};
+};
+
 #endif
