@@ -8,6 +8,7 @@
 #include "TH1F.h"
 #include "Common.h"
 #include "TreeTools.h"
+#include "BranchAdder.h"
 
 /**
  * \brief Normalizes a tree
@@ -15,10 +16,17 @@
  * Given an input weight, class adds an output weight
  * that is calculated as in_weight*xsec/total_events
  */
-class Normalizer
+class Normalizer:
+  protected FormulaBranchAdder
 {
 public:
-    Normalizer() { }
+    Normalizer():
+      histName("hDTotalMCWeight") 
+      { 
+        formula = "mcWeight";
+        treeName = "events";
+        newBranchName = "normalizedWeight";
+      }
     ~Normalizer() { }
 
     /**
@@ -28,7 +36,7 @@ public:
      * \brief Normalizes the tree given total weight of events and 
      * cross-section
      */
-    void NormalizeTree(TTree *t, double totalEvts, double xsec);
+    void NormalizeTree(TTree *t, double totalEvts_, double xsec_);
 
     /**
      * \param fpath path to input file 
@@ -36,12 +44,15 @@ public:
      * \brief Reads an input file and picks up the tree to normalize
      * as well as a histogram containing the weight of events
      */
-    void NormalizeTree(TString fpath, double xsec);
+    void NormalizeTree(TString fpath, double xsec_);
 
-    TString inWeightName = "mcWeight"; /**< name of input branch */
-    TString outWeightName = "normalizedWeight"; /**< name of output branch */
-    TString histName = "hDTotalMCWeight"; /**< name of histogram containing MC weights */
-    TString treeName = "events"; /**< name of input tree */
+    TString histName; /**< name of histogram containing MC weights */
     bool isFloat = true;
+    int histBin = 1; /**< if > 0, use that bin. if < 0, use the integral **/ 
+
+protected:
+  float getValue() override;
+  double xsec;
+  double totalEvts;
 };
 #endif
