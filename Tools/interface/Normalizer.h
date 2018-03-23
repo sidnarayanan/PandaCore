@@ -48,6 +48,7 @@ public:
 
     TString histName; /**< name of histogram containing MC weights */
     bool isFloat = true;
+    int histBin = 1; /**< if > 0, use that bin. if < 0, use the integral **/ 
 
 protected:
   float getValue() override;

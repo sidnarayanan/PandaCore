@@ -23,7 +23,8 @@ void Normalizer::NormalizeTree(TString fpath, double xsec_)
         PError("Normalizer::NormalizeTree",TString::Format("Could not normalize %s because tree=%p and hist=%p\n",fpath.Data(),t,h));
         return; 
     }
-    NormalizeTree(t,h->Integral(),xsec_);
+    double total = (histBin < 0) ? h->Integral() : h->GetBinContent(histBin);
+    NormalizeTree(t,total,xsec_);
     fIn->WriteTObject(t,treeName.Data(),"overwrite");
     fIn->Close();
 }
