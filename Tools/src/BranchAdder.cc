@@ -116,8 +116,3 @@ float HBranchAdder<TH2D>::getValue()
   return h.GetBinContent(h.FindBin(x,y));
 } 
 
-template class HBranchAdder<TH1D>;
-typedef HBranchAdder<TH1D> H1BranchAdder;
-template class HBranchAdder<TH2D>;
-typedef HBranchAdder<TH2D> H2BranchAdder;
-

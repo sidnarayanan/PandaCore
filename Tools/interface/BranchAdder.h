@@ -84,4 +84,9 @@ protected:
   TTreeFormula *tfY{nullptr};
 };
 
+template class HBranchAdder<TH1D>;
+typedef HBranchAdder<TH1D> H1BranchAdder;
+template class HBranchAdder<TH2D>;
+typedef HBranchAdder<TH2D> H2BranchAdder;
+
 #endif
