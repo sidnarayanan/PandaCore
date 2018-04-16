@@ -8,11 +8,6 @@ double bound(double val, double low, double high) {
   return TMath::Max(low,TMath::Min(high,val));
 }
 
-template <typename T>
-int sign(T x) {
-    return (x<0) ? -1 : 1;
-}
-
 int dsign(double x) {
     return sign(x);
 }
@@ -52,4 +47,5 @@ double ExpErf(double x, double a, double b, double c) {
     double erf_ = TMath::Erf((x-a)/b);
     return exp_*(1+erf_)/2;
 }
+
 

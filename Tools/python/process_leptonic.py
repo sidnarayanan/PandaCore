@@ -5,7 +5,7 @@ Just a giant list of processes and properties
 
 from processes import * 
 
-l = [data, BSM, SM, variations]
+l = [data, BSM, SM_Leptonic]
 processes = {}
 for d in l:
     processes.update(d.processes)

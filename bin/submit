@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
+import argparse
+from sys import exit
+from os import path,getenv,system
 import PandaCore.Tools.job_management as jm
 from PandaCore.Tools.Misc import PError, PInfo
-import argparse
-from os import path,getenv,system
-from sys import exit
 
 parser = argparse.ArgumentParser(description='simple condor submission')
 parser.add_argument('--exec',dest='executable',help='executable',type=str)
@@ -13,16 +13,20 @@ parser.add_argument('--arglist',type=str,default=None)
 parser.add_argument('--args',type=str,nargs='+',default=None)
 parser.add_argument('--cache',type=str,default=None)
 parser.add_argument('--dryrun',action='store_true')
+parser.add_argument('--loud',action='store_true')
 args = parser.parse_args()
+
+jm.SILENT = not(args.loud)
 
 if not args.cache:
     args.cache = '/data/t3serv014/{0}/submit/{1}/'.format(getenv('USER'),
                                            args.executable.split('/')[-1].replace('.',''))
-PInfo('submit','Placing cache in '+args.cache)
 system('rm -rf %s/*'%(args.cache))
 
 if path.isfile(args.executable):
     args.executable = path.abspath(args.executable)
+
+jm.setup_schedd('T3') # these types of jobs can only run locally
 
 job_arguments = []
 if args.arglist:
@@ -38,15 +42,14 @@ else:
     PError('submit','Please specify arguments!')
     exit(1)
 
-
+jm.issue_proxy()
 if args.njobs:
-    nper = int(float(len(job_arguments))/args.njobs)
+    nper = max(1,int(float(len(job_arguments))/args.njobs))
 else:
     nper = 1
 
 max_njobs = -1 if args.dryrun else None
 
-system('voms-proxy-init -voms cms --valid 168:00')
 sub = jm.SimpleSubmission(cache_dir=args.cache,
                           executable=args.executable,
                           arglist=job_arguments,
@@ -54,3 +57,4 @@ sub = jm.SimpleSubmission(cache_dir=args.cache,
                           nper=nper)
 sub.execute(max_njobs)
 sub.save()
+PInfo('submit','Placed cache in '+args.cache)

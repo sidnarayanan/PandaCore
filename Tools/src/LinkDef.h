@@ -23,6 +23,9 @@
 #pragma link C++ class Cutter;
 #pragma link C++ class EventSyncher;
 #pragma link C++ class BranchAdder;
+#pragma link C++ class FormulaBranchAdder;
+#pragma link C++ class H1BranchAdder;
+#pragma link C++ class H2BranchAdder;
 #pragma link C++ class ProgressReporter;
 #pragma link C++ class TimeReporter;
 #pragma link C++ class Binner;
@@ -37,5 +40,6 @@
 #pragma link C++ function SignedDeltaPhi;
 #pragma link C++ function DeltaR2;
 #pragma link C++ function ExpErf;
+#pragma link C++ function insertion_sort;
 
 #endif 

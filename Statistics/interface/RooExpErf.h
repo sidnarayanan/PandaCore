@@ -25,8 +25,6 @@ protected:
   RooRealProxy b;
   RooRealProxy c;
   Double_t evaluate() const;
-private:
-  ClassDef(RooExpErf,1) 
 };
 
 #endif

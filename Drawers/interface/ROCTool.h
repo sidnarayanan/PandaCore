@@ -13,7 +13,7 @@ class ROCTool {
     ROCTool() {}
     ~ROCTool();
 
-    void InitCanvas(double x1=-1, double y1=-1, double x2=-1, double y2=-1);
+    void InitCanvas(double x1=-1, double y1=-1, double x2=-1, double y2=-1, bool isPrelim=false);
     void SetFile(TFile *f);
     void SetFile(TString fpath);
     void SetHists(TH1F *hs, TH1F *hb) { sigHist = hs; bgHist = hb; }
@@ -27,6 +27,7 @@ class ROCTool {
 
     void DrawAll(TString outDir, TString basePath);
     void Logy(bool b=true) { doLogy=b; }
+    void InvertFake(bool b=true) { invertFake = b; }
     void SetPlotRange(float m, float M) { minval=m; maxval=M; }
 
     GraphDrawer *c=0;
@@ -34,6 +35,7 @@ class ROCTool {
     bool doLogy=false;
     float minval=0, maxval=1;
     bool fileIsOwned=false;
+    bool invertFake = false;
     TFile *centralFile=0;
     TH1F *sigHist=0, *bgHist=0;
 

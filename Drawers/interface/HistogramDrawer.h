@@ -9,6 +9,7 @@
 
 #include "CanvasDrawer.h"
 #include "TH1D.h"
+#include "TGraphErrors.h"
 #include "TObject.h"
 #include "TFile.h"
 #include <utility>
@@ -32,14 +33,14 @@ class HistogramDrawer : public CanvasDrawer {
     virtual ~HistogramDrawer(); //!< Destructor
 
   /**
-   * \brief Adds a histogram to be drawn
+   * \brief Adds a histogram to be draw
    * \param h the TH1D to be drawn
    * \param label the label to be used if a legend is drawn
    * \param pt the ProcessType (used to internally manage the histogram, set color and order, etc)
    * \param cc a custom color. If none is provided, the one defined by pt is used
    * \param opt the drawing option, "HIST" by default
    */
-  void AddHistogram(TH1D *h, TString label, ProcessType pt=nProcesses, int cc = -1, TString opt="");
+  void AddHistogram(TH1D *h, TString label, ProcessType pt=nProcesses, int cc = -1, TString opt="", bool ratio=false);
   /**
    * \brief Adds a histogram to be drawn from a TFile
    * \param hname key of the histogram in the file
@@ -47,14 +48,7 @@ class HistogramDrawer : public CanvasDrawer {
    * \param pt the ProcessType (used to internally manage the histogram, set color and order, etc)
    * \param fname path to the file
    */
-  void AddHistogram(TString hname, TString label, ProcessType pt=nProcesses, TString fname="");
-  /**
-   * \brief Adds a drawable TObject to be drawn after all histograms are drawn 
-   * \param o a TObject to draw
-   * \param opt option to use when drawing
-   * \param aname if provided and legend is created, this label is used in the legend
-   */
-  void AddAdditional(TObject *o, TString opt="", TString aname="");
+  void AddHistogram(TString hname, TString label, ProcessType pt=nProcesses, TString fname="", bool ratio=false);
   /**
    * \brief Similar to AddAdditional, but specifically for histograms to be treated as systematic errors
    * \param o a TH1D to draw
@@ -79,36 +73,24 @@ class HistogramDrawer : public CanvasDrawer {
   virtual void Draw(TString outDir, TString baseName) override;
 
   protected:
+    void BuildRatio(const TH1D* hNum, const TH1D* hDen, TH1D*& hRatio, TGraphErrors*& gRatio, bool denUnc=false);
     /**
      * \brief Internal class for managing histograms and their properties
      */
-    class HistWrapper {
-      public:
-        HistWrapper() {}
-        ~HistWrapper() {}
+    struct HistWrapper {
         TH1D *h;
         TString label;
         ProcessType pt;
         int cc;
         TString opt;
-    };
-    /**
-     * \brief Internal class for managing TObjects and their properties
-     */
-    class ObjWrapper {
-      public:
-        ObjWrapper() {}
-        ~ObjWrapper() {}
-        TObject *o;
-        TString label;
-        TString opt;
+        bool ratio;
     };
     bool fileIsOwned=false; //!< if the input file is owned and needs to be deleted
     TFile *centralFile=0; //!< an input file from which to harvest histograms by key
     std::vector<HistWrapper> internalHists; //!< collection of histograms to plot
-    std::vector<ObjWrapper> internalAdds; //!< collection of TObjects to plot
     std::vector<HistWrapper> internalSysts; //!< Collection of systematic weights (subset of internalAdds)
     double absMin=-999; //!<absolute minimum of the plot
+    bool padModified = false;
 };
 
 #endif
