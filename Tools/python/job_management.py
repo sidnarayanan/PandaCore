@@ -94,8 +94,8 @@ def setup_schedd(config='T3'):
             "ShouldTransferFiles" : "YES",
             "Requirements" : 
                 classad.ExprTree('(Arch == "X86_64" && OpSysAndVer == "SL6") && \
-((GLIDEIN_Site =!= MIT_CampusFactory) || 
- (GLIDEIN_Site == MIT_CampusFactory && BOSCOCluster == ce03.cmsaf.mit.edu && BOSCOGroup == bosco_cms && HAS_CVMFS_cms_cern_ch))'),
+((UidDomain == "mit.edu") || (GLIDEIN_Site == MIT_CampusFactory && \
+BOSCOCluster == ce03.cmsaf.mit.edu && BOSCOGroup == bosco_cms && HAS_CVMFS_cms_cern_ch))'),
                 #classad.ExprTree('UidDomain == "cmsaf.mit.edu" && Arch == "X86_64" && OpSysAndVer == "SL6"'),
             "AcctGroup" : 'group_cmsuser.USER',
             "AccountingGroup" : 'group_cmsuser.USER',
