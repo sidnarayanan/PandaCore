@@ -29,6 +29,18 @@ EraHandler::EraHandler(int year)
       bins = new Binner(runBounds);
       break;
     }
+    case 2017:
+    {
+      runBounds = {297020,
+                   299337,
+                   302030,
+                   303435,
+                   304911,
+                   306462};
+      eraNames = {"B","C","D","E","F"};
+      bins = new Binner(runBounds);
+      break;
+    }
     default :
     {
       PError("PandaCore::EraHandler",TString::Format("Year %i is not known",year));
