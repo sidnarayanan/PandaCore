@@ -52,6 +52,7 @@ processes =    {
         'WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('WJets_ht600toinf','MC',18.91),
 
         # NLO W->lnu
+        'WJetsToLNu_Wpt-50To100_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('WJets_pt50to100','MC',3258),
         'WJetsToLNu_Pt-100To250_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('WJets_pt100to250','MC',677.82),
         'WJetsToLNu_Pt-250To400_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('WJets_pt250to400','MC',24.083),
         'WJetsToLNu_Pt-400To600_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('WJets_pt400to600','MC',3.0563),
@@ -75,6 +76,7 @@ processes =    {
         'DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8':('ZJets_inclNLO_CP5','MC',6473),
 
         # NLO Z->nunu
+        'DYJetsToNuNu_PtZ-50To100_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('ZtoNuNu_pt50to100','MC',593.9),
         'DYJetsToNuNu_PtZ-100To250_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('ZtoNuNu_pt100to250','MC',3*54.8229),
         'DYJetsToNuNu_PtZ-250To400_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('ZtoNuNu_pt250to400','MC',3*2.0705),
         'DYJetsToNuNu_PtZ-400To650_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('ZtoNuNu_pt400to650','MC',3*0.2779),
