@@ -72,7 +72,7 @@ processes =    {
         'DY2JetsToLL_M-50_LHEZpT_250-400_TuneCP5_13TeV-amcnloFXFX-pythia8':('ZJets_ZpT50to150','MC',2.718),
         'DY2JetsToLL_M-50_LHEZpT_400-inf_TuneCP5_13TeV-amcnloFXFX-pythia8':('ZJets_ZpT400toinf','MC',0.447),
         # specialweight = (LHE_Njets<1||LHE_Njets>2||LHE_Vpt<50)
-        'DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8':('ZJets_inclNLO','MC',6473),
+        'DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8':('ZJets_inclNLO_CP5','MC',6473),
 
         # NLO Z->nunu
         'DYJetsToNuNu_PtZ-100To250_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('ZtoNuNu_pt100to250','MC',3*54.8229),
