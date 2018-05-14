@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import time
 from re import sub
-from sys import exit 
+from sys import exit
 import cPickle as pickle
 from condor import classad,htcondor
 from Misc import PInfo,PDebug,PWarning,PError
@@ -9,7 +9,7 @@ from os import getenv,getuid,system,path,environ
 
 # Module was partitioned to facilitate reading job configs
 # on nodes that do not have htcondor bindings
-from job_config import * 
+from job_config import *
 
 SILENT = False
 def myPInfo(*args, **kwargs):
@@ -36,14 +36,14 @@ job_status = {
 job_status_rev = {v:k for k,v in job_status.iteritems()}
 
 def environ_to_condor():
-    s = '' 
+    s = ''
     for k,v in environ.iteritems():
         if any([x in k for x in ['PANDA','SUBMIT','USER','SCRAM_ARCH','CMSSW_VERSION']]):
             s += '%s=%s '%(k,v)
-    return s 
+    return s
 
-base_job_properties = None 
-pool_server = None 
+base_job_properties = None
+pool_server = None
 schedd_server = getenv('HOSTNAME')
 should_spool = False
 query_owner = getenv('USER')
@@ -58,9 +58,9 @@ except:
 
 def issue_proxy():
     myPInfo('job_management','Requesting proxy...')
-    cmd = 'voms-proxy-init -voms cms --valid 168:00' 
+    cmd = 'voms-proxy-init -voms cms --valid 168:00'
     if SILENT:
-        cmd += ' >/dev/null 2>&1' 
+        cmd += ' >/dev/null 2>&1'
     system(cmd)
 
 ### predefined schedd options ###
@@ -72,7 +72,7 @@ def setup_schedd(config='T3'):
             "Cmd" : "WORKDIR/exec.sh",
             "WhenToTransferOutput" : "ON_EXIT",
             "ShouldTransferFiles" : "YES",
-            "Requirements" : 
+            "Requirements" :
                 classad.ExprTree('UidDomain == "mit.edu" && Arch == "X86_64" && OpSysAndVer == "SL6"'),
             "AcctGroup" : acct_grp_t3,
             "AccountingGroup" : '%s.USER'%(acct_grp_t3),
@@ -92,10 +92,10 @@ def setup_schedd(config='T3'):
             "Cmd" : "WORKDIR/exec.sh",
             "WhenToTransferOutput" : "ON_EXIT",
             "ShouldTransferFiles" : "YES",
-            "Requirements" : 
+            "Requirements" :
                 classad.ExprTree('(Arch == "X86_64" && OpSysAndVer == "SL6") && \
-((UidDomain == "mit.edu") || (GLIDEIN_Site == MIT_CampusFactory && \
-BOSCOCluster == ce03.cmsaf.mit.edu && BOSCOGroup == bosco_cms && HAS_CVMFS_cms_cern_ch))'),
+((GLIDEIN_Site =!= "MIT_CampusFactory") || (GLIDEIN_Site == "MIT_CampusFactory" && \
+BOSCOCluster == "ce03.cmsaf.mit.edu" && BOSCOGroup == "bosco_cms" && HAS_CVMFS_cms_cern_ch))'),
                 #classad.ExprTree('UidDomain == "cmsaf.mit.edu" && Arch == "X86_64" && OpSysAndVer == "SL6"'),
             "AcctGroup" : 'group_cmsuser.USER',
             "AccountingGroup" : 'group_cmsuser.USER',
@@ -115,7 +115,7 @@ BOSCOCluster == ce03.cmsaf.mit.edu && BOSCOGroup == bosco_cms && HAS_CVMFS_cms_c
             "Cmd" : "WORKDIR/exec.sh",
             "WhenToTransferOutput" : "ON_EXIT",
             "ShouldTransferFiles" : "YES",
-            "Requirements" : 
+            "Requirements" :
                 classad.ExprTree('Arch == "X86_64" && ( isUndefined(IS_GLIDEIN) || ( OSGVO_OS_STRING == "RHEL 6" && \
 HAS_CVMFS_cms_cern_ch == True ) || GLIDEIN_REQUIRED_OS == "rhel6" || ( Has_CVMFS_cms_cern_ch == True && \
 (BOSCOGroup == "bosco_cms" || BOSCOGroup == "paus") ) ) && (isUndefined(GLIDEIN_Entry_Name) || \
@@ -152,7 +152,7 @@ OSG_US_MWT2_mwt2_condce,OSG_US_MWT2_mwt2_condce_mcore,OSG_US_UConn_gluskap,OSG_U
 
 schedd_config = getenv('SUBMIT_SCHEDD')
 schedd_config = 'T3' if not schedd_config else schedd_config
-setup_schedd(schedd_config) 
+setup_schedd(schedd_config)
 
 
 ### submission class definitions ###
@@ -186,7 +186,7 @@ class _BaseSubmission(object):
         try:
             results = self.schedd.query('ClusterId =?= %i'%(self.cluster_id))
         except IOError: # schedd is down!
-            return jobs 
+            return jobs
         for job in results:
             proc_id = int(job['ProcId'])
             status = job['JobStatus']
@@ -206,7 +206,7 @@ class _BaseSubmission(object):
                         status = job_status_rev['T2']
                 except KeyError:
                     status = 1 # call it idle, job is probably moving between states
-                    pass 
+                    pass
             if job_status[status] in jobs:
                 jobs[job_status[status]] += samples
             else:
@@ -240,7 +240,7 @@ class _BaseSubmission(object):
 
 
     def save(self):
-        try: 
+        try:
             with open(self.cache_filepath,'rb') as fcache:
                 cache = pickle.load(fcache)
         except:
@@ -288,8 +288,8 @@ class SimpleSubmission(_BaseSubmission):
 #!/bin/bash
 env
 hostname
-python -c "import socket; print socket.gethostname()" 
-cd {0} 
+python -c "import socket; print socket.gethostname()"
+cd {0}
 eval `/cvmfs/cms.cern.ch/common/scramv1 runtime -sh`
 cd -
 jobwd=$PWD
@@ -374,23 +374,23 @@ done'''.format(self.cmssw,self.executable,self.workdir+'/progress.log',self.argl
             args = str(idx)
             if idx in finished:
                 done.add(idx)
-                continue 
+                continue
             if only_failed and (idx in (status['T2']+status['T3'])):
                 running.add(idx)
-                continue 
+                continue
             if only_failed and (idx in status['idle']):
                 idle.add(idx)
-                continue 
+                continue
             missing.add(idx)
         return missing, done, running, idle
 
 
 class Submission(_BaseSubmission):
-    '''Submission 
-    
+    '''Submission
+
     This class is used for heavy analysis-specific submission
     with robust re-packaging and re-submission of failures.
-    
+
     Extends:
         _BaseSubmission
     '''
@@ -398,17 +398,17 @@ class Submission(_BaseSubmission):
         super(Submission,self).__init__(cache_filepath)
         self.arguments = read_sample_config(sample_configpath)
         self.configpath = sample_configpath
-        
+
 
     def execute(self,njobs=None):
         logdir = getenv('SUBMIT_LOGDIR')
         workdir = getenv('SUBMIT_WORKDIR')
-        repl = { 
+        repl = {
             'LOGDIR' : logdir,
             'WORKDIR' : workdir,
             'UID' : str(getuid()),
             'USER' : getenv('USER'),
-            'SUBMITID' : str(self.sub_id), 
+            'SUBMITID' : str(self.sub_id),
         }
         cluster_ad = classad.ClassAd()
         job_properties = base_job_properties.copy()
@@ -442,7 +442,7 @@ class Submission(_BaseSubmission):
         procs = []
         for name in sorted(self.arguments):
             sample = self.arguments[name]
-            repl['PROCID'] = '%i'%sample.get_id() 
+            repl['PROCID'] = '%i'%sample.get_id()
             proc_ad = classad.ClassAd()
             for key,value in proc_properties.iteritems():
                 if type(value)==str:
@@ -465,4 +465,3 @@ class Submission(_BaseSubmission):
         for result,name in zip(results,sorted(self.arguments)):
             self.proc_ids[int(result['ProcId'])] = name
         myPInfo('Submission.execute','Submitted to cluster %i'%(self.cluster_id))
-
