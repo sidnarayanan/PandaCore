@@ -156,7 +156,7 @@ TimeReporter::TriggerSubEvent(TString s)
   if (!on)
     return;
   double interval = subsw->RealTime()*1000;
-  if (on > 1)
+  if (on > 2)
     PDebug(name,
         TString::Format("%2i.%-2i: %.3f (%s)",currentEvent,currentSubEvent,interval,s.Data()).Data());
   if (totalTime.find(s) == totalTime.end()) {

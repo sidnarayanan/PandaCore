@@ -14,6 +14,7 @@ parser.add_argument('--resubmit_incomplete',action='store_true')
 parser.add_argument('--resubmit_failed',action='store_true')
 parser.add_argument('--kill',action='store_true')
 parser.add_argument('--cache',type=str,nargs='+')
+parser.add_argument('--exec',dest='executable',default=None)
 parser.add_argument('--njobs',type=int,default=None)
 parser.add_argument('--verbose',action='store_true')
 parser.add_argument('--verbose_failures',action='store_true')
@@ -21,6 +22,10 @@ parser.add_argument('--silent',action='store_true')
 args = parser.parse_args()
 
 jm.SILENT = not(args.silent)
+
+if args.cache is None and args.executable is not None:
+    args.cache = ['/data/t3serv014/{0}/submit/{1}/'.format(getenv('USER'),
+                                                           args.executable.split('/')[-1].replace('.',''))]
 
 for cache in args.cache:
     if len(args.cache) > 1:
