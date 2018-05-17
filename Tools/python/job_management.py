@@ -177,7 +177,7 @@ class _BaseSubmission(object):
         self.custom_job_properties = {}
 
 
-    def query_status(self):
+    def query_status(self, return_ids=False):
         if not self.cluster_id:
             PError(self.__class__.__name__+".query_status",
                    "This submission has not been executed yet (ClusterId not set)")
@@ -191,7 +191,9 @@ class _BaseSubmission(object):
             proc_id = int(job['ProcId'])
             status = job['JobStatus']
             try:
-                if type(self.arguments)==dict:
+                if return_ids:
+                    samples = [proc_id]
+                elif type(self.arguments)==dict:
                     samples = [self.arguments[self.proc_ids[proc_id]]]
                 else:
                     samples = self.proc_ids[proc_id].split()
@@ -214,12 +216,16 @@ class _BaseSubmission(object):
         return jobs
 
 
-    def kill(self):
+    def kill(self, idle_only=False):
         if not self.cluster_id:
             PError(self.__class__.__name__+".query_status",
                    "This submission has not been executed yet (ClusterId not set)")
             raise RuntimeError
-        N = self.schedd.act(htcondor.JobAction.Remove, ["%s.%s"%(self.cluster_id, p) for p in self.proc_ids])['TotalSuccess']
+        if idle_only:
+            proc_ids = self.query_status(return_ids=True)['idle']
+        else:
+            proc_ids = self.proc_ids
+        N = self.schedd.act(htcondor.JobAction.Remove, ["%s.%s"%(self.cluster_id, p) for p in proc_ids])['TotalSuccess']
         if N:
             PInfo(self.__class__.__name__+'.kill',
                   'Killed %i jobs in ClusterId=%i'%(N,self.cluster_id))
