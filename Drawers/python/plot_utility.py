@@ -6,8 +6,9 @@ from array import array
 from PandaCore.Tools.Misc import *
 from PandaCore.Tools.Load import Load
 from PandaCore.Tools.root_interface import read_files, draw_hist
-from os import getenv, system
+from os import getenv, system, path
 from pprint import pprint
+from multiprocessing.pool import ThreadPool
 
 Load('HistogramDrawer')
 
@@ -31,12 +32,14 @@ class Process():
         self.tree_name = tree_name
         self.ratio = False
         # private stuff
-        self.__files = []
+        self.files = []
         return
     def add_file(self, fpath):
-        self.__files.append(fpath)
-    def read(self, variables, weights, cut):
-        return read_files(filenames = self.__files, 
+        self.files.append(fpath)
+    def read(self, variables, weights, cut, files=None):
+        if files is None:
+            files = self.files
+        return read_files(filenames = files, 
                           branches = variables+weights, 
                           cut = cut, 
                           treename = self.tree_name)
@@ -51,6 +54,8 @@ def convert_name(n):
     rn = rn.replace(")", "");        
     rn = rn.replace("(", "");        
     rn = rn.replace(".", "_");       
+    rn = rn.replace('[', '_')
+    rn = rn.replace(']', '_')
     return rn
 
 
@@ -155,6 +160,7 @@ class PlotUtility():
         self.mc_weight = None
         self.eventmod =  0
         self.eventnumber = 'eventNumber'
+        self.n_threads = 5
         return
     def __getPlotMethod(self, x):
         method = getattr(self.canvas, x)
@@ -171,10 +177,74 @@ class PlotUtility():
     def Draw(self):
         # override the thing that's bound in __init__
         PError('plot_utility.PlotUtility.Draw', 'Not implemented!')
+
+    #def __read(self, proc, f):
+    def __read(self, variables, proc, f):
+        PInfo('PlotUtility.draw_all', 'Starting to read '+f)
+        # figure out the nominal weight and cut strings
+        final_weight = '1'
+        final_cut = self.cut
+        if (proc.process_type!=root.kData and proc.use_common_weight):
+            final_weight = self.mc_weight
+        if (proc.process_type<=root.kSignal3 and proc.process_type!=root.kData):
+            final_weight = tTIMES(final_weight, str(self.signal_scale))
+        if self.eventmod:
+            if (proc.process_type==root.kData):
+                final_cut = tAND(final_cut, '(%s%%%i)==0'%(self.eventnumber, self.eventmod))
+            else:
+                final_weight = tTIMES(final_weight, str(1./self.eventmod))
+        final_cut = tAND(final_cut, proc.additional_cut)
+        final_weight = tTIMES(final_weight, proc.additional_weight)
+
+        weight_map = {'nominal' : final_weight}
+        weights = [final_weight]
+        if proc.process_type!=root.kData:
+            for syst in self.__systematics:
+                if proc.use_common_weight:
+                    up_weight = syst.generate_weight(final_weight, True)
+                    down_weight = syst.generate_weight(final_weight, False)
+                else:
+                    continue
+                weight_map['%s_Up'%(syst.name)] = up_weight
+                weight_map['%s_Down'%(syst.name)] = down_weight
+                weights.append(up_weight)
+                weights.append(down_weight)
+
+        xarr = proc.read(variables, weights, final_cut, files=[f])
+        PInfo('PlotUtility.draw_all', 'Finished reading '+f)
+        return {'xarr':xarr, 'weight_map':weight_map, 'f':f, 'proc':proc}
+
+    def __draw(self, proc, weight_map, xarr):
+        for dist in self.__distributions:
+            vals = xarr[dist.name]
+            weights_nominal = xarr[weight_map['nominal']]
+            draw_hist(hist = dist.histograms[proc.name],
+                      xarr = xarr,
+                      fields = (dist.name, ),
+                      weight = weight_map['nominal'])
+            if proc.process_type!=root.kData:
+                for syst in self.__systematics:
+                    if proc.use_common_weight:
+                        weights_up = weight_map['%s_Up'%syst.name]
+                        weights_down = weight_map['%s_Down'%syst.name]
+                    else:
+                        weights_up = weight_map['nominal']
+                        weights_down = weight_map['nominal']
+                    draw_hist(hist = dist.systs[syst.name][0],
+                              xarr = xarr,
+                              fields = (dist.name, ),
+                              weight = weights_up)
+                    draw_hist(hist = dist.systs[syst.name][1],
+                              xarr = xarr,
+                              fields = (dist.name, ),
+                              weight = weights_down)
+
     def draw_all(self, outdir):
         if not self.canvas.HasLegend():
             self.canvas.InitLegend()
 
+        if not path.isdir(outdir):
+            system('mkdir -p %s'%outdir)
         f_out = root.TFile(outdir+'hists.root', 'UPDATE')
         if f_out.IsZombie():
             f_out.Close()
@@ -194,61 +264,35 @@ class PlotUtility():
             variables.append(dist.name)
 
         # loop through each process
+        read_args = []
         for proc in self.__processes:
-            # figure out the nominal weight and cut strings
-            final_weight = '1'
-            final_cut = self.cut
-            if (proc.process_type!=root.kData and proc.use_common_weight):
-                final_weight = self.mc_weight
-            if (proc.process_type<=root.kSignal3 and proc.process_type!=root.kData):
-                final_weight = tTIMES(final_weight, str(self.signal_scale))
-            if self.eventmod:
-                if (proc.process_type==root.kData):
-                    final_cut = tAND(final_cut, '(%s%%%i)==0'%(self.eventnumber, self.eventmod))
-                else:
-                    final_weight = tTIMES(final_weight, str(1./self.eventmod))
-            final_cut = tAND(final_cut, proc.additional_cut)
-            final_weight = tTIMES(final_weight, proc.additional_weight)
+            for f in proc.files:
+                read_args.append((variables, proc, f))
+        if self.n_threads == 1 or len(read_args) == 1:
+            read = []
+            for r in read_args:
+                read.append(self.__read(*r))
+        else:
+            pool = ThreadPool(self.n_threads)
+            results = [pool.apply_async(self.__read, r) for r in read_args]
+            read = [r.get() for r  in results]
 
-            weight_map = {'nominal' : final_weight}
-            weights = [final_weight]
-            if proc.process_type!=root.kData:
-                for syst in self.__systematics:
-                    if proc.use_common_weight:
-                        up_weight = syst.generate_weight(final_weight, True)
-                        down_weight = syst.generate_weight(final_weight, False)
-                    else:
-                        continue
-                    weight_map['%s_Up'%(syst.name)] = up_weight
-                    weight_map['%s_Down'%(syst.name)] = down_weight
-                    weights.append(up_weight)
-                    weights.append(down_weight)
-            
-            xarr = proc.read(variables, weights, final_cut)
-
-            for dist in self.__distributions:
-                vals = xarr[dist.name]
-                weights_nominal = xarr[weight_map['nominal']]
-                draw_hist(hist = dist.histograms[proc.name], 
-                          xarr = xarr, 
-                          fields = (dist.name, ), 
-                          weight = weight_map['nominal'])
-                if proc.process_type!=root.kData:
-                    for syst in self.__systematics:
-                        if proc.use_common_weight:
-                            weights_up = weight_map['%s_Up'%syst.name]
-                            weights_down = weight_map['%s_Down'%syst.name]
-                        else:
-                            weights_up = weight_map['nominal']
-                            weights_down = weight_map['nominal']
-                        draw_hist(hist = dist.systs[syst.name][0], 
-                                  xarr = xarr, 
-                                  fields = (dist.name, ), 
-                                  weight = weights_up)
-                        draw_hist(hist = dist.systs[syst.name][1], 
-                                  xarr = xarr, 
-                                  fields = (dist.name, ), 
-                                  weight = weights_down)
+        # merge the results and draw
+        for proc in self.__processes:
+            proc_read = []
+            for r in read:
+                if r['proc'] == proc:
+                    proc_read.append(r)
+            if len(proc_read) == 0:
+                continue
+            read[:] = [x for x in read if x not in proc_read] # remove the ones we've read
+            xarr = {key:[] for key in proc_read[0]['xarr'].dtype.names}
+            for r in proc_read:
+                for key in xarr:
+                    xarr[key].append(r['xarr'][key])
+            for key in xarr:
+                xarr[key] = np.concatenate(xarr[key], axis=0)
+            self.__draw(proc_read[0]['proc'], proc_read[0]['weight_map'], xarr)
 
         # everything is filled,  now draw the histograms!
         for dist in self.__distributions:

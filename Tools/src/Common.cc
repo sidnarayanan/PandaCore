@@ -14,30 +14,30 @@ void activateBranch(TTree *t, const char *bname, void *address) {
 
 void PInfo(const char *module, const char *msg, const char *newline) {
   if (isatty(fileno(stdout)))
-    fprintf(stdout,"\033[0;32mINFO\033[0m    [%-40s]: %s%s",module,msg,newline);
+    fprintf(stdout,"\033[0;32mINFO\033[0m    [%-30s]: %s%s",module,msg,newline);
   else
-    fprintf(stderr,"INFO    [%-40s]: %s%s",module,msg,newline); // redirect colorless output to stderr to preserve stream in log
+    fprintf(stderr,"INFO    [%-30s]: %s%s",module,msg,newline); // redirect colorless output to stderr to preserve stream in log
 }
 
 void PDebug(const char *module, const char *msg, const char *newline) {
   if (isatty(fileno(stderr)))
-    fprintf(stderr,"\033[0;36mDEBUG\033[0m   [%-40s]: %s%s",module,msg,newline);
+    fprintf(stderr,"\033[0;36mDEBUG\033[0m   [%-30s]: %s%s",module,msg,newline);
   else
-    fprintf(stderr,"DEBUG   [%-40s]: %s%s",module,msg,newline);
+    fprintf(stderr,"DEBUG   [%-30s]: %s%s",module,msg,newline);
 }
 
 void PWarning(const char *module, const char *msg, const char *newline) {
   if (isatty(fileno(stdout)))
-    fprintf(stdout,"\033[0;91mWARNING\033[0m [%-40s]: %s%s",module,msg,newline);
+    fprintf(stdout,"\033[0;91mWARNING\033[0m [%-30s]: %s%s",module,msg,newline);
   else
-    fprintf(stderr,"WARNING [%-40s]: %s%s",module,msg,newline);
+    fprintf(stderr,"WARNING [%-30s]: %s%s",module,msg,newline);
 }
 
 void PError(const char *module, const char *msg, const char *newline) {
   if (isatty(fileno(stderr)))
-    fprintf(stderr,"\033[0;41m\033[1;37mERROR\033[0m   [%-40s]: %s%s",module,msg,newline);
+    fprintf(stderr,"\033[0;41m\033[1;37mERROR\033[0m   [%-30s]: %s%s",module,msg,newline);
   else
-    fprintf(stderr,"ERROR   [%-40s]: %s%s",module,msg,newline);
+    fprintf(stderr,"ERROR   [%-30s]: %s%s",module,msg,newline);
 }
 
 double getVal(TH1*h,double val) {
