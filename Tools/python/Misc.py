@@ -17,7 +17,7 @@ def PInfo(module,msg,newline="\n"):
     if _atty_out:
         stdout.write('\033[0;32mINFO\033[0m    '+_printtmpl%(module,msg,newline))
     else:
-        stderr.write('INFO    '+_printmpl%(module,msg,newline)) # redirect color-less output to stderr to maintain stream in log files
+        stderr.write('INFO    '+_printtmpl%(module,msg,newline)) # redirect color-less output to stderr to maintain stream in log files
 
 def PWarning(module,msg,newline="\n"):
     ''' function to write to stdout'''
