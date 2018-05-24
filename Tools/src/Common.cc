@@ -123,6 +123,7 @@ TimeReporter::Start()
   }
   currentEvent=0;
   currentSubEvent=1;
+  globalStart = static_cast<long>(gSystem->Now()); 
 }
 
 void 
@@ -181,4 +182,6 @@ TimeReporter::Summary()
         TString::Format("Task %20s called %5u times, average time = %6.3f us, total time = %.3f ms",
           s.Data(), nCalls[s], totalTime[s]/nCalls[s]*1000, totalTime[s]));
   }
+  PDebug(name,
+      TString::Format("TOTAL TIME = %.3ld s", static_cast<long>(gSystem->Now()) - globalStart));
 }
