@@ -50,6 +50,13 @@ processes =    {
         'WJetsToLNu_HT-1200To2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('WJets_ht1200to2500','MC',1.329),
         'WJetsToLNu_HT-2500ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('WJets_ht2500toinf','MC',0.03216),
         'WJetsToLNu_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('WJets_ht600toinf','MC',18.91),
+        'WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8':('WJets_ht100to200_CP5','MC',1343),
+        'WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8':('WJets_ht200to400_CP5','MC',359.6),
+        'WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8':('WJets_ht400to600_CP5','MC',48.85),
+        'WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8':('WJets_ht600to800_CP5','MC',12.05),
+        'WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8':('WJets_ht800to1200_CP5','MC',5.501),
+        'WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8':('WJets_ht1200to2500_CP5','MC',1.329),
+        'WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8':('WJets_ht2500toinf_CP5','MC',0.03216),
 
         # NLO W->lnu
         'WJetsToLNu_Wpt-50To100_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('WJets_pt50to100','MC',3258),
@@ -61,7 +68,7 @@ processes =    {
         'W1JetsToLNu_LHEWpT_150-250_TuneCP5_13TeV-amcnloFXFX-pythia8':('W1JetsToLNu_WpT150to250_CP5','MC',1),
         'W1JetsToLNu_LHEWpT_250-400_TuneCP5_13TeV-amcnloFXFX-pythia8':('W1JetsToLNu_WpT250to400_CP5','MC',1),
         'W1JetsToLNu_LHEWpT_400-inf_TuneCP5_13TeV-amcnloFXFX-pythia8':('W1JetsToLNu_WpT400toinf_CP5','MC',1),
-        'W2JetsToLNu_LHEWpT_50-150_TuneCP5_13TeV-amcnloFXFX-pythia8' :('W2JetsToLNu_WpT50to150_CP5','MC',1),
+        'W2JetsToLNu_LHEWpT_50-150_TuneCP5_13TeV-amcnloFXFX-pythia8':('W2JetsToLNu_WpT50to150_CP5','MC',1),
         'W2JetsToLNu_LHEWpT_100-150_TuneCP5_13TeV-amcnloFXFX-pythia8':('W2JetsToLNu_WpT100to150_CP5','MC',1),
         'W2JetsToLNu_LHEWpT_150-250_TuneCP5_13TeV-amcnloFXFX-pythia8':('W2JetsToLNu_WpT150to250_CP5','MC',1),
         'W2JetsToLNu_LHEWpT_250-400_TuneCP5_13TeV-amcnloFXFX-pythia8':('W2JetsToLNu_WpT250to400_CP5','MC',1),
@@ -95,7 +102,7 @@ processes =    {
         'Z1JetsToNuNu_M-50_LHEZpT_400-inf_TuneCP5_13TeV-amcnloFXFX-pythia8':('Z1JetsToNuNu_ZpT400toinf_CP5','MC',1),
         'Z2JetsToNuNu_M-50_LHEZpT_150-250_TuneCP5_13TeV-amcnloFXFX-pythia8':('Z2JetsToNuNu_ZpT150to250_CP5','MC',1),
         'Z2JetsToNuNu_M-50_LHEZpT_250-400_TuneCP5_13TeV-amcnloFXFX-pythia8':('Z2JetsToNuNu_ZpT250to400_CP5','MC',1),
-        'Z2JetsToNuNU_M-50_LHEZpT_400-inf_TuneCP5_13TeV-amcnloFXFX-pythia8':('Z2JetsToNuNU_ZpT400toinf_CP5','MC',1),
+        'Z2JetsToNuNU_M-50_LHEZpT_400-inf_TuneCP5_13TeV-amcnloFXFX-pythia8':('Z2JetsToNuNu_ZpT400toinf_CP5','MC',1),
                           
         # LO gamma
         'GJets_HT-40To100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('GJets_ht40to100','MC',23080.0),
@@ -124,8 +131,11 @@ processes =    {
         'ST_s-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1':('SingleTop_s_lep','MC',10.11),
         'ST_t-channel_5f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1':('SingleTop_t_lep','MC',216.99),
         'ST_t-channel_top_4f_leptonDecays_13TeV-powheg-pythia8_TuneCUETP8M1':('SingleTop_tchannel','MC',44.3),
+        
         'ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8':('SingleTop_tbarW_CP5','MC', 35.6),
         'ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8':('SingleTop_tW_CP5','MC', 35.6),
+        'ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8':('SingleTop_tTbar_CP5','MC',80.95),
+        'ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8':('SingleTop_tT_CP5','MC',136.02),
 
         # ttbar
         'TTJets_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':                    ('TTbar_MLM','MC',831.76),
@@ -147,11 +157,14 @@ processes =    {
         'TTZToQQ_TuneCUETP8M1_13TeV-amcatnlo-pythia8':('TTZToQQ_TuneCUETP8M1_13TeV-amcatnlo-pythia8','MC',0.5297),
         'TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8':('TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8','MC',0.2043),
         'TTWJetsToQQ_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8':('TTWJetsToQQ_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8','MC',0.4062),
-<<<<<<< HEAD
         
-=======
->>>>>>> 76b642df75b2b5fbf317931bc8f6a86f39d3c802
         'TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8':('TTTo2L2Nu_CP5','MC',88.288),
+        'TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8':('TTTo2L2Nu_CP5_PSweights','MC',88.288),
+        'TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8':('TTToSemiLeptonic_CP5','MC',1),
+        'TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8':('TTToSemiLeptonic_CP5_PSweights','MC',1),
+        'TTToHadronic_TuneCP5_13TeV-powheg-pythia8':('TTToHadronic_CP5','MC',1),
+        'TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8':('TTToHadronic_CP5_PSweights','MC',1),
+
 
         # exotic top
         'tZq_ll_4f_13TeV-amcatnlo-pythia8':('SingleTop_tZll','MC',0.0758),
@@ -214,6 +227,12 @@ processes =    {
         'ggZH_HToBB_ZToLL_M125_13TeV_powheg_pythia8':('ggZllHbb_mH125','MC',0.007842),
         'WminusH_HToBB_WToLNu_M125_13TeV_powheg_pythia8':('WmLNuHbb','MC',0.100),
         'WplusH_HToBB_WToLNu_M125_13TeV_powheg_pythia8':('WpLNuHbb','MC',0.159),
+        'WminusH_HToBB_WToLNu_M125_13TeV_powheg_herwigpp':('WmLNuHbb_herwigpp','MC',0.100),
+        'WplusH_HToBB_WToLNu_M125_13TeV_powheg_herwigpp':('WpLNuHbb_herwigpp','MC',0.159),
+        'WminusH_HToBB_WToLNu_M120_13TeV_powheg_pythia8':('WmLNuHbb_mH120','MC',0.100),
+        'WplusH_HToBB_WToLNu_M120_13TeV_powheg_pythia8':('WpLNuHbb_mH120','MC',0.159),
+        'WminusH_HToBB_WToLNu_M130_13TeV_powheg_pythia8':('WmLNuHbb_mH130','MC',0.100),
+        'WplusH_HToBB_WToLNu_M130_13TeV_powheg_pythia8':('WpLNuHbb_mH130','MC',0.159),
         'ttHTobb_M125_13TeV_powheg_pythia8':('ttHbb','MC',0.506*0.5824),
         'GluGluHToBB_M125_13TeV_powheg_pythia8':('ggHbb','MC',48.48*0.5824),
         'VBFHToBB_M125_13TeV_amcatnlo_pythia8':('VBFHbb','MC',3.782*0.5824),
