@@ -3,6 +3,7 @@
 #include "TH2F.h"
 #include "TString.h"
 #include "TStopwatch.h"
+#include "TSystem.h"
 #include <vector>
 #include <unistd.h>
 #include "Functions.h"
@@ -182,6 +183,7 @@ class TimeReporter {
     std::vector<TString> callOrders; /**< order in which tasks are called */
     int currentEvent=0; /**< internal tracker of the index of the current event */
     int currentSubEvent=1; /**< internal tracker of the index of the sub-event */
+    long globalStart=0;
 };
 
 //////////////////////////////////////////////////////////////////////////////////

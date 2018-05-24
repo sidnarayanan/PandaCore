@@ -10,6 +10,8 @@ import ROOT as root
 from Misc import PInfo,  PWarning,  PError
 from array import array 
 
+root.gROOT.SetBatch()
+
 _hcounter = 0 
 
 # MISC -----------------------------------------------------------------

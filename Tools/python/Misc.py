@@ -10,34 +10,35 @@ from collections import namedtuple
 
 _atty_out = stdout.isatty()
 _atty_err = stderr.isatty()
+_printtmpl = '[%-30s]: %s%s'
 
 def PInfo(module,msg,newline="\n"):
     ''' function to write to stdout'''
     if _atty_out:
-        stdout.write('\033[0;32mINFO\033[0m    [%-40s]: %s%s'%(module,msg,newline))
+        stdout.write('\033[0;32mINFO\033[0m    '+_printtmpl%(module,msg,newline))
     else:
-        stderr.write('INFO    [%-40s]: %s%s'%(module,msg,newline)) # redirect color-less output to stderr to maintain stream in log files
+        stderr.write('INFO    '+_printtmpl%(module,msg,newline)) # redirect color-less output to stderr to maintain stream in log files
 
 def PWarning(module,msg,newline="\n"):
     ''' function to write to stdout'''
     if _atty_out:
-        stdout.write('\033[0;91mWARNING\033[0m [%-40s]: %s%s'%(module,msg,newline))
+        stdout.write('\033[0;91mWARNING\033[0m '+_printtmpl%(module,msg,newline))
     else:
-        stderr.write('WARNING [%-40s]: %s%s'%(module,msg,newline))
+        stderr.write('WARNING '+_printtmpl%(module,msg,newline))
 
 def PDebug(module,msg,newline="\n"):
     ''' function to write to stdout'''
     if _atty_err:
-        stderr.write('\033[0;36mDEBUG\033[0m   [%-40s]: %s%s'%(module,msg,newline))
+        stderr.write('\033[0;36mDEBUG\033[0m   '+_printtmpl%(module,msg,newline))
     else:
-        stderr.write('DEBUG   [%-40s]: %s%s'%(module,msg,newline))
+        stderr.write('DEBUG   '+_printtmpl%(module,msg,newline))
 
 def PError(module,msg,newline="\n"):
     ''' function to write to stdout'''
     if _atty_err:
-        stderr.write('\033[0;41m\033[1;37mERROR\033[0m   [%-40s]: %s%s'%(module,msg,newline))
+        stderr.write('\033[0;41m\033[1;37mERROR\033[0m   '+_printtmpl%(module,msg,newline))
     else:
-        stderr.write('ERROR   [%-40s]: %s%s'%(module,msg,newline))
+        stderr.write('ERROR   '+_printtmpl%(module,msg,newline))
 
 
 def smart_getenv(v, d=None):

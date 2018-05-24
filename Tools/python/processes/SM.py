@@ -147,7 +147,10 @@ processes =    {
         'TTZToQQ_TuneCUETP8M1_13TeV-amcatnlo-pythia8':('TTZToQQ_TuneCUETP8M1_13TeV-amcatnlo-pythia8','MC',0.5297),
         'TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8':('TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8','MC',0.2043),
         'TTWJetsToQQ_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8':('TTWJetsToQQ_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8','MC',0.4062),
+<<<<<<< HEAD
         
+=======
+>>>>>>> 76b642df75b2b5fbf317931bc8f6a86f39d3c802
         'TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8':('TTTo2L2Nu_CP5','MC',88.288),
 
         # exotic top
