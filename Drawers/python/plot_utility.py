@@ -170,7 +170,7 @@ class PlotUtility():
         self.__systematics.append(Systematic(name, up, down, color))
     def Draw(self):
         # override the thing that's bound in __init__
-        PError('plot_utility.PlotUtility.Draw', 'Not implemented!')
+        logger.error('plot_utility.PlotUtility.Draw', 'Not implemented!')
     def draw_all(self, outdir):
         if not self.canvas.HasLegend():
             self.canvas.InitLegend()
@@ -291,7 +291,7 @@ class PlotUtility():
                     fyields.write('\n'.join(table))
 
                 for t in table:
-                    PInfo('plot_utility.PlotUtility.Dump', t)
+                    logger.info('plot_utility.PlotUtility.Dump', t)
 
             h_unscaled = {'data':None, 'mc':None} # used for chi2 calc
             for proc in self.__processes:

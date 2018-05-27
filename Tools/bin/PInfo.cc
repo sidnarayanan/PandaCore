@@ -21,5 +21,5 @@ int main( int argc, char **argv ) {
 		report += this_arg;
 	}
 
-	PInfo(name.c_str(),report.c_str());
+	logger.info(name.c_str(),report.c_str());
 }

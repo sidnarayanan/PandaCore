@@ -3,9 +3,10 @@ from re import sub
 import cPickle as pickle
 import time
 from os import getenv,getuid,system,path,environ
-from Misc import PInfo,PDebug,PWarning,PError
+from Misc import logger.info,logger.debug,logger.warning,logger.error
 from collections import namedtuple
-from sys import exit 
+from sys import exit
+from PandaCore.Utils.logging import logger 
 # module *must* remain independent of htcondor to run on T2
 
 #############################################################
@@ -65,7 +66,7 @@ def read_sample_config(fpath,as_dict=True):
             state=FILE
     if state==FILE:
         samples.append(current_sample)
-    
+
     if as_dict:
         return { x.name:x for x in samples }
     else:
@@ -98,5 +99,3 @@ def convert_catalog(file_list,as_dict=True):
         return samples
     else:
         return [v for k,v in samples.iteritems()]
-
-

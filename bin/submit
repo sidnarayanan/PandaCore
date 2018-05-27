@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 
 import argparse
-from sys import exit
+from sys import exit, argv
 from os import path,getenv,system
 import PandaCore.Tools.job_management as jm
-from PandaCore.Tools.Misc import PError, PInfo
 
 parser = argparse.ArgumentParser(description='simple condor submission')
 parser.add_argument('--exec',dest='executable',help='executable',type=str)
@@ -16,6 +15,8 @@ parser.add_argument('--dryrun',action='store_true')
 parser.add_argument('--loud',action='store_true')
 args = parser.parse_args()
 
+argv = []
+from PandaCore.Utils.logging import logger
 jm.SILENT = not(args.loud)
 
 if not args.cache:
@@ -37,9 +38,9 @@ if args.arglist:
                 continue
             job_arguments.append(l)
 elif args.args:
-    job_arguments = args.args 
+    job_arguments = args.args
 else:
-    PError('submit','Please specify arguments!')
+    logger.error('submit','Please specify arguments!')
     exit(1)
 
 jm.issue_proxy()
@@ -57,4 +58,4 @@ sub = jm.SimpleSubmission(cache_dir=args.cache,
                           nper=nper)
 sub.execute(max_njobs)
 sub.save()
-PInfo('submit','Placed cache in '+args.cache)
+logger.info('submit','Placed cache in '+args.cache)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import PandaCore.Tools.job_management as jm
-from PandaCore.Tools.Misc import PError
+from PandaCore.Utils.logging import logger
 import argparse
 from os import path,getenv,system
 from sys import exit,stdout
@@ -24,7 +24,7 @@ jm.SILENT = not(args.silent)
 
 for cache in args.cache:
     if len(args.cache) > 1:
-        print 'Cache:',cache    
+        print 'Cache:',cache
     with open(cache+'/submission.pkl') as fpkl:
         submissions = pickle.load(fpkl)
 
@@ -44,8 +44,8 @@ for cache in args.cache:
             statii[x] = set([])
     else:
         statii['idle'] -= statii['running'] # it's not idle if it's running
-        statii['idle'] -= statii['done'] 
-        statii['running'] -= statii['done'] 
+        statii['idle'] -= statii['done']
+        statii['running'] -= statii['done']
         for x in ['running','idle','done']:
             statii['missing'] -= statii[x]
 
@@ -58,7 +58,7 @@ for cache in args.cache:
     colors = {
         'green' : 42,
         'blue' : 44,
-        'grey' : 47, 
+        'grey' : 47,
         'red' : 41,
         }
 
@@ -89,8 +89,8 @@ for cache in args.cache:
     o_sub_time = submissions[0].submission_time
     s += '(done=%.2f%% in %is)'%(d_frac*100./WIDTH,int(time()-o_sub_time))
 
-    print header 
-    print s 
+    print header
+    print s
 
     if args.verbose:
         if len(statii['idle']):
@@ -125,4 +125,3 @@ for cache in args.cache:
         new_sub = jm.SimpleSubmission(s.cache_dir, s.executable, s.arglist, statii['missing'], nper)
         new_sub.execute()
         new_sub.save()
-

@@ -301,7 +301,7 @@ void CanvasDrawer::Draw(TString outDir, TString baseName) {
       else if (className.Contains("TF1"))
         o->Draw(opt+" same");
       else {
-        PWarning("CanvasDrawer::Draw",TString::Format("Don't know what to do with %s",className.Data()));
+        logger.warning("CanvasDrawer::Draw",TString::Format("Don't know what to do with %s",className.Data()));
         continue;
       }
 
@@ -330,5 +330,5 @@ void CanvasDrawer::Draw(TString outDir, TString baseName) {
   c->SaveAs(outDir+baseName+".png");
   c->SaveAs(outDir+baseName+".pdf");
 //  c->SaveAs(outDir+baseName+".C");
-  PInfo("CanvasDrawer::Draw",TString::Format("Created %s %s",outDir.Data(),baseName.Data()));
+  logger.info("CanvasDrawer::Draw",TString::Format("Created %s %s",outDir.Data(),baseName.Data()));
 }

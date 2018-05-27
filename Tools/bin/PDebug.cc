@@ -21,5 +21,5 @@ int main( int argc, char **argv ) {
 		report += this_arg;
 	}
 
-	PDebug(name.c_str(),report.c_str());
+	logger.debug(name.c_str(),report.c_str());
 }

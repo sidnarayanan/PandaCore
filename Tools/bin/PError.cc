@@ -21,5 +21,5 @@ int main( int argc, char **argv ) {
 		report += this_arg;
 	}
 
-	PError(name.c_str(),report.c_str());
+	logger.error(name.c_str(),report.c_str());
 }

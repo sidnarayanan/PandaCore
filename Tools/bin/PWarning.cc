@@ -21,5 +21,5 @@ int main( int argc, char **argv ) {
 		report += this_arg;
 	}
 
-	PWarning(name.c_str(),report.c_str());
+	logger.warning(name.c_str(),report.c_str());
 }
