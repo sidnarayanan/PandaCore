@@ -27,7 +27,7 @@ public:
 
 private:
   struct RType {
-    RType(TString n, TString c, File& f) : name(n), color(c), fhandle(f) {
+    RType(TString n, TString c, FILE f) : name(n), color(c), fhandle(f) {
       pad = "";
       for (int i = n.Length(); i != 9; ++i)
         pad += " ";
@@ -35,7 +35,7 @@ private:
     TString name;
     TString color;
     TString pad;
-    File& fhandle;
+    FILE *const fhandle;
   };
   void _report(const RType& r, const char *title, const char *msg, const char *n) {
     if (_isatty) {
@@ -53,7 +53,7 @@ private:
     }
   }
   bool _isatty;
-  File _fhandle;
+  FILE *const _fhandle;
   TString _name;
   RType _name, _info, _debug, _warning, _error;
 };
