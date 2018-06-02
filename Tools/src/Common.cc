@@ -93,12 +93,16 @@ ProgressReporter::ProgressReporter(const char *n, unsigned int *iE, unsigned int
 }
 
 void ProgressReporter::Report() {
+  if (*idx == 0) 
+    globalStart = static_cast<long>(gSystem->Now());
   float progress = 1.*(*idx)/(*N);
-  if ( progress >= threshold) {
+  if (progress >= threshold) {
+    float timeLeft = progress > 0 ?
+                      (static_cast<long>(gSystem->Now()) - globalStart) * (1 - progress) / (1000 * progress) : 
+                      -1; 
     PInfo(name.Data(),
-        TString::Format("%-40s",TString::Format("%5.2f%% (%u/%u)      ",progress*100,*idx,*N).Data()).Data(),
-        // "\r");
-         "\n");
+          TString::Format("%-40s",TString::Format("%5.2f%%, %8.2fs left (%u/%u) ",progress*100,timeLeft,*idx,*N).Data()).Data(),
+          "\n");
     threshold += 1./frequency;
   }
 }

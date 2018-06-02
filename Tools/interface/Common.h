@@ -131,6 +131,7 @@ class ProgressReporter {
     unsigned int frequency; /**< how often to print */
     TString name; /**< name of this task */
     float threshold=0; /**< internal tracker of next threshold */
+    long globalStart; 
 };
 
 //////////////////////////////////////////////////////////////////////////////////

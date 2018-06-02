@@ -8,7 +8,7 @@ void BranchAdder::doAddBranch(TTree *t)
 
   turnOnBranches(t, cut);
 
-  ProgressReporter pr("BranchAdder::doAddBranch", &iE, &nE, reportFreq);
+  ProgressReporter pr("BranchAdder", &iE, &nE, reportFreq);
 
   float newBranchVal{0};
 
