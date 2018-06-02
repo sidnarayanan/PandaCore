@@ -24,7 +24,7 @@ Logger::Logger(TString name) :
     _tmpl = "%s%s [%-"+TString::Format("%i",MAXLOGGERLEN)+"s]: %s%s";
 }
 
-void Logger::_report(const RType& r, TString title, const TString& msg, const TString& n) 
+void Logger::_report(const RType& r, TString title, const TString& msg, const TString& n) const 
 { 
   title = _name+title; 
   if (title.Length() > MAXLOGGERLEN) {
