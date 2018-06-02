@@ -1,6 +1,6 @@
 #include "../interface/Logger.h"
 
-
+Logger logger; 
 
 void Logger::_report(const RType& r, const char *title, const char *msg, const char *n) {
     if (_isatty) {

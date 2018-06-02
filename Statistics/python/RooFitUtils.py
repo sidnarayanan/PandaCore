@@ -2,7 +2,7 @@
 
 import ROOT as root
 from PandaCore.Tools.Misc import *
-from PandaCore.Tools.Load import *
+from PandaCore.Utils.load import *
 import re
 
 Load('Statistics','RooExpErf')

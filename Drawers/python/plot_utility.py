@@ -4,7 +4,7 @@ import ROOT as root
 import numpy as np
 from array import array
 from PandaCore.Tools.Misc import *
-from PandaCore.Tools.Load import Load
+from PandaCore.Utils.load import Load
 from PandaCore.Tools.root_interface import read_files, draw_hist
 from os import getenv, system
 from pprint import pprint
