@@ -3,7 +3,6 @@ from re import sub
 import cPickle as pickle
 import time
 from os import getenv,getuid,system,path,environ
-from Misc import logger.info,logger.debug,logger.warning,logger.error
 from collections import namedtuple
 from sys import exit
 from PandaCore.Utils.logging import logger 

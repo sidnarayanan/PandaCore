@@ -6,7 +6,7 @@
 #include <vector>
 #include <unistd.h>
 #include "Functions.h"
-#include "PandaCore/Utils/Logger.h"
+#include "PandaCore/Utils/interface/Logger.h"
 
 #ifndef COMMONUTILITIES_H
 #define COMMONUTILITIES_H
@@ -23,7 +23,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 
-Logger logger;
+extern Logger logger;
 
 /**
  * \param v1  reference to vector that is lengthened

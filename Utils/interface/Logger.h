@@ -1,6 +1,8 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
+#include "TString.h"
+
 class Logger {
 public:
   Logger(TString name="") :
@@ -27,7 +29,7 @@ public:
 
 private:
   struct RType {
-    RType(TString n, TString c, FILE f) : name(n), color(c), fhandle(f) {
+    RType(TString n, TString c, FILE* f) : name(n), color(c), fhandle(f) {
       pad = "";
       for (int i = n.Length(); i != 9; ++i)
         pad += " ";
@@ -37,25 +39,11 @@ private:
     TString pad;
     FILE *const fhandle;
   };
-  void _report(const RType& r, const char *title, const char *msg, const char *n) {
-    if (_isatty) {
-      fprintf(
-        r.fhandle,
-        Form("\033[0;%s%s\0330m[%s [%-30s]: %s%s",
-             r.color, _name+r.name, r.pad, title, msg, n);
-      )
-    } else {
-      fprintf(
-        r.fhandle,
-        Form("%s%s [%-30s]: %s%s",
-             _name+r.name, r.pad, title, msg, n);
-      )
-    }
-  }
+  void _report(const RType& r, const char *title, const char *msg, const char *n);
   bool _isatty;
   FILE *const _fhandle;
   TString _name;
-  RType _name, _info, _debug, _warning, _error;
+  RType _info, _debug, _warning, _error;
 };
 
 #endif

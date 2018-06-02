@@ -15,7 +15,7 @@ _loaded = []
 DEBUG = False
 
 libraries = [
-    Library(name='PandaCoreUtils', objects = ['Logger'])
+    Library(name='PandaCoreUtils', objects = ['Logger']),
     Library(name='PandaCoreTools',      objects = [ 'Functions',
                                                     'Common',
                                                     'TreeTools',

@@ -12,7 +12,7 @@ from os import getenv,getuid,system,path,environ
 from job_config import *
 
 SILENT = False
-def mylogger.info(*args, **kwargs):
+def myinfo(*args, **kwargs):
     if not SILENT:
         logger.info(*args, **kwargs)
 
@@ -57,7 +57,7 @@ except:
     acct_grp_t3 = 'group_t3mit'
 
 def issue_proxy():
-    mylogger.info('job_management','Requesting proxy...')
+    myinfo('job_management','Requesting proxy...')
     cmd = 'voms-proxy-init -voms cms --valid 168:00'
     if SILENT:
         cmd += ' >/dev/null 2>&1'
@@ -349,7 +349,7 @@ done'''.format(self.cmssw,self.executable,self.workdir+'/progress.log',self.argl
         results = []
         self.proc_ids = {}
         if len(procs):
-            mylogger.info(self.__class__.__name__+'.execute','Cluster ClassAd:'+str(cluster_ad))
+            myinfo(self.__class__.__name__+'.execute','Cluster ClassAd:'+str(cluster_ad))
             self.cluster_id = self.schedd.submitMany(cluster_ad, procs, spool=should_spool, ad_results=results)
             if should_spool:
                 self.schedd.spool(results)
@@ -428,7 +428,7 @@ class Submission(_BaseSubmission):
                 for pattern,target in repl.iteritems():
                     value = value.replace(pattern,target)
             cluster_ad[key] = value
-        mylogger.info(self.__class__.__name__+'.execute','Cluster ClassAd:'+str(cluster_ad))
+        myinfo(self.__class__.__name__+'.execute','Cluster ClassAd:'+str(cluster_ad))
 
         proc_properties = {
             "Arguments" : "PROCID SUBMITID",
@@ -452,14 +452,14 @@ class Submission(_BaseSubmission):
             if njobs and proc_id>=njobs:
                 break
 
-        mylogger.info('Submission.execute','Submitting %i jobs!'%(len(procs)))
+        myinfo('Submission.execute','Submitting %i jobs!'%(len(procs)))
         self.submission_time = time.time()
         results = []
         self.cluster_id = self.schedd.submitMany(cluster_ad, procs, spool=should_spool, ad_results=results)
         if should_spool:
-            mylogger.info('Submission.execute','Spooling inputs...')
+            myinfo('Submission.execute','Spooling inputs...')
             self.schedd.spool(results)
         self.proc_ids = {}
         for result,name in zip(results,sorted(self.arguments)):
             self.proc_ids[int(result['ProcId'])] = name
-        mylogger.info('Submission.execute','Submitted to cluster %i'%(self.cluster_id))
+        myinfo('Submission.execute','Submitted to cluster %i'%(self.cluster_id))

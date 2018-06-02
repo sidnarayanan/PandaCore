@@ -1,5 +1,6 @@
 #include "../interface/Common.h"
 
+Logger logger; 
 
 template <typename T>
 void concat(std::vector<T> &v1, const std::vector<T>& v2) {
