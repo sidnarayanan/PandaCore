@@ -395,7 +395,7 @@ void HistogramDrawer::Draw(TString outDir, TString baseName) {
     else if (className.Contains("TF1"))
       o->Draw(opt+" same");
     else {
-      PWarning("HistogramDrawer::Draw",TString::Format("Don't know what to do with %s",className.Data()));
+      logger.warning("HistogramDrawer::Draw",TString::Format("Don't know what to do with %s",className.Data()));
       continue;
     }
 
@@ -532,7 +532,7 @@ void HistogramDrawer::BuildRatio(const TH1D* hNum, const TH1D* hDen, TH1D*& hRat
     float val, errVal;
     if (numVal==0.||denVal==0.) {
       if (numVal>0) 
-        PWarning("HistogramDrawer::Draw",
+        logger.warning("HistogramDrawer::Draw",
                  TString::Format("bin %i has DATA=%.1f, but EXP=%.3f",iB,numVal,denVal));
       val=0;
       errVal=0;

@@ -20,7 +20,7 @@ void Normalizer::NormalizeTree(TString fpath, double xsec_)
     TTree *t = (TTree*)fIn->Get(treeName.Data());
     TH1F *h = (TH1F*)fIn->Get(histName.Data());
     if (t==NULL || h==NULL) {
-        PError("Normalizer::NormalizeTree",TString::Format("Could not normalize %s because tree=%p and hist=%p\n",fpath.Data(),t,h));
+        logger.error("Normalizer::NormalizeTree",TString::Format("Could not normalize %s because tree=%p and hist=%p\n",fpath.Data(),t,h));
         return; 
     }
     double total = (histBin < 0) ? h->Integral() : h->GetBinContent(histBin);

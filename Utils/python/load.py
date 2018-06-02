@@ -4,8 +4,6 @@ Module that catalogs C++ objects known to ROOT/PandaCore.
 Load libraries on-demand
 '''
 
-from Misc import *
-
 class Library():
     '''Simple class that defines a library'''
     def __init__(self,name,objects,deps=[]):
@@ -13,10 +11,11 @@ class Library():
         self.objects = objects
         self.deps = deps
 
-loaded = []
+_loaded = []
 DEBUG = False
 
 libraries = [
+    Library(name='PandaCoreUtils', objects = ['Logger']),
     Library(name='PandaCoreTools',      objects = [ 'Functions',
                                                     'Common',
                                                     'TreeTools',
@@ -24,7 +23,7 @@ libraries = [
                                                     'Normalizer',
                                                     'Cutter',
                                                     'BranchAdder',
-                                                    'EventSyncher', 
+                                                    'EventSyncher',
                                                   ]
            ),
     Library(name='PandaCoreLearning',   objects = [ 'TMVATrainer',
@@ -51,26 +50,27 @@ libraries = [
                                                    'SFTreeBuilder',
                                                    'BTagTreeBuilder',
                                                   ]
-           ), 
+           ),
     Library(name='RedPandaCluster',     objects = ['Clusterer',
                                                     'Camera',
                                                     'PFAnalyzer',
-                                                   ] 
+                                                   ]
            ),
 ]
 
 from ROOT import gROOT, gSystem, gInterpreter
 import ROOT as root
 from os import getenv
+from logging import *
 
 def load_lib(libpath):
-    PInfo('PandaCore.Tools.Load','Loading %s'%libpath)
+    logger.info('PandaCore.Utils.load','Loading %s'%libpath)
     gSystem.Load(libpath)
 
 
 def Load(request):
     '''
-    Function that loads any necessary shared object files 
+    Function that loads any necessary shared object files
 
     @type request: str
     @param request: Name of library or class
@@ -82,13 +82,13 @@ def Load(request):
             requested_lib = l
             break
 
-    if requested_lib in loaded:
+    if requested_lib in _loaded:
         if DEBUG:
-            PWarning('PandaCore.Tools.Load','Requested %s has already been loaded in %s'%(request, requested_lib.name))
+            logger.warning('PandaCore.Utils.load','Requested %s has already been _loaded in %s'%(request, requested_lib.name))
         return
 
     if not requested_lib:
-        PError('PandaCore.Tools.Load','Could not load lib %s'%request)
+        logger.error('PandaCore.Utils.load','Could not load lib %s'%request)
         raise Exception('LoadError')
 
     for d in requested_lib.deps:
@@ -97,5 +97,5 @@ def Load(request):
         else:
             load_lib('lib'+d+'.so')
 
-    loaded.append(requested_lib)
+    _loaded.append(requested_lib)
     load_lib('lib'+requested_lib.name+'.so')

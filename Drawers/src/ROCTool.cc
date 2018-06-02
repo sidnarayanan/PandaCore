@@ -47,11 +47,11 @@ TMarker *ROCTool::CalcWP(TTree *ts, TTree *tb, int color, TString sigcut, TStrin
   TH1F *hbn = (TH1F*)hst->Clone("hbn");
 
   if (DEBUG) {
-    PDebug("","sigcut:    "+sigcut);
-    PDebug("","sigweight: "+sigweight);
-    PDebug("","bgcut:     "+bgcut);
-    PDebug("","bgweight:  "+bgweight);
-    PDebug("","cut:       "+cut);
+    logger.debug("","sigcut:    "+sigcut);
+    logger.debug("","sigweight: "+sigweight);
+    logger.debug("","bgcut:     "+bgcut);
+    logger.debug("","bgweight:  "+bgweight);
+    logger.debug("","cut:       "+cut);
   }
   
   ts->Draw("1>>hst","("+sigweight+")*("+sigcut+")");
@@ -67,7 +67,7 @@ TMarker *ROCTool::CalcWP(TTree *ts, TTree *tb, int color, TString sigcut, TStrin
   double bgnum = hbn->Integral();
 
   double eff = signum/sigtot; double fake = bgnum/bgtot;
-  PInfo("ROCTool::CalcWP",TString::Format("eff=%.2f => fakerate=%.2f",eff,fake));
+  logger.info("ROCTool::CalcWP",TString::Format("eff=%.2f => fakerate=%.2f",eff,fake));
 
   TMarker *m = new TMarker(eff,fake,1);
   m->SetMarkerColor(color);
@@ -151,7 +151,7 @@ TGraph *ROCTool::CalcROC1Cut() {
 
   TGraph *gcuts = new TGraph(nB+1,effs,cuts);
 
-  PInfo("ROCTool::CalcROC",TString::Format("eff=0.3 => fakerate=%.3g, at x=%.2f",roc->Eval(0.3),gcuts->Eval(0.3)));
+  logger.info("ROCTool::CalcROC",TString::Format("eff=0.3 => fakerate=%.3g, at x=%.2f",roc->Eval(0.3),gcuts->Eval(0.3)));
 
   return roc;
 }

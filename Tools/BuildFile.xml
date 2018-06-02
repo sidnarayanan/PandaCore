@@ -2,6 +2,7 @@
 <use   name="roofit"/>
 <use   root=""/>
 <use name="CondFormats/JetMETObjects"/>
+<use name="PandaCore/Utils"/>
 <export>
   <lib   name="1"/>
 </export>

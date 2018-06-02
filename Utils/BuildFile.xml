@@ -1,0 +1,5 @@
+<use   name="root"/>
+<use   root=""/>
+<export>
+  <lib   name="1"/>
+</export>

@@ -2,7 +2,7 @@
 
 import ROOT as root
 from PandaCore.Tools.Misc import *
-from PandaCore.Tools.Load import *
+from PandaCore.Utils.load import *
 import re
 
 Load('Statistics','RooExpErf')
@@ -49,7 +49,7 @@ class CategoryManager():
         # assume normalization is to 1
         px = (1./nNorms,0,1)
       else:
-        PError("RooFitUtils.CategoryManager.buildModel",
+        logger.error("RooFitUtils.CategoryManager.buildModel",
                 "Parameter %s missing in model %s"%(pname,mname))
         return None
     if type(px)==tuple:
@@ -137,7 +137,7 @@ class CategoryManager():
         smear_model = root.RooCBShape(mname+'_cb',mname+'_cb',x,mu,sigma,alpha,n)
         self.pdfs[mname+'_cb'] = smear_model
       else:
-        PError('RooFitUtils.CategoryManager.buildModel',
+        logger.error('RooFitUtils.CategoryManager.buildModel',
                 'Smearing %s is not pre-defined'%(smear.upper()))
         return None
     else:
@@ -310,7 +310,7 @@ class CategoryManager():
       self.pdfs[mname+'_experf'] = experf
       self.pdfs[mname] = model
     if not model:
-      PError('RooFitUtils.CategoryManager.buildModel',
+      logger.error('RooFitUtils.CategoryManager.buildModel',
               'Model %s is not pre-defined'%(opt.upper()))
       return None
 

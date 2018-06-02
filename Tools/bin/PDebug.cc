@@ -16,10 +16,9 @@ int main( int argc, char **argv ) {
 			is_name = false;
 			continue;
 		}
-		if (iA>1)
-			report += " ";
 		report += this_arg;
+		report += " ";
 	}
 
-	PDebug(name.c_str(),report.c_str());
+	logger.debug(name.c_str(),report.c_str());
 }
