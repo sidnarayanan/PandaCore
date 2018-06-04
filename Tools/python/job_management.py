@@ -48,12 +48,9 @@ schedd_server = getenv('HOSTNAME')
 should_spool = False
 query_owner = getenv('USER')
 
-try:
-    if int(getenv('SUBMIT_URGENT')):
-        acct_grp_t3 = 'group_t3mit.urgent'
-    else:
-        acct_grp_t3 = 'group_t3mit'
-except:
+if int(environ.get('SUBMIT_URGENT', 0)):
+    acct_grp_t3 = 'group_t3mit.urgent'
+else:
     acct_grp_t3 = 'group_t3mit'
 
 def issue_proxy():
