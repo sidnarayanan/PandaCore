@@ -426,6 +426,13 @@ void HistogramDrawer::Draw(TString outDir, TString baseName) {
     zero->Draw("");
 
     padModified = false;
+    
+    TH1D* hRatio = 0; TGraphErrors* gRatio = 0;
+    if (doStack) {
+      BuildRatio(hData, hSum, hRatio, gRatio, false);
+      hRatios.push_back(hRatio);
+      gRatioErrors.push_back(gRatio);
+    }
 
     if (doDrawMCErrors && hSum) {
       hRatioErrorUp = (TH1D*)hSum->Clone("sumratioup");
@@ -475,13 +482,6 @@ void HistogramDrawer::Draw(TString outDir, TString baseName) {
         hRatioError->Draw("e2");
         padModified = true;
       }
-    }
-    
-    TH1D* hRatio = 0; TGraphErrors* gRatio = 0;
-    if (doStack) {
-      BuildRatio(hData, hSum, hRatio, gRatio, false);
-      hRatios.push_back(hRatio);
-      gRatioErrors.push_back(gRatio);
     }
 
     for (auto& w : hOthers) {

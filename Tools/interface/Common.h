@@ -14,7 +14,7 @@
 
 #define PI 3.141592654
 
-/** \file Common.h
+/** \file PandaCore/Tools/interface/Common.h
  * \brief Common function header file
  * \author S. Narayanan
  *
