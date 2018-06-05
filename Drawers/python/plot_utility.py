@@ -403,13 +403,19 @@ class PlotUtility():
                 p = h_unscaled['data'].Chi2Test(h_unscaled['mc'],'UW')
                 self.canvas.AddPlotLabel('P(#chi^{2}|NDoF)=%.3g'%(p),0.6,0.5,False,42,.04)
             self.canvas.Logy(False)
-            self.canvas.Draw(outdir, dist.filename)
+            if not outdir.endswith('/'):
+                outdir_ = '/'.join(outdir.split('/')[:-1])
+                base_ = outdir.split('/')[-1] 
+            else:
+                outdir_ = outdir 
+                base_ = ''
+            self.canvas.Draw(outdir_, base_+dist.filename)
             self.canvas.ClearLegend()
             if dist.calc_chi2:
                 p = h_unscaled['data'].Chi2Test(h_unscaled['mc'],'UW')
                 self.canvas.AddPlotLabel('P(#chi^{2}|NDoF)=%.3g'%(p),0.6,0.5,False,42,.04)
             self.canvas.Logy(True)
-            self.canvas.Draw(outdir, dist.filename+'_logy')
+            self.canvas.Draw(outdir_, base_+dist.filename+'_logy')
 
             self.canvas.Reset(False)
 

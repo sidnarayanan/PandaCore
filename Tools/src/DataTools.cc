@@ -43,7 +43,7 @@ EraHandler::EraHandler(int year)
     }
     default :
     {
-      logger.error("PandaCore::EraHandler",TString::Format("Year %i is not known",year));
+      logger.error("EraHandler",TString::Format("Year %i is not known",year));
     }
   }
 }
@@ -51,12 +51,12 @@ EraHandler::EraHandler(int year)
 TString EraHandler::getEra(int runNumber) 
 {
   if (runNumber<runBounds[0]) {
-    logger.error("PandaCore::EraHandler",
+    logger.error("EraHandler",
         TString::Format("Run number (%i) is less than first run (%i)",runNumber,(int)runBounds[0]));
     return "";
   }
   if (runNumber>runBounds.back()) {
-    logger.error("PandaCore::EraHandler",
+    logger.error("EraHandler",
         TString::Format("Run number (%i) is greater than last run (%i)",runNumber,(int)runBounds.back()));
     return "";
   }

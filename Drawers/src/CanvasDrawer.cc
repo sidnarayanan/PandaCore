@@ -294,16 +294,7 @@ void CanvasDrawer::Draw(TString outDir, TString baseName) {
       TObject *o = w.o;
       TString opt = w.opt;
       TString className(o->ClassName());    
-      if (className.Contains("TH1") || className.Contains("TProfile"))
-        o->Draw(opt+" same");
-      else if (className.Contains("TGraph"))
-        o->Draw(opt+" same");
-      else if (className.Contains("TF1"))
-        o->Draw(opt+" same");
-      else {
-        logger.warning("CanvasDrawer::Draw",TString::Format("Don't know what to do with %s",className.Data()));
-        continue;
-      }
+      o->Draw(opt+" same");
 
       TString label = w.label;
       if (label.Length()>0 && legend) {
