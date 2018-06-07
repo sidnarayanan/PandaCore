@@ -39,7 +39,7 @@ job_status_rev = {v:k for k,v in job_status.iteritems()}
 def environ_to_condor():
     s = ''
     for k,v in environ.iteritems():
-        if any([x in k for x in ['PANDA','SUBMIT','USER','SCRAM_ARCH','CMSSW_VERSION']]):
+        if any([x in k for x in ['PANDA','SUBMIT','SCRAM_ARCH','CMSSW_VERSION']]):
             s += '%s=%s '%(k,v)
     return s
 
@@ -114,13 +114,7 @@ BOSCOCluster == "ce03.cmsaf.mit.edu" && BOSCOGroup == "bosco_cms" && HAS_CVMFS_c
             "WhenToTransferOutput" : "ON_EXIT",
             "ShouldTransferFiles" : "YES",
             "Requirements" : classad.ExprTree(
-                'Arch == "X86_64" && ( \
-                    isUndefined(IS_GLIDEIN) || \
-                    ( OSGVO_OS_STRING == "RHEL 6" && HAS_CVMFS_cms_cern_ch == True ) || \
-                    ( HAS_SINGULARITY == true || GLIDEIN_REQUIRED_OS == "rhel6" ) || \
-                    ( GLIDEIN_Site == "MIT_CampusFactory" && \
-                        (BOSCOGroup == "bosco_cms" || BOSCOGroup == "paus") ) \
-                ) && %s'%(submit_exclude)
+                 'Arch == "X86_64" && TARGET.OpSys == "LINUX" && TARGET.HasFileTransfer && ( isUndefined(IS_GLIDEIN) || ( OSGVO_OS_STRING == "RHEL 6" && HAS_CVMFS_cms_cern_ch == true ) || GLIDEIN_REQUIRED_OS == "rhel6" || HAS_SINGULARITY == true || ( Has_CVMFS_cms_cern_ch == true && ( BOSCOGroup == "bosco_cms" ) ) ) && %s'%(submit_exclude)
             ),
 #            "Requirements" :
 #                classad.ExprTree('Arch == "X86_64" && ( isUndefined(IS_GLIDEIN) || ( OSGVO_OS_STRING == "RHEL 6" && \
@@ -143,10 +137,16 @@ BOSCOCluster == "ce03.cmsaf.mit.edu" && BOSCOGroup == "bosco_cms" && HAS_CVMFS_c
             "X509UserProxy" : "/tmp/x509up_u2268",
             "OnExitHold" : classad.ExprTree("( ExitBySignal == true ) || ( ExitCode != 0 )"),
             "In" : "/dev/null",
-            "TransferInput" : "WORKDIR/cmssw.tgz,WORKDIR/skim.py,WORKDIR/x509up",
+            "TransferInput" : "WORKDIR/cmssw.tgz,WORKDIR/skim.py",
             "ProjectName" : "CpDarkMatterSimulation",
             "Rank" : "Mips",
             'SubMITOwner' : 'USER',
+            "REQUIRED_OS" : "rhel6",
+            "DESIRED_OS" : "rhel6",
+ #           "+REQUIRED_OS" : "rhel6",
+ #           "+DESIRED_OS" : "rhel6",
+            "RequestDisk" : 3000000,
+            "SingularityImage" : "/cvmfs/singularity.opensciencegrid.org/bbockelm/cms:rhel6",
         }
 
         pool_server = 'submit.mit.edu:9615'
@@ -477,4 +477,4 @@ class Submission(_BaseSubmission):
         self.proc_ids = {}
         for result,name in zip(results,sorted(self.arguments)):
             self.proc_ids[int(result['ProcId'])] = name
-        myinfo('Submission.execute','Submitted to cluster %i'%(self.cluster_id))
+        myinfo('Submission.execute','Submitted %i to cluster %i'%(self.sub_id, self.cluster_id))

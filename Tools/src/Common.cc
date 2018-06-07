@@ -159,5 +159,5 @@ TimeReporter::Summary()
           s.Data(), nCalls[s], totalTime[s]/nCalls[s]*1000, totalTime[s]));
   }
   logger.debug(name,
-      TString::Format("TOTAL TIME = %.3ld s", static_cast<long>(gSystem->Now()) - globalStart));
+      TString::Format("TOTAL TIME = %.3f s", (static_cast<long>(gSystem->Now()) - globalStart) * 0.001));
 }
