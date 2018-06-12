@@ -1,7 +1,6 @@
 #include "../interface/Common.h"
 
-
-template <typename T> 
+template <typename T>
 void concat(std::vector<T> &v1, const std::vector<T>& v2) {
   v1.insert(v1.end(),v2.begin(),v2.end());
 }
@@ -12,33 +11,6 @@ void activateBranch(TTree *t, const char *bname, void *address) {
 }
 
 
-void PInfo(const char *module, const char *msg, const char *newline) {
-  if (isatty(fileno(stdout)))
-    fprintf(stdout,"\033[0;32mINFO\033[0m    [%-30s]: %s%s",module,msg,newline);
-  else
-    fprintf(stderr,"INFO    [%-30s]: %s%s",module,msg,newline); // redirect colorless output to stderr to preserve stream in log
-}
-
-void PDebug(const char *module, const char *msg, const char *newline) {
-  if (isatty(fileno(stderr)))
-    fprintf(stderr,"\033[0;36mDEBUG\033[0m   [%-30s]: %s%s",module,msg,newline);
-  else
-    fprintf(stderr,"DEBUG   [%-30s]: %s%s",module,msg,newline);
-}
-
-void PWarning(const char *module, const char *msg, const char *newline) {
-  if (isatty(fileno(stdout)))
-    fprintf(stdout,"\033[0;91mWARNING\033[0m [%-30s]: %s%s",module,msg,newline);
-  else
-    fprintf(stderr,"WARNING [%-30s]: %s%s",module,msg,newline);
-}
-
-void PError(const char *module, const char *msg, const char *newline) {
-  if (isatty(fileno(stderr)))
-    fprintf(stderr,"\033[0;41m\033[1;37mERROR\033[0m   [%-30s]: %s%s",module,msg,newline);
-  else
-    fprintf(stderr,"ERROR   [%-30s]: %s%s",module,msg,newline);
-}
 
 double getVal(TH1*h,double val) {
   return h->GetBinContent(h->FindBin(val));
@@ -84,7 +56,7 @@ std::vector<TString> getDependencies(TString cut) {
   return deps;
 }
 
-ProgressReporter::ProgressReporter(const char *n, unsigned int *iE, unsigned int *nE, unsigned int nR) 
+ProgressReporter::ProgressReporter(const char *n, unsigned int *iE, unsigned int *nE, unsigned int nR)
 {
   name = n; name+="::Progress";
   idx = iE;
@@ -93,18 +65,22 @@ ProgressReporter::ProgressReporter(const char *n, unsigned int *iE, unsigned int
 }
 
 void ProgressReporter::Report() {
+  if (*idx == 0) 
+    globalStart = static_cast<long>(gSystem->Now());
   float progress = 1.*(*idx)/(*N);
-  if ( progress >= threshold) {
-    PInfo(name.Data(),
-        TString::Format("%-40s",TString::Format("%5.2f%% (%u/%u)      ",progress*100,*idx,*N).Data()).Data(),
-        // "\r");
-         "\n");
+  if (progress >= threshold) {
+    float timeLeft = progress > 0 ?
+                      (static_cast<long>(gSystem->Now()) - globalStart) * (1 - progress) / (1000 * progress) : 
+                      -1; 
+    logger.info(name.Data(),
+          TString::Format("%-40s",TString::Format("%5.2f%%, %8.2fs left (%u/%u) ",progress*100,timeLeft,*idx,*N).Data()).Data(),
+          "\n");
     threshold += 1./frequency;
   }
 }
 
 
-TimeReporter::TimeReporter(TString n, int on_) 
+TimeReporter::TimeReporter(TString n, int on_)
 {
   on=on_;
   name = n; name += "::Time";
@@ -114,8 +90,8 @@ TimeReporter::TimeReporter(TString n, int on_)
 
 TimeReporter::~TimeReporter() { delete sw; delete subsw; }
 
-void 
-TimeReporter::Start() 
+void
+TimeReporter::Start()
 {
   if (on) {
     sw->Start(true);
@@ -126,15 +102,15 @@ TimeReporter::Start()
   globalStart = static_cast<long>(gSystem->Now()); 
 }
 
-void 
-TimeReporter::TriggerEvent(TString s,bool reset) 
+void
+TimeReporter::TriggerEvent(TString s,bool reset)
 {
   if (!on)
     return;
   currentSubEvent=1;
   double interval = sw->RealTime()*1000;
-  if (on > 1) 
-    PDebug(name,TString::Format("%2i   : %.3f (%s)",currentEvent,interval,s.Data()).Data());
+  if (on > 1)
+    logger.debug(name,TString::Format("%2i   : %.3f (%s)",currentEvent,interval,s.Data()).Data());
   if (s.Contains("GetEntry"))
     s = "GetEntry";
   if (totalTime.find(s) == totalTime.end()) {
@@ -151,20 +127,20 @@ TimeReporter::TriggerEvent(TString s,bool reset)
     currentEvent+=1;
 }
 
-void 
-TimeReporter::TriggerSubEvent(TString s) 
+void
+TimeReporter::TriggerSubEvent(TString s)
 {
   if (!on)
     return;
   double interval = subsw->RealTime()*1000;
   if (on > 2)
-    PDebug(name,
+    logger.debug(name,
         TString::Format("%2i.%-2i: %.3f (%s)",currentEvent,currentSubEvent,interval,s.Data()).Data());
   if (totalTime.find(s) == totalTime.end()) {
     totalTime[s] = 0;
     nCalls[s] = 0;
     callOrders.push_back(s);
-  } else { 
+  } else {
     nCalls[s] += 1;
     totalTime[s] += interval;
   }
@@ -172,16 +148,16 @@ TimeReporter::TriggerSubEvent(TString s)
   subsw->Start();
 }
 
-void 
+void
 TimeReporter::Summary()
 {
   if (!on)
     return;
   for (TString s : callOrders) {
-    PDebug(name,
+    logger.debug(name,
         TString::Format("Task %20s called %5u times, average time = %6.3f us, total time = %.3f ms",
           s.Data(), nCalls[s], totalTime[s]/nCalls[s]*1000, totalTime[s]));
   }
-  PDebug(name,
-      TString::Format("TOTAL TIME = %.3ld s", static_cast<long>(gSystem->Now()) - globalStart));
+  logger.debug(name,
+      TString::Format("TOTAL TIME = %.3f s", (static_cast<long>(gSystem->Now()) - globalStart) * 0.001));
 }

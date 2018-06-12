@@ -4,7 +4,7 @@ import ROOT as root
 import numpy as np
 from array import array
 from PandaCore.Tools.Misc import *
-from PandaCore.Tools.Load import Load
+from PandaCore.Utils.load import Load
 from PandaCore.Tools.root_interface import read_files, draw_hist
 from os import getenv, system, path
 from pprint import pprint
@@ -176,11 +176,11 @@ class PlotUtility():
         self.__systematics.append(Systematic(name, up, down, color))
     def Draw(self):
         # override the thing that's bound in __init__
-        PError('plot_utility.PlotUtility.Draw', 'Not implemented!')
+        logger.error('plot_utility.PlotUtility.Draw', 'Not implemented!')
 
     #def __read(self, proc, f):
     def __read(self, variables, proc, f):
-        PInfo('PlotUtility.draw_all', 'Starting to read '+f)
+        logger.info('PlotUtility.draw_all', 'Starting to read '+f)
         # figure out the nominal weight and cut strings
         final_weight = '1'
         final_cut = self.cut
@@ -211,7 +211,7 @@ class PlotUtility():
                 weights.append(down_weight)
 
         xarr = proc.read(variables, weights, final_cut, files=[f])
-        PInfo('PlotUtility.draw_all', 'Finished reading '+f)
+        logger.info('PlotUtility.draw_all', 'Finished reading '+f)
         return {'xarr':xarr, 'weight_map':weight_map, 'f':f, 'proc':proc}
 
     def __draw(self, proc, weight_map, xarr):
@@ -335,7 +335,7 @@ class PlotUtility():
                     fyields.write('\n'.join(table))
 
                 for t in table:
-                    PInfo('plot_utility.PlotUtility.Dump', t)
+                    logger.info('plot_utility.PlotUtility.Dump', t)
 
             h_unscaled = {'data':None, 'mc':None} # used for chi2 calc
             for proc in self.__processes:
@@ -403,13 +403,19 @@ class PlotUtility():
                 p = h_unscaled['data'].Chi2Test(h_unscaled['mc'],'UW')
                 self.canvas.AddPlotLabel('P(#chi^{2}|NDoF)=%.3g'%(p),0.6,0.5,False,42,.04)
             self.canvas.Logy(False)
-            self.canvas.Draw(outdir, dist.filename)
+            if not outdir.endswith('/'):
+                outdir_ = '/'.join(outdir.split('/')[:-1])
+                base_ = outdir.split('/')[-1] 
+            else:
+                outdir_ = outdir 
+                base_ = ''
+            self.canvas.Draw(outdir_, base_+dist.filename)
             self.canvas.ClearLegend()
             if dist.calc_chi2:
                 p = h_unscaled['data'].Chi2Test(h_unscaled['mc'],'UW')
                 self.canvas.AddPlotLabel('P(#chi^{2}|NDoF)=%.3g'%(p),0.6,0.5,False,42,.04)
             self.canvas.Logy(True)
-            self.canvas.Draw(outdir, dist.filename+'_logy')
+            self.canvas.Draw(outdir_, base_+dist.filename+'_logy')
 
             self.canvas.Reset(False)
 

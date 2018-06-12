@@ -18,7 +18,7 @@ void DuplicateRemover::Merge(TTree *t1, TTree *t2, TString fOutPath)
     knownEvents.insert(knownEvent);
   } 
   if (verbose)
-    PInfo("DuplicateRemover::Merge",
+    logger.info("DuplicateRemover::Merge",
         TString::Format("\t%llu/%llu events from t1\n",
                         t1->GetEntries(),t1->GetEntries()));
 
@@ -40,13 +40,13 @@ void DuplicateRemover::Merge(TTree *t1, TTree *t2, TString fOutPath)
   TFile *fOut = new TFile(fOutPath.Data(),"RECREATE");
   TTree *tCopied = t2->CopyTree("1==1");
   if (verbose)
-    PInfo("DuplicateRemover::Merge",
+    logger.info("DuplicateRemover::Merge",
         TString::Format("\t%llu/%llu events from t2\n",
                         tCopied->GetEntries(),t2->GetEntries()));
   TList *col = new TList(); col->Add(t1);
   tCopied->Merge(col);
   if (verbose)
-    PInfo("DuplicateRemover::Merge",
+    logger.info("DuplicateRemover::Merge",
         TString::Format("\t%llu/%llu events merged\n",
                         tCopied->GetEntries(),
                         t1->GetEntries()+t2->GetEntries()));
@@ -58,9 +58,9 @@ void DuplicateRemover::Merge(TTree *t1, TTree *t2, TString fOutPath)
 
 void DuplicateRemover::Merge(TString f1Path, TString f2Path, TString fOutPath) 
 {
-  PInfo("DuplicateRemover::Merge",TString::Format("merging %s",f1Path.Data()));
-  PInfo("DuplicateRemover::Merge",TString::Format("      + %s",f2Path.Data()));
-  PInfo("DuplicateRemover::Merge",TString::Format("     => %s",fOutPath.Data()));
+  logger.info("DuplicateRemover::Merge",TString::Format("merging %s",f1Path.Data()));
+  logger.info("DuplicateRemover::Merge",TString::Format("      + %s",f2Path.Data()));
+  logger.info("DuplicateRemover::Merge",TString::Format("     => %s",fOutPath.Data()));
   verbose=true;
   TFile *f1 = new TFile(f1Path.Data());
   TFile *f2 = new TFile(f2Path.Data());

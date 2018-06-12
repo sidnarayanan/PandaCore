@@ -243,6 +243,9 @@ processes =    {
         'ttHTobb_M125_13TeV_powheg_pythia8':('ttHbb','MC',0.506*0.5824),
         'GluGluHToBB_M125_13TeV_powheg_pythia8':('ggHbb','MC',48.48*0.5824),
         'VBFHToBB_M125_13TeV_amcatnlo_pythia8':('VBFHbb','MC',3.782*0.5824),
+        'WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8':('WmQQHbb','MC',0.100 / (1-0.68) * 0.68),
+        'WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8':('WpQQHbb','MC',0.159 / (1-0.68) * 0.68),
+        'ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8':('ZQQHbb_mH125','MC',0.04865 * 20.767 / 3), 
         
         # B enriched V+jets samples
         'DYBJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('ZJets_bQuarks_incl','MC',71.77),

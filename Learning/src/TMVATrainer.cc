@@ -72,7 +72,7 @@ void TMVATrainer::BookBDT(TString opt) {
     opt = "!H:!V:NTrees=850:MinNodeSize=2.5%:MaxDepth=5:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=10";
   }
 
-  PInfo("TMVATrainer::BookBDT",TString::Format("using options %s",opt.Data()));
+  logger.info("TMVATrainer::BookBDT",TString::Format("using options %s",opt.Data()));
 #if ROOT_VERSION_CODE >= ROOT_VERSION(6,8,0)
   factory->BookMethod(dataloader,TMVA::Types::kBDT,"BDT",opt);
 #else
@@ -85,7 +85,7 @@ void TMVATrainer::BookCuts(TString opt) {
     opt = "!H:!V:EffMethod=EffSel:FitMethod=GA";
   }
 
-  PInfo("TMVATrainer::BookCuts",TString::Format("using options %s",opt.Data()));
+  logger.info("TMVATrainer::BookCuts",TString::Format("using options %s",opt.Data()));
 #if ROOT_VERSION_CODE >= ROOT_VERSION(6,8,0)
   factory->BookMethod(dataloader,TMVA::Types::kCuts,"Cuts",opt);
 #else

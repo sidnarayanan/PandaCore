@@ -3,10 +3,22 @@ from re import sub
 import cPickle as pickle
 import time
 from os import getenv,getuid,system,path,environ
-from Misc import PInfo,PDebug,PWarning,PError
 from collections import namedtuple
-from sys import exit 
+from sys import exit
+from PandaCore.Utils.logging import logger 
 # module *must* remain independent of htcondor to run on T2
+
+if int(environ.get('SUBMIT_TEXTLOCK', 1)):
+    textlock = True 
+else:
+    textlock = False
+    report_server = environ.get('SUBMIT_REPORT', None)
+    if not report_server:
+        textlock = True
+        logger.warning('job_management', 'SUBMIT_TEXTLOCK=0, but SUBMIT_REPORT not provided. Falling back.')
+    else:
+        if not report_server.startswith('http://'):
+            report_server = 'http://' + report_server 
 
 #############################################################
 # DataSample and associated functions
@@ -65,7 +77,7 @@ def read_sample_config(fpath,as_dict=True):
             state=FILE
     if state==FILE:
         samples.append(current_sample)
-    
+
     if as_dict:
         return { x.name:x for x in samples }
     else:
@@ -98,5 +110,3 @@ def convert_catalog(file_list,as_dict=True):
         return samples
     else:
         return [v for k,v in samples.iteritems()]
-
-

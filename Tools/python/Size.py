@@ -7,6 +7,7 @@ from array import array
 import ROOT as root
 from subprocess import call,check_output
 from Misc import *
+from PandaCore.Utils.logging import logger
 
 colorarray=array('i',[root.kGreen+2, root.kRed+2, root.kBlue, root.kMagenta+2, root.kOrange,
 		root.kGreen-7, root.kCyan, root.kRed-7, root.kBlue-7,root.kMagenta,
@@ -26,7 +27,7 @@ class SizeChecker:
 		self.pfiles.append(PandaFile(fpath,nickname))
 	def dump_info(self,makePlot=False,outdir=None):
 		for pfile in self.pfiles:
-			cmd = '''root -b -l	<<EOF 
+			cmd = '''root -b -l	<<EOF
 			 gSystem->Load("libPandaProdObjects.so");
 			 TFile *f = TFile::Open("%s");
 			 f->cd("PandaNtupler");
@@ -43,7 +44,7 @@ class SizeChecker:
 				if '.........' in line : continue
 				line = line.replace('*','')
 				if line=='': continue
-#				PDebug('PandaCore.Tools.Size.SizeChecker',line)
+#				logger.debug('PandaCore.Tools.Size.SizeChecker',line)
 				header = line.split(':')[0]
 				if 'Branch' in header or 'BranchElement' in line:
 					# composite branch, skip
@@ -111,7 +112,7 @@ class SizeChecker:
 				pie.SetTitle(pfile.nickname)
 				pie.SetCircle(0.5,.45,0.3)
 				pie.Draw('rsc')
-				
+
 				c.cd(2)
 				txt = root.TLatex()
 				txt.SetNDC()
@@ -129,4 +130,3 @@ class SizeChecker:
 						txt.DrawLatex(0.15,0.01+iL*0.05,output_lines[iL].strip())
 				for ext in ['png','pdf']:
 					c.SaveAs(outdir+'/'+pfile.nickname+'.'+ext)
-

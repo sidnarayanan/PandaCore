@@ -1,7 +1,7 @@
 #ifndef PANDACORE_TOOLS_JERReader
 #define PANDACORE_TOOLS_JERReader
 
-#include "Common.h"
+#include "PandaCore/Tools/interface/Common.h"
 #include "TString.h"
 #include "TF1.h"
 #include "TRandom3.h"

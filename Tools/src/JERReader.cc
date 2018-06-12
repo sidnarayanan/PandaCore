@@ -84,14 +84,14 @@ JERReader::JERReader(TString sfPath, TString resPath)
 void JERReader::getStochasticSmear(double pt, double eta, double rho, 
 																	 double &smear, double &smearUp, double &smearDown) 
 {
-	//PDebug("JERReader::getStochasticSmear",
+	//logger.debug("JERReader::getStochasticSmear",
 	//		TString::Format("pT=%f, eta=%f, rho=%f",pt,eta,rho));
 	// first determine the scale factor
 	unsigned idxSFEta = bins_sfEta->bin(eta);
 	float sf_val = sf_central.at(idxSFEta);
 	float sf_valUp = sf_up.at(idxSFEta);
 	float sf_valDown = sf_down.at(idxSFEta);
-	//PDebug("JERReader::getStochasticSmear",
+	//logger.debug("JERReader::getStochasticSmear",
 	//		TString::Format("sf=%f, sfUp=%f, sfDown=%f",sf_val,sf_valUp,sf_valDown));
 
 	// now get the resolution parameters
@@ -102,20 +102,20 @@ void JERReader::getStochasticSmear(double pt, double eta, double rho,
 	fres.SetParameter(1,res_param1[idxRes]);
 	fres.SetParameter(2,res_param2[idxRes]);
 	fres.SetParameter(3,res_param3[idxRes]);
-	//PDebug("JERReader::getStochasticSmear",
+	//logger.debug("JERReader::getStochasticSmear",
 	//		TString::Format("%u=%u+%i*%u",idxRes,idxResRho,n_resRho,idxResEta));
-	//PDebug("JERReader::getStochasticSmear",
+	//logger.debug("JERReader::getStochasticSmear",
 	//		TString::Format("p0=%f, p1=%f, p2=%f",res_param0[idxRes],res_param1[idxRes],res_param2[idxRes]));
 
 	float pt_bound = bound(pt,res_ptLo[idxRes],res_ptHi[idxRes]);
 	float sigma_res = fres.Eval(pt_bound);
-	//PDebug("JERReader::getStochasticSmear",
+	//logger.debug("JERReader::getStochasticSmear",
 	//		TString::Format("sigma(%f) = %f",pt_bound,sigma_res));
 
 	double sf_scale = TMath::Sqrt( TMath::Max( pow(sf_val,2)-1 , (double)0. ) );
 	double sf_scaleUp = TMath::Sqrt( TMath::Max( pow(sf_valUp,2)-1 , (double)0. ) );
 	double sf_scaleDown = TMath::Sqrt( TMath::Max( pow(sf_valDown,2)-1 , (double)0. ) );
-	//PDebug("JERReader::getStochasticSmear",
+	//logger.debug("JERReader::getStochasticSmear",
 	//		TString::Format("scale=%f, scaleUp=%f, scaleDown=%f",sf_scale,sf_scaleUp,sf_scaleDown));
 
 	float toy = rng.Gaus(0,sigma_res);
@@ -124,7 +124,7 @@ void JERReader::getStochasticSmear(double pt, double eta, double rho,
 	smearUp = 1 + toy*sf_scaleUp; 
 	smearDown = 1 + toy*sf_scaleDown; 
 
-	//PDebug("JERReader::getStochasticSmear",
+	//logger.debug("JERReader::getStochasticSmear",
 	//		TString::Format("smear=%f, smearUp=%f, smearDown=%f",smear,smearUp,smearDown));
 	return;
 }
