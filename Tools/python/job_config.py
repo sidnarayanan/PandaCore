@@ -6,6 +6,7 @@ from os import getenv,getuid,system,path,environ
 from collections import namedtuple
 from sys import exit
 from PandaCore.Utils.logging import logger 
+from hashlib import md5 
 # module *must* remain independent of htcondor to run on T2
 
 if int(environ.get('SUBMIT_TEXTLOCK', 1)):
@@ -19,6 +20,11 @@ else:
     else:
         if not report_server.startswith('http://'):
             report_server = 'http://' + report_server 
+
+
+def md5hash(x):
+    return md5(x).hexdigest()
+
 
 #############################################################
 # DataSample and associated functions
