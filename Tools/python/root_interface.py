@@ -83,7 +83,7 @@ def draw_hist(hist, xarr, fields, weight = None):
     if len(fields) == 1:
         return rnp.fill_hist(hist = hist, array = xarr[fields[0]].flatten(), weights = warr)
     else:
-        varr = np.array([xarr[f] for f in fields])
+        varr = np.array([xarr[f].flatten() for f in fields])
         varr = varr.transpose()
         return rnp.fill_hist(hist = hist, array = varr, weights = warr)
 

@@ -10,19 +10,26 @@ void DuplicateRemover::Merge(TTree *t1, TTree *t2, TString fOutPath)
 
   std::unordered_set<EventObj>knownEvents;
 
+  TFile *fOut = new TFile(fOutPath.Data(),"RECREATE");
   unsigned int nEntries = t1->GetEntries();
+  TEntryList *mask1 = new TEntryList(t1);
   for (unsigned int iE=0; iE!=nEntries; ++iE) {
     t1->GetEntry(iE);
     EventObj knownEvent;
     knownEvent.run = run; knownEvent.lumi = lumi; knownEvent.evt = event;
-    knownEvents.insert(knownEvent);
+    if (knownEvents.find(knownEvent)==knownEvents.end()) {
+      knownEvents.insert(knownEvent);
+      mask1->Enter(iE,t1); 
+    }
   } 
+  t1->SetEntryList(mask1);
+  TTree *t1Copied = t1->CopyTree("1==1"); 
   if (verbose)
     logger.info("DuplicateRemover::Merge",
-        TString::Format("\t%llu/%llu events from t1\n",
-                        t1->GetEntries(),t1->GetEntries()));
+        TString::Format("\t%llu/%llu events from t1",
+                        t1Copied->GetEntries(),t1->GetEntries()));
 
-  TEntryList *mask = new TEntryList(t2);
+  TEntryList *mask2 = new TEntryList(t2);
   t2->SetBranchAddress(runName.Data(),&run);
   t2->SetBranchAddress(lumiName.Data(),&lumi);
   t2->SetBranchAddress(eventName.Data(),&event);
@@ -32,28 +39,25 @@ void DuplicateRemover::Merge(TTree *t1, TTree *t2, TString fOutPath)
     EventObj thisEvent;
     thisEvent.run = run; thisEvent.lumi = lumi; thisEvent.evt = event;
     if (knownEvents.find(thisEvent)==knownEvents.end()) {
-      mask->Enter(iE,t2);
+      mask2->Enter(iE,t2);
     }
   } 
-  t2->SetEntryList(mask);
+  t2->SetEntryList(mask2);
 
-  TFile *fOut = new TFile(fOutPath.Data(),"RECREATE");
-  TTree *tCopied = t2->CopyTree("1==1");
+  TTree *t2Copied = t2->CopyTree("1==1");
   if (verbose)
     logger.info("DuplicateRemover::Merge",
-        TString::Format("\t%llu/%llu events from t2\n",
-                        tCopied->GetEntries(),t2->GetEntries()));
-  TList *col = new TList(); col->Add(t1);
-  tCopied->Merge(col);
+        TString::Format("\t%llu/%llu events from t2",
+                        t2Copied->GetEntries(),t2->GetEntries()));
+  TList *col = new TList(); col->Add(t1Copied);
+  t2Copied->Merge(col);
   if (verbose)
     logger.info("DuplicateRemover::Merge",
-        TString::Format("\t%llu/%llu events merged\n",
-                        tCopied->GetEntries(),
+        TString::Format("\t%llu/%llu events merged",
+                        t2Copied->GetEntries(),
                         t1->GetEntries()+t2->GetEntries()));
-  fOut->WriteTObject(tCopied,treeName.Data());
+  fOut->WriteTObject(t2Copied,treeName.Data());
   fOut->Close();
-
-  mask->Delete();
 }
 
 void DuplicateRemover::Merge(TString f1Path, TString f2Path, TString fOutPath) 
