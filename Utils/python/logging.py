@@ -1,8 +1,7 @@
-from ROOT import gSystem
-gSystem.Load("libPandaCoreUtils.so")
-from ROOT import Logger
+from root import root 
+root.gSystem.Load("libPandaCoreUtils.so")
 
-logger = Logger()
+logger = root.Logger()
 
 # for backwards-compatibility
 def PInfo(*args):

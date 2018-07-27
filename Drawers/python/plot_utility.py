@@ -180,7 +180,7 @@ class PlotUtility():
 
     #def __read(self, proc, f):
     def __read(self, variables, proc, f):
-        logger.info('PlotUtility.draw_all', 'Starting to read '+f)
+        logger.info('PlotUtility.draw_all', 'Starting to read '+f.split('/')[-1])
         # figure out the nominal weight and cut strings
         final_weight = '1'
         final_cut = self.cut
@@ -211,7 +211,7 @@ class PlotUtility():
                 weights.append(down_weight)
 
         xarr = proc.read(variables, weights, final_cut, files=[f])
-        logger.info('PlotUtility.draw_all', 'Finished reading '+f)
+        logger.info('PlotUtility.draw_all', 'Finished reading '+f.split('/')[-1])
         return {'xarr':xarr, 'weight_map':weight_map, 'f':f, 'proc':proc}
 
     def __draw(self, proc, weight_map, xarr):

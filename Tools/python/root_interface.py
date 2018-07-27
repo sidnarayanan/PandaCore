@@ -137,5 +137,3 @@ class Selector(object):
         masked_data = self.data if mask is None else self.data[mask]
         draw_hist(h, masked_data, fields, weight)
         return h
-    # def __getitem__(self, arg):
-    #     return self.data[arg]

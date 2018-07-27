@@ -148,7 +148,7 @@ void BaseGraphDrawer<T>::Draw(TString outDir, TString baseName) {
 
     graph->Draw(drawOption);
 
-    if (legend) {
+    if (legend && labels[iG].Length()>0) {
       TString legOption("L");
       if (drawOption.Contains("3"))
         legOption = "F";

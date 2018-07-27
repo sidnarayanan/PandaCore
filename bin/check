@@ -1,25 +1,24 @@
 #!/usr/bin/env python
 
+from PandaCore.Tools.script import * 
 import PandaCore.Tools.job_management as jm
-from PandaCore.Utils.logging import logger
-import argparse
 from os import path,getenv,system
 from sys import exit,stdout
-import pickle
+import cPickle as pickle
 from time import time
 
-parser = argparse.ArgumentParser(description='simple condor resubmission')
-parser.add_argument('--resubmit_all',action='store_true')
-parser.add_argument('--resubmit_incomplete',action='store_true')
-parser.add_argument('--resubmit_failed',action='store_true')
-parser.add_argument('--kill',action='store_true')
-parser.add_argument('--cache',type=str,nargs='+')
-parser.add_argument('--exec',dest='executable',default=None)
-parser.add_argument('--njobs',type=int,default=None)
-parser.add_argument('--verbose',action='store_true')
-parser.add_argument('--verbose_failures',action='store_true')
-parser.add_argument('--silent',action='store_true')
-args = parser.parse_args()
+args = parse(('--resubmit_all',        STORE_TRUE),
+             ('--resubmit_incomplete', STORE_TRUE),
+             ('--resubmit_failed',     STORE_TRUE),
+             ('--kill',                STORE_TRUE),
+             ('--cache',               MANY),
+             ('--exec',                {'dest':'executable', 'default':None}),
+             ('--njobs',               {'type':int}),
+             ('--verbose',             STORE_TRUE),
+             ('--verbose_failures',    STORE_TRUE),
+             ('--silent',              STORE_TRUE))
+
+validate_env()
 
 jm.SILENT = not(args.silent)
 

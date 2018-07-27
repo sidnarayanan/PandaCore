@@ -58,14 +58,13 @@ libraries = [
            ),
 ]
 
-from ROOT import gROOT, gSystem, gInterpreter
-import ROOT as root
+from root import root
 from os import getenv
 from logging import *
 
 def load_lib(libpath):
     logger.info('PandaCore.Utils.load','Loading %s'%libpath)
-    gSystem.Load(libpath)
+    root.gSystem.Load(libpath)
 
 
 def Load(request):
