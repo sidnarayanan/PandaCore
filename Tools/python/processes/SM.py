@@ -72,7 +72,7 @@ processes =    {
         'W2JetsToLNu_LHEWpT_50-150_TuneCP5_13TeV-amcnloFXFX-pythia8':('W2JetsToLNu_WpT50to150_CP5','MC',1275),
         'W2JetsToLNu_LHEWpT_100-150_TuneCP5_13TeV-amcnloFXFX-pythia8':('W2JetsToLNu_WpT100to150_CP5','MC',303.7),
         'W2JetsToLNu_LHEWpT_150-250_TuneCP5_13TeV-amcnloFXFX-pythia8':('W2JetsToLNu_WpT150to250_CP5','MC',106.4),
-        'W2JetsToLNu_LHEWpT_250-400_TuneCP5_13TeV-amcnloFXFX-pythia8':('W2JetsToLNu_WpT250to400_CP5','MC',10.98),
+        'W2JetsToLNu_LHEWpT_250-400_TuneCP5_13TeV-amcnloFXFX-pythia8':('W2JetsToLNu_WpT250to400_CP5','MC',17.93),
         'W2JetsToLNu_LHEWpT_400-inf_TuneCP5_13TeV-amcnloFXFX-pythia8':('W2JetsToLNu_WpT400toinf_CP5','MC',3.19),
 
         # NLO Z->ll
@@ -160,20 +160,16 @@ processes =    {
         #'TT_TuneCUETP8M2T4_13TeV-powheg-isrup-pythia8':                     ('TTbar_PowhegISRUp','MC',831.76),
         #'TT_TuneCUETP8M2T4down_13TeV-powheg-pythia8':                       ('TTbar_PowhegTuneDown','MC',831.76),
         #'TT_TuneCUETP8M2T4up_13TeV-powheg-pythia8':                         ('TTbar_PowhegTuneUp','MC',831.76),
-        'TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8':('TTTo2L2Nu','MC',88.288),
+        'TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8':('TTTo2L2Nu','MC',88.667),
         'TTGJets_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8':('TTGJets_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8','MC',1.444*3.2),
         'TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8':('TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8','MC',0.2529),
         'TTZToQQ_TuneCUETP8M1_13TeV-amcatnlo-pythia8':('TTZToQQ_TuneCUETP8M1_13TeV-amcatnlo-pythia8','MC',0.5297),
         'TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8':('TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8','MC',0.2043),
         'TTWJetsToQQ_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8':('TTWJetsToQQ_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8','MC',0.4062),
         
-        'TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8':('TTTo2L2Nu_CP5','MC',88.288),
-        'TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8':('TTTo2L2Nu_CP5_PSweights','MC',88.288),
-        'TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8':('TTToSemiLeptonic_CP5','MC',1),
-        'TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8':('TTToSemiLeptonic_CP5_PSweights','MC',1),
-        'TTToHadronic_TuneCP5_13TeV-powheg-pythia8':('TTToHadronic_CP5','MC',1),
-        'TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8':('TTToHadronic_CP5_PSweights','MC',1),
-
+        'TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8':('TTTo2L2Nu_CP5','MC',88.667),
+        'TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8':('TTToSemiLeptonic_CP5','MC',365.80), #300.9 in MCM
+        'TTToHadronic_TuneCP5_13TeV-powheg-pythia8':('TTToHadronic_CP5','MC',377.29), #313.9 in MCM
 
         # exotic top
         'tZq_ll_4f_13TeV-amcatnlo-pythia8':('SingleTop_tZll','MC',0.0758),
@@ -197,6 +193,8 @@ processes =    {
         
         # fancy dibosons
         'WWTo2L2Nu_13TeV-powheg':('WWTo2L2Nu','MC',(118.7-3.974)*0.1086*0.1086*9), #12.178
+        'WWTo2L2Nu_NNPDF31_TuneCP5_PSweights_13TeV-powheg-pythia8':('WWTo2L2Nu_CP5','MC',(118.7-3.974)*0.1086*0.1086*9), #12.178
+        'WWTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8':('WWTo1L1Nu2Q_AMC','MC',40.58),
         'WWTo4Q_13TeV-powheg':('WWTo4Q','MC',51.723),
         'WWToLNuQQ_13TeV-powheg':('WWToLNuQQ','MC',49.997),
         'WZTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8':('WZTo1L1Nu2Q','MC',10.71),
@@ -234,8 +232,8 @@ processes =    {
         'ZH_HToBB_ZToLL_M125_13TeV_powheg_pythia8':('ZllHbb_mH125','MC',0.04865),
         'ggZH_HToBB_ZToNuNu_M125_13TeV_powheg_pythia8':('ggZvvHbb_mH125','MC',0.014366),
         'ggZH_HToBB_ZToLL_M125_13TeV_powheg_pythia8':('ggZllHbb_mH125','MC',0.007842),
-        'WminusH_HToBB_WToLNu_M125_13TeV_powheg_pythia8':('WmLNuHbb','MC',0.100),
-        'WplusH_HToBB_WToLNu_M125_13TeV_powheg_pythia8':('WpLNuHbb','MC',0.159),
+        'WminusH_HToBB_WToLNu_M125_13TeV_powheg_pythia8':('WmLNuHbb_mH125','MC',0.100),
+        'WplusH_HToBB_WToLNu_M125_13TeV_powheg_pythia8':('WpLNuHbb_mH125','MC',0.159),
         'WminusH_HToBB_WToLNu_M125_13TeV_powheg_herwigpp':('WmLNuHbb_herwigpp','MC',0.100),
         'WplusH_HToBB_WToLNu_M125_13TeV_powheg_herwigpp':('WpLNuHbb_herwigpp','MC',0.159),
         'WminusH_HToBB_WToLNu_M120_13TeV_powheg_pythia8':('WmLNuHbb_mH120','MC',0.100),
@@ -250,14 +248,14 @@ processes =    {
         'ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8':('ZQQHbb_mH125','MC',0.04865 * 20.767 / 3), 
         
         # B enriched V+jets samples
-        'DYBJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('ZJets_bQuarks','MC',71.77),
+        'DYBJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('ZJets_bQuarks_incl','MC',71.77),
         'DYBJetsToLL_M-50_Zpt-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('ZJets_bQuarks_pt100to200','MC',3.027),
         'DYBJetsToLL_M-50_Zpt-200toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('ZJets_bQuarks_pt200toinf','MC',0.297),
         'WBJetsToLNu_Wpt-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('WJets_bQuarks_pt100to200','MC',6.004),
         'WBJetsToLNu_Wpt-200toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('WJets_bQuarks_pt200toinf','MC',0.8524),
         'ZBJetsToNuNu_Zpt-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('ZtoNuNu_bQuarks_pt100to200','MC',6.03),
         'ZBJetsToNuNu_Zpt-200toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('ZtoNuNu_bQuarks_pt200toinf','MC',0.5946),
-        'DYJetsToLL_BGenFilter_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('ZJets_bHadrons','MC',229.7),
+        'DYJetsToLL_BGenFilter_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('ZJets_bHadrons_incl','MC',229.7),
         'DYJetsToLL_BGenFilter_Zpt-100to200_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('ZJets_bHadrons_pt100to200','MC',3.506),
         'DYJetsToLL_BGenFilter_Zpt-200toInf_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('ZJets_bHadrons_pt200toinf','MC',0.5083),
         'WJetsToLNu_BGenFilter_Wpt-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('WJets_bHadrons_pt100to200','MC',26.1),

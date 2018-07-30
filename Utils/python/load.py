@@ -24,6 +24,7 @@ libraries = [
                                                     'Cutter',
                                                     'BranchAdder',
                                                     'EventSyncher',
+                                                    'splitPandaExpress'
                                                   ]
            ),
     Library(name='PandaCoreLearning',   objects = [ 'TMVATrainer',

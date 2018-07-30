@@ -6,6 +6,7 @@
 #include "PandaCore/Tools/interface/Cutter.h"
 #include "PandaCore/Tools/interface/BranchAdder.h"
 #include "PandaCore/Tools/interface/EventSyncher.h"
+#include "PandaCore/Tools/interface/splitPandaExpress.h"
 
 #ifdef __CLING__
 #pragma link off all globals;
@@ -24,6 +25,7 @@
 #pragma link C++ class EventSyncher;
 #pragma link C++ class BranchAdder;
 #pragma link C++ class FormulaBranchAdder;
+#pragma link C++ class HBranchAdder;
 #pragma link C++ class H1BranchAdder;
 #pragma link C++ class H2BranchAdder;
 #pragma link C++ class ProgressReporter;
@@ -41,5 +43,6 @@
 #pragma link C++ function DeltaR2;
 #pragma link C++ function ExpErf;
 #pragma link C++ function insertion_sort;
+#pragma link C++ function splitPandaExpress;
 
 #endif 
