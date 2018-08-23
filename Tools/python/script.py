@@ -1,6 +1,7 @@
 import sys 
-from os import environ 
+from os import environ, getenv 
 from argparse import ArgumentParser
+from array import array 
 
 parser = ArgumentParser()
 STORE_TRUE = {'action':'store_true'}
@@ -26,3 +27,6 @@ def validate_env(v=_env_vars):
     if len(missing) > 0:
         logger.error('validate_env', 'missing: %s'%(repr(missing)))
         raise RuntimeError('')
+
+flatdir = getenv('PANDA_FLATDIR')
+cmssw_base = getenv('CMSSW_BASE')

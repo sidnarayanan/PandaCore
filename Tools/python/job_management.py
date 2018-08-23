@@ -3,6 +3,7 @@ import time
 from re import sub
 from sys import exit
 import cPickle as pickle
+from numpy.random import shuffle
 from condor import classad,htcondor
 from PandaCore.Utils.logging import logger 
 from os import getenv,getuid,system,path,environ
@@ -225,14 +226,15 @@ class _BaseSubmission(object):
 
     def kill(self, idle_only=False):
         if not self.cluster_id:
-            logger.error(self.__class__.__name__+".query_status",
+            logger.error(self.__class__.__name__+".kill",
                    "This submission has not been executed yet (ClusterId not set)")
             raise RuntimeError
         if idle_only:
             proc_ids = self.query_status(return_ids=True)['idle']
         else:
             proc_ids = self.proc_ids
-        N = self.schedd.act(htcondor.JobAction.Remove, ["%s.%s"%(self.cluster_id, p) for p in proc_ids])['TotalSuccess']
+        N = self.schedd.act(htcondor.JobAction.Remove, 
+                            ["%s.%s"%(self.cluster_id, p) for p in proc_ids])['TotalSuccess']
         if N:
             logger.info(self.__class__.__name__+'.kill',
                   'Killed %i jobs in ClusterId=%i'%(N,self.cluster_id))
@@ -414,7 +416,7 @@ class Submission(_BaseSubmission):
         self.configpath = sample_configpath
 
 
-    def execute(self,njobs=None):
+    def execute(self,njobs=None,randomize=False):
         logdir = getenv('SUBMIT_LOGDIR')
         workdir = getenv('SUBMIT_WORKDIR')
         repl = {
@@ -454,7 +456,10 @@ class Submission(_BaseSubmission):
         }
         proc_id=0
         procs = []
-        for name in sorted(self.arguments):
+        order = sorted(self.arguments)
+        if randomize:
+            shuffle(order)
+        for name in order:
             sample = self.arguments[name]
             repl['PROCID'] = '%i'%sample.get_id()
             proc_ad = classad.ClassAd()
@@ -476,6 +481,6 @@ class Submission(_BaseSubmission):
             myinfo('Submission.execute','Spooling inputs...')
             self.schedd.spool(results)
         self.proc_ids = {}
-        for result,name in zip(results,sorted(self.arguments)):
+        for result,name in zip(results,order):
             self.proc_ids[int(result['ProcId'])] = name
         myinfo('Submission.execute','Submitted %i to cluster %i'%(self.sub_id, self.cluster_id))

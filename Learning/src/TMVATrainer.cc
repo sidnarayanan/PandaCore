@@ -12,8 +12,8 @@ TMVATrainer::TMVATrainer(TString name, TString workdir_):
   factory = new TMVA::Factory(name.Data(), outfile,
       //"!V:!Silent:Color:DrawProgressBar:Transformations=I:AnalysisType=Classification");
       "!V:!Silent:Color:DrawProgressBar:Transformations=I;D;P;G,D:AnalysisType=Classification");
-  dataloader->AddSpectator("eventNumber",'l');
-  dataloader->AddSpectator("runNumber",'I');
+//  dataloader->AddSpectator("eventNumber",'l');
+//  dataloader->AddSpectator("runNumber",'I');
 }
 
 TMVATrainer::~TMVATrainer() {
