@@ -21,6 +21,7 @@ args = parse(('--resubmit_all',        STORE_TRUE),
 validate_env()
 
 jm.SILENT = not(args.silent)
+jm.setup_schedd('T3:SL6')
 
 if args.cache is None and args.executable is not None:
     args.cache = ['/data/t3serv014/{0}/submit/{1}/'.format(getenv('USER'),

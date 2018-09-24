@@ -246,7 +246,7 @@ class PlotUtility():
         if not path.isdir(outdir):
             system('mkdir -p %s'%outdir)
         f_out = root.TFile(outdir+'hists.root', 'UPDATE')
-        if f_out.IsZombie():
+        if f_out.IsZombie() or (f_out.GetListOfKeys().GetEntries() == 0):
             f_out.Close()
             f_out = root.TFile(outdir+'hists.root', 'RECREATE')
         f_buffer_path = '/tmp/%s/buffer_%i.root'%(getenv('USER'), root.gSystem.GetPid())

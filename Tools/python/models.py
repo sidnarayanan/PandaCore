@@ -13,7 +13,7 @@ def read_nr_model(mV,mDM,couplings=None,path='non-resonant'):
     try:
         fdat = open(tmpl%(mV,mDM))
     except IOError:
-        logger.error('PandaCore.Tools.Misc.read_nr_model','Could not open %s'%(tmpl%(mV,mDM)))
+        logger.error('PandaCore.Tools.models.read_nr_model','Could not open %s'%(tmpl%(mV,mDM)))
         return None
     for line in fdat:
         if 'med dm' in line:
@@ -35,7 +35,7 @@ def read_r_model(mV,mDM=100,couplings='nominal'):
     try:
         fdat = open(tmpl%(mV,mDM))
     except IOError:
-        logger.error('PandaCore.Tools.Misc.read_nr_model','Could not open %s'%(tmpl%(mV,mDM)))
+        logger.error('PandaCore.Tools.models.read_nr_model','Could not open %s'%(tmpl%(mV,mDM)))
         return None
     for line in fdat:
         line_coupling,sigma = line.split(':')

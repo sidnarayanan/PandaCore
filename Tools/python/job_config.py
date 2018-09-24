@@ -9,14 +9,14 @@ from PandaCore.Utils.logging import logger
 from hashlib import md5 
 # module *must* remain independent of htcondor to run on T2
 
-if int(environ.get('SUBMIT_TEXTLOCK', 1)):
+if int(environ.get('SUBMIT_TEXTLOCK', 0)):
     textlock = True 
 else:
     textlock = False
     report_server = environ.get('SUBMIT_REPORT', None)
     if not report_server:
         textlock = True
-        logger.warning('job_management', 'SUBMIT_TEXTLOCK=0, but SUBMIT_REPORT not provided. Falling back.')
+        logger.warning('job_management', 'SUBMIT_TEXTLOCK=0 or undef, but SUBMIT_REPORT not provided. Falling back.')
     else:
         if not report_server.startswith('http://'):
             report_server = 'http://' + report_server 

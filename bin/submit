@@ -27,7 +27,7 @@ system('rm -rf %s/*'%(args.cache))
 if path.isfile(args.executable):
     args.executable = path.abspath(args.executable)
 
-jm.setup_schedd('T3') # these types of jobs can only run locally
+jm.setup_schedd('T3:SL6') # these types of jobs can only run locally
 
 job_arguments = []
 if args.arglist:

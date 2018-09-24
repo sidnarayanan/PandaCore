@@ -24,17 +24,17 @@ def myinfo(*args, **kwargs):
 
 ### global configuration ###
 job_status = {
-           1:'idle',
-           2:'running',
-           3:'removed',
-           4:'completed',
-           5:'held',
-           6:'transferring output',
-           7:'suspended',
-
-           -1:'T3', # user-defined
-           -2:'T2', # user-defined
-        }
+    1:'idle',
+    2:'running',
+    3:'removed',
+    4:'completed',
+    5:'held',
+    6:'transferring output',
+    7:'suspended',
+    
+    -1:'T3', # user-defined
+    -2:'T2', # user-defined
+}
 job_status_rev = {v:k for k,v in job_status.iteritems()}
 
 def environ_to_condor():
@@ -64,15 +64,18 @@ def issue_proxy():
 
 ### predefined schedd options ###
 def setup_schedd(config='T3'):
+    config = config.split(':') if config else []
     global pool_server, schedd_server, base_job_properties, should_spool
-    if config=='T3' or config is None:
+    os = '&& OpSysAndVer == "SL6"' if 'SL6' in config else ''
+    if 'T3' in config:
         base_job_properties = {
             "Iwd" : "WORKDIR",
             "Cmd" : "WORKDIR/exec.sh",
             "WhenToTransferOutput" : "ON_EXIT",
             "ShouldTransferFiles" : "YES",
             "Requirements" :
-                classad.ExprTree('UidDomain == "mit.edu" && Arch == "X86_64" && OpSysAndVer == "SL6"'),
+                classad.ExprTree('UidDomain == "mit.edu" && Arch == "X86_64" %s'%os),
+            "REQUIRED_OS" : "rhel6",
             "AcctGroup" : acct_grp_t3,
             "AccountingGroup" : '%s.USER'%(acct_grp_t3),
             "X509UserProxy" : "/tmp/x509up_uUID",
@@ -85,17 +88,18 @@ def setup_schedd(config='T3'):
         schedd_server = getenv('HOSTNAME')
         should_spool = False
         query_owner = getenv('USER')
-    elif config=='T2':
+    elif 'T2' in config:
         base_job_properties = {
             "Iwd" : "WORKDIR",
             "Cmd" : "WORKDIR/exec.sh",
             "WhenToTransferOutput" : "ON_EXIT",
             "ShouldTransferFiles" : "YES",
             "Requirements" :
-                classad.ExprTree('(Arch == "X86_64" && OpSysAndVer == "SL6") && \
+                classad.ExprTree('(Arch == "X86_64" %s) && \
 ((GLIDEIN_Site =!= "MIT_CampusFactory") || (GLIDEIN_Site == "MIT_CampusFactory" && \
-BOSCOCluster == "ce03.cmsaf.mit.edu" && BOSCOGroup == "bosco_cms" && HAS_CVMFS_cms_cern_ch))'),
+BOSCOCluster == "ce03.cmsaf.mit.edu" && BOSCOGroup == "bosco_cms" && HAS_CVMFS_cms_cern_ch))'%os),
                 #classad.ExprTree('UidDomain == "cmsaf.mit.edu" && Arch == "X86_64" && OpSysAndVer == "SL6"'),
+            "REQUIRED_OS" : "rhel6",
             "AcctGroup" : 'group_cmsuser.USER',
             "AccountingGroup" : 'group_cmsuser.USER',
             "X509UserProxy" : "/tmp/x509up_uUID",
@@ -108,7 +112,7 @@ BOSCOCluster == "ce03.cmsaf.mit.edu" && BOSCOGroup == "bosco_cms" && HAS_CVMFS_c
         schedd_server = getenv('HOSTNAME')
         should_spool = False
         query_owner = getenv('USER')
-    elif config=='SubMIT':
+    elif 'SubMIT' in config:
         base_job_properties = {
             "Iwd" : "WORKDIR",
             "Cmd" : "WORKDIR/exec.sh",
@@ -117,22 +121,6 @@ BOSCOCluster == "ce03.cmsaf.mit.edu" && BOSCOGroup == "bosco_cms" && HAS_CVMFS_c
             "Requirements" : classad.ExprTree(
                  'Arch == "X86_64" && TARGET.OpSys == "LINUX" && TARGET.HasFileTransfer && ( isUndefined(IS_GLIDEIN) || ( OSGVO_OS_STRING == "RHEL 6" && HAS_CVMFS_cms_cern_ch == true ) || GLIDEIN_REQUIRED_OS == "rhel6" || HAS_SINGULARITY == true || ( Has_CVMFS_cms_cern_ch == true && ( BOSCOGroup == "bosco_cms" ) ) ) && %s'%(submit_exclude)
             ),
-#            "Requirements" :
-#                classad.ExprTree('Arch == "X86_64" && ( isUndefined(IS_GLIDEIN) || ( OSGVO_OS_STRING == "RHEL 6" && \
-#HAS_CVMFS_cms_cern_ch == True ) || GLIDEIN_REQUIRED_OS == "rhel6" || ( Has_CVMFS_cms_cern_ch == True && \
-#(BOSCOGroup == "bosco_cms" || BOSCOGroup == "paus") ) ) && (isUndefined(GLIDEIN_Entry_Name) || \
-#!stringListMember(GLIDEIN_Entry_Name, "CMS_T2_US_Nebraska_Red,CMS_T2_US_Nebraska_Red_op,CMS_T2_US_Nebraska_Red_gw1,\
-#CMS_T2_US_Nebraska_Red_gw1_op,CMS_T2_US_Nebraska_Red_gw2,CMS_T2_US_Nebraska_Red_gw2_op,CMS_T3_MX_Cinvestav_proton_work,\
-#CMS_T3_US_Omaha_tusker,CMSHTPC_T1_FR_CCIN2P3_cccreamceli01_multicore,CMSHTPC_T1_FR_CCIN2P3_cccreamceli02_multicore,\
-#CMSHTPC_T1_FR_CCIN2P3_cccreamceli03_multicore,CMSHTPC_T1_FR_CCIN2P3_cccreamceli04_multicore,\
-#CMSHTPC_T2_FR_CCIN2P3_cccreamceli01_multicore,CMSHTPC_T2_FR_CCIN2P3_cccreamceli02_multicore,\
-#CMSHTPC_T2_FR_CCIN2P3_cccreamceli03_multicore,CMSHTPC_T3_US_Omaha_tusker,Engage_US_MWT2_iut2_condce,\
-#Engage_US_MWT2_iut2_condce_mcore,Engage_US_MWT2_osg_condce,Engage_US_MWT2_osg_condce_mcore,Engage_US_MWT2_uct2_condce,\
-#Engage_US_MWT2_uct2_condce_mcore,Glow_US_Syracuse_condor,Glow_US_Syracuse_condor-ce01,Gluex_US_NUMEP_grid1,HCC_US_BNL_gk01,\
-#HCC_US_BNL_gk02,HCC_US_BU_atlas-net2,HCC_US_BU_atlas-net2_long,HCC_US_SWT2_gk01,IceCube_US_Wisconsin_osg-ce,\
-#OSG_US_Clemson-Palmetto_condce,OSG_US_Clemson-Palmetto_condce_mcore,OSG_US_FIU_HPCOSGCE,OSG_US_Hyak_osg,OSG_US_IIT_iitgrid_rhel6,\
-#OSG_US_MWT2_mwt2_condce,OSG_US_MWT2_mwt2_condce_mcore,OSG_US_UConn_gluskap,OSG_US_SMU_mfosgce", ",")) && (isUndefined(GLIDEIN_Site)\
-#|| !stringListMember(GLIDEIN_Site, "HOSTED_BOSCO_CE", ","))'),
             "AcctGroup" : "analysis",
             "AccountingGroup" : "analysis.USER",
             "X509UserProxy" : "/tmp/x509up_u2268",
@@ -144,8 +132,6 @@ BOSCOCluster == "ce03.cmsaf.mit.edu" && BOSCOGroup == "bosco_cms" && HAS_CVMFS_c
             'SubMITOwner' : 'USER',
             "REQUIRED_OS" : "rhel6",
             "DESIRED_OS" : "rhel6",
- #           "+REQUIRED_OS" : "rhel6",
- #           "+DESIRED_OS" : "rhel6",
             "RequestDisk" : 3000000,
             "SingularityImage" : "/cvmfs/singularity.opensciencegrid.org/bbockelm/cms:rhel6",
         }
@@ -155,7 +141,7 @@ BOSCOCluster == "ce03.cmsaf.mit.edu" && BOSCOGroup == "bosco_cms" && HAS_CVMFS_c
         query_owner = getenv('USER')
         should_spool = False
     else:
-        logger.error('job_management.setup_schedd','Unknown config %s'%config)
+        logger.error('job_management.setup_schedd','Unknown config "%s"'%(':'.join(config)))
         raise ValueError
 
 schedd_config = getenv('SUBMIT_CONFIG')
@@ -299,8 +285,8 @@ class SimpleSubmission(_BaseSubmission):
             self.arglist = cache_dir+'/workdir/args.list'
     def execute(self,njobs=None):
         self.submission_time = time.time()
-        runner = '''
-#!/bin/bash
+        runner = '''#!/bin/bash
+OLDPATH=$PATH
 export USER=$SUBMIT_USER
 env
 hostname
@@ -309,6 +295,7 @@ cd {0}
 eval `/cvmfs/cms.cern.ch/common/scramv1 runtime -sh`
 cd -
 jobwd=$PWD
+export PATH=${{PATH}}:${{OLDPATH}} # no idea why this is overwritten
 for i in $@; do
     arg=$(sed "${{i}}q;d" {3}) # get the ith line
     echo $arg
@@ -483,4 +470,4 @@ class Submission(_BaseSubmission):
         self.proc_ids = {}
         for result,name in zip(results,order):
             self.proc_ids[int(result['ProcId'])] = name
-        myinfo('Submission.execute','Submitted %i to cluster %i'%(self.sub_id, self.cluster_id))
+        myinfo('Submission.execute','Submission %i mapped to cluster %i'%(self.sub_id, self.cluster_id))
