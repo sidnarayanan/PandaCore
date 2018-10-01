@@ -111,11 +111,7 @@ processes =    {
     'ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8':('ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8','MC',35.6),
     'tZq_ll_4f_ckm_NLO_TuneCP5_PSweights_13TeV-amcatnlo-pythia8':('tZq_ll_4f_ckm_NLO_TuneCP5_PSweights_13TeV-amcatnlo-pythia8','MC',0.0736),
     'tZq_Zhad_Wlept_4f_ckm_NLO_TuneCP5_PSweights_13TeV-amcatnlo-pythia8':('tZq_Zhad_Wlept_4f_ckm_NLO_TuneCP5_PSweights_13TeV-amcatnlo-pythia8','MC',0.15),
-<<<<<<< HEAD
-    'TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8':('TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8','MC',831.76*0.1086*3*(1-0.1086*3)*2),
-=======
     'TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8':('TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8',831.76*0.1086*3*(1-0.1086*3)*2),
->>>>>>> sid/master
     
     'WWTo2L2Nu_NNPDF31_TuneCP5_PSweights_13TeV-powheg-pythia8':('WWTo2L2Nu_NNPDF31_TuneCP5_PSweights_13TeV-powheg-pythia8','MC',(118.7-3.974)*0.1086*0.1086*9),
     'WW_DoubleScattering_13TeV-pythia8_TuneCP5':('WW_DoubleScattering_13TeV-pythia8_TuneCP5','MC',2.02),
