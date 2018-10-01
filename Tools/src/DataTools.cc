@@ -29,9 +29,21 @@ EraHandler::EraHandler(int year)
       bins = new Binner(runBounds);
       break;
     }
+    case 2017:
+    {
+      runBounds = {297020,
+                   299337,
+                   302030,
+                   303435,
+                   304911,
+                   306462};
+      eraNames = {"B","C","D","E","F"};
+      bins = new Binner(runBounds);
+      break;
+    }
     default :
     {
-      PError("PandaCore::EraHandler",TString::Format("Year %i is not known",year));
+      logger.error("EraHandler",TString::Format("Year %i is not known",year));
     }
   }
 }
@@ -39,12 +51,12 @@ EraHandler::EraHandler(int year)
 TString EraHandler::getEra(int runNumber) 
 {
   if (runNumber<runBounds[0]) {
-    PError("PandaCore::EraHandler",
+    logger.error("EraHandler",
         TString::Format("Run number (%i) is less than first run (%i)",runNumber,(int)runBounds[0]));
     return "";
   }
   if (runNumber>runBounds.back()) {
-    PError("PandaCore::EraHandler",
+    logger.error("EraHandler",
         TString::Format("Run number (%i) is greater than last run (%i)",runNumber,(int)runBounds.back()));
     return "";
   }

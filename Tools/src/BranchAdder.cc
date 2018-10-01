@@ -8,7 +8,7 @@ void BranchAdder::doAddBranch(TTree *t)
 
   turnOnBranches(t, cut);
 
-  ProgressReporter pr("BranchAdder::doAddBranch", &iE, &nE, reportFreq);
+  ProgressReporter pr("BranchAdder", &iE, &nE, reportFreq);
 
   float newBranchVal{0};
 
@@ -94,7 +94,7 @@ void HBranchAdder<TH2D>::setH(const TH1* h_)
 {
   auto* h2_ = dynamic_cast<const TH2*>(h_);
   if (h2_ == nullptr) {
-    PError("H2BranchAdder::setH", "Histogram provided was not a TH2!");
+    logger.error("H2BranchAdder::setH", "Histogram provided was not a TH2!");
     exit(1);
   }
 

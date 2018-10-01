@@ -6,7 +6,7 @@
 #include "TBranch.h"
 #include "TString.h"
 #include "TTreeFormula.h"
-#include "Common.h"
+#include "PandaCore/Tools/interface/Common.h"
 #include "TreeTools.h"
 
 /**
@@ -22,8 +22,8 @@ public:
   BranchAdder() { }
   virtual ~BranchAdder() { }
 
-  virtual void addBranch(TString fpath) { 
-    TFile *f = TFile::Open(fpath);
+  virtual void addBranchToFile(TString fpath) { 
+    TFile *f = TFile::Open(fpath, "UPDATE");
     TTree *t = (TTree*)f->Get(treeName);
     addBranch(t);
     f->WriteTObject(t,treeName,"OVERWRITE");

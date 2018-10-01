@@ -3,16 +3,18 @@
 #include "TH2F.h"
 #include "TString.h"
 #include "TStopwatch.h"
+#include "TSystem.h"
 #include <vector>
 #include <unistd.h>
 #include "Functions.h"
+#include "PandaCore/Utils/interface/Logger.h"
 
 #ifndef COMMONUTILITIES_H
 #define COMMONUTILITIES_H
 
 #define PI 3.141592654
 
-/** \file Common.h
+/** \file PandaCore/Tools/interface/Common.h
  * \brief Common function header file
  * \author S. Narayanan
  *
@@ -22,53 +24,55 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 
+extern Logger logger;
+
 /**
  * \param v1  reference to vector that is lengthened
  * \param v2  vector to add to v1
  * \brief Function to concatenate two vectors
  */
-template <typename T> 
+template <typename T>
 void concat(std::vector<T> &v1, const std::vector<T> &v2);
 
-/**
- * \param t  input tree
- * \param bname  name of branch
- * \param address  address of branch
- * \brief Turns on a branch in a TTree and sets the address to a specified location
- */
-void activateBranch(TTree *t, const char *bname, void *address);
-
-/**
- * \param module  name of caller
- * \param module  msg message to be printed
- * \param newline  newline to use at end of message
- * \brief Prints to info stdout
- */
-void PInfo(const char *module, const char *msg, const char *newline="\n");
-
-/**
- * \param module  name of caller
- * \param module  msg message to be printed
- * \param newline  newline to use at end of message
- * \brief Prints debug to  stderr
- */
-void PDebug(const char *module, const char *msg, const char *newline="\n");
-
-/**
- * \param module  name of caller
- * \param module  msg message to be printed
- * \param newline  newline to use at end of message
- * \brief Prints warning to  stderr
- */
-void PWarning(const char *module, const char *msg, const char *newline="\n");
-
-/**
- * \param module  name of caller
- * \param module  msg message to be printed
- * \param newline  newline to use at end of message
- * \brief Prints error to  stderr
- */
-void PError(const char *module, const char *msg, const char *newline="\n");
+// /**
+//  * \param t  input tree
+//  * \param bname  name of branch
+//  * \param address  address of branch
+//  * \brief Turns on a branch in a TTree and sets the address to a specified location
+//  */
+// void activateBranch(TTree *t, const char *bname, void *address);
+//
+// /**
+//  * \param module  name of caller
+//  * \param module  msg message to be printed
+//  * \param newline  newline to use at end of message
+//  * \brief Prints to info stdout
+//  */
+// void logger.info(const char *module, const char *msg, const char *newline="\n");
+//
+// /**
+//  * \param module  name of caller
+//  * \param module  msg message to be printed
+//  * \param newline  newline to use at end of message
+//  * \brief Prints debug to  stderr
+//  */
+// void logger.debug(const char *module, const char *msg, const char *newline="\n");
+//
+// /**
+//  * \param module  name of caller
+//  * \param module  msg message to be printed
+//  * \param newline  newline to use at end of message
+//  * \brief Prints warning to  stderr
+//  */
+// void PWarning(const char *module, const char *msg, const char *newline="\n");
+//
+// /**
+//  * \param module  name of caller
+//  * \param module  msg message to be printed
+//  * \param newline  newline to use at end of message
+//  * \brief Prints error to  stderr
+//  */
+// void PError(const char *module, const char *msg, const char *newline="\n");
 
 /**
  * \param h  histogram to read
@@ -130,6 +134,7 @@ class ProgressReporter {
     unsigned int frequency; /**< how often to print */
     TString name; /**< name of this task */
     float threshold=0; /**< internal tracker of next threshold */
+    long globalStart; 
 };
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -157,7 +162,7 @@ class TimeReporter {
     /**
      * \brief Starts all stopwatches and resets counters
      */
-    void Start(); 
+    void Start();
     /**
      * \param s  name of event
      * \param reset  whether to reset the stopwatch for the next event
@@ -168,7 +173,7 @@ class TimeReporter {
      * \param s  name of sub-event
      * \brief Triggers a sub-level event
      */
-    void TriggerSubEvent(TString s); 
+    void TriggerSubEvent(TString s);
     /**
      * \brief Prints a summary of timing to screen
      */
@@ -182,6 +187,7 @@ class TimeReporter {
     std::vector<TString> callOrders; /**< order in which tasks are called */
     int currentEvent=0; /**< internal tracker of the index of the current event */
     int currentSubEvent=1; /**< internal tracker of the index of the sub-event */
+    long globalStart=0;
 };
 
 //////////////////////////////////////////////////////////////////////////////////

@@ -1,7 +1,7 @@
 #ifndef PANDACORE_TOOLS_EventSyncher
 #define PANDACORE_TOOLS_EventSyncher
 
-#include "Common.h"
+#include "PandaCore/Tools/interface/Common.h"
 #include <unordered_map>
 #include <string>
 #include <vector>

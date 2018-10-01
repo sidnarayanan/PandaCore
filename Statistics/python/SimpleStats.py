@@ -53,7 +53,7 @@ def calcUnbinnedKSFromMC(svars,mcTree,dataTree,mcCut,mcWeight,dataCut=None,retur
   if not returnPlot:
     return prob
   else:
-    PError("PandaCore.SimpleStats.calcUnbinnedKSFromMC","Returning plots is not implemented yet")
+    logger.error("PandaCore.SimpleStats.calcUnbinnedKSFromMC","Returning plots is not implemented yet")
     return prob
 
 def calcBinnedKS(svar,mcTree,dataTree,mcCut,mcWeight,dataCut=None,returnPlot=False):
@@ -73,5 +73,5 @@ def calcBinnedKS(svar,mcTree,dataTree,mcCut,mcWeight,dataCut=None,returnPlot=Fal
   if not returnPlot:
     return prob
   else:
-    PError("PandaCore.SimpleStats.calcBinnedKS","Returning plots is not implemented yet")
+    logger.error("PandaCore.SimpleStats.calcBinnedKS","Returning plots is not implemented yet")
     return prob

@@ -293,10 +293,10 @@ void PlotUtility::DrawAll(TString outDir) {
       std::ofstream fyields; fyields.open(outDir+"yields.txt");
 
       TString stable = TString::Format("%-25s | %15s \\pm %15s","Process","Yield","Error");
-      fyields << stable << std::endl;  PInfo("PlotUtility::Dump",stable);
+      fyields << stable << std::endl;  logger.info("PlotUtility::Dump",stable);
 
       stable = "=================================================================";
-      fyields << stable << std::endl;  PInfo("PlotUtility::Dump",stable);
+      fyields << stable << std::endl;  logger.info("PlotUtility::Dump",stable);
 
       for (unsigned int iP : order) {
         Process *p = processes[iP];
@@ -307,7 +307,7 @@ void PlotUtility::DrawAll(TString outDir) {
         integral = h->IntegralAndError(1,h->GetNbinsX(),error);
         TString syield = TString::Format("%-25s | %15f \\pm %15f",p->name.Data(),integral,error);
         fyields << syield.Data() << std::endl;
-        PInfo("PlotUtility::Dump",syield);
+        logger.info("PlotUtility::Dump",syield);
         if (p->processtype==kData) {
           dataTotal=integral; dataErr=error;
         } else if (p->processtype<=kSignal3) {
@@ -318,21 +318,21 @@ void PlotUtility::DrawAll(TString outDir) {
           bgErr += pow(error,2);
         }
       }
-      fyields << stable << std::endl;  PInfo("PlotUtility::Dump",stable);
+      fyields << stable << std::endl;  logger.info("PlotUtility::Dump",stable);
 
       sigErr = sqrt(sigErr);
       bgErr = sqrt(bgErr);
       
       TString syield = TString::Format("%-25s | %15f \\pm %15f","MC(bkg)",bgTotal,bgErr);
-      fyields << syield.Data() << std::endl;      PInfo("PlotUtility::Dump",syield);
+      fyields << syield.Data() << std::endl;      logger.info("PlotUtility::Dump",syield);
       syield = TString::Format("%-25s | %15f \\pm %15f","MC(sig)",sigTotal,sigErr);
-      fyields << syield.Data() << std::endl;      PInfo("PlotUtility::Dump",syield);
+      fyields << syield.Data() << std::endl;      logger.info("PlotUtility::Dump",syield);
       syield = TString::Format("%-25s | %15f \\pm %15f","Data",dataTotal,dataErr);
-      fyields << syield.Data() << std::endl;      PInfo("PlotUtility::Dump",syield);
-      fyields << stable << std::endl;             PInfo("PlotUtility::Dump",stable);
+      fyields << syield.Data() << std::endl;      logger.info("PlotUtility::Dump",syield);
+      fyields << stable << std::endl;             logger.info("PlotUtility::Dump",stable);
 
       syield = TString::Format("S/B=%.3f, S/sqrtB=%.3f",sigTotal/bgTotal,sigTotal/sqrt(bgTotal));
-      fyields << syield.Data() << std::endl; PInfo("PlotUtility::Dump",syield);
+      fyields << syield.Data() << std::endl; logger.info("PlotUtility::Dump",syield);
 
       fyields.close();
     } 

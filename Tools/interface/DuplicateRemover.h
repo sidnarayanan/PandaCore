@@ -7,7 +7,7 @@
 #include "TH1F.h"
 #include "TEntryList.h"
 #include "TList.h"
-#include "Common.h"
+#include "PandaCore/Tools/interface/Common.h"
 #include <unordered_set>
 
 /**

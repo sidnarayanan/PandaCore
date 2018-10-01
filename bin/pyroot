@@ -4,20 +4,24 @@ import readline
 import code
 import numpy as np
 from sys import argv, exit
-from PandaCore.Utils.logging import logger
-from argparse import ArgumentParser
+from PandaCore.Tools.Misc import logger
+from argparse import ArgumentParser 
 
-parser = ArgumentParser(description='numpy load')
+parser = ArgumentParser(description='pyroot load')
 parser.add_argument('--verbose', action='store_true')
 parser.add_argument('--python', action='store_true')
 parser.add_argument('files', type=str, nargs='+')
 args = parser.parse_args()
 
+argv = []
+import PandaCore.Tools.root_interface as ri 
+import ROOT as root
+
 data = {}
 for fpath in args.files:
-    data[fpath] = np.load(fpath)
+    data[fpath] = root.TFile.Open(fpath)
     if args.verbose:
-        logger.info('npy', fpath)
+        logger.info('pyroot', fpath)
 
 if len(data) == 1:
     d = data.values()[0]

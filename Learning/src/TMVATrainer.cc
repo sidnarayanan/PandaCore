@@ -12,8 +12,8 @@ TMVATrainer::TMVATrainer(TString name, TString workdir_):
   factory = new TMVA::Factory(name.Data(), outfile,
       //"!V:!Silent:Color:DrawProgressBar:Transformations=I:AnalysisType=Classification");
       "!V:!Silent:Color:DrawProgressBar:Transformations=I;D;P;G,D:AnalysisType=Classification");
-  dataloader->AddSpectator("eventNumber",'l');
-  dataloader->AddSpectator("runNumber",'I');
+//  dataloader->AddSpectator("eventNumber",'l');
+//  dataloader->AddSpectator("runNumber",'I');
 }
 
 TMVATrainer::~TMVATrainer() {
@@ -72,7 +72,7 @@ void TMVATrainer::BookBDT(TString opt) {
     opt = "!H:!V:NTrees=850:MinNodeSize=2.5%:MaxDepth=5:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=10";
   }
 
-  PInfo("TMVATrainer::BookBDT",TString::Format("using options %s",opt.Data()));
+  logger.info("TMVATrainer::BookBDT",TString::Format("using options %s",opt.Data()));
 #if ROOT_VERSION_CODE >= ROOT_VERSION(6,8,0)
   factory->BookMethod(dataloader,TMVA::Types::kBDT,"BDT",opt);
 #else
@@ -85,7 +85,7 @@ void TMVATrainer::BookCuts(TString opt) {
     opt = "!H:!V:EffMethod=EffSel:FitMethod=GA";
   }
 
-  PInfo("TMVATrainer::BookCuts",TString::Format("using options %s",opt.Data()));
+  logger.info("TMVATrainer::BookCuts",TString::Format("using options %s",opt.Data()));
 #if ROOT_VERSION_CODE >= ROOT_VERSION(6,8,0)
   factory->BookMethod(dataloader,TMVA::Types::kCuts,"Cuts",opt);
 #else

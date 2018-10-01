@@ -118,7 +118,7 @@ public:
   void SetTDRStyle(TString opt="default"); //!< Set some plotting options to be CMS-friendly
   void SetAutoRange(bool b) { doAutoRange=b; } //!< Automatically calculate ranges as plotting
   void SetRatioStyle(); //!< Some predefined options nice for drawing some ratio plots
-  void AddCMSLabel(double x=0.18, double y=0.85, TString subhead="Preliminary"); //!< Add a CMS label
+  void AddCMSLabel(double x=0.18, double y=0.85, TString subhead=""); //!< Add a CMS label
   void AddLumiLabel(bool fb=true, double customLumi=-1); //!< Add a luminosity label
   void AddSqrtSLabel(); //!< Only add 13 TeV label
   void ClearCanvas() { c->Clear(); } //!< Clear
