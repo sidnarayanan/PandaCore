@@ -29,6 +29,7 @@ processes =	{
 'ZToEE_NNPDF30_13TeV-powheg_M_50_120':('ZToEE_NNPDF30_13TeV-powheg_M_50_120','MC',1975),
 'ZToMuMu_NNPDF30_13TeV-powheg_M_120_200':('ZToMuMu_NNPDF30_13TeV-powheg_M_120_200','MC',19.32),
 'ZToEE_NNPDF30_13TeV-powheg_M_120_200':('ZToEE_NNPDF30_13TeV-powheg_M_120_200','MC',19.32),
+'ZJToEEJ_M-50_scalesUpTo8_NNPDF31_plus_CMSPDF_TuneCP5_13TeV_powheg2-minlo-pythia':('ZJToEEJ_M-50_scalesUpTo8_NNPDF31_plus_CMSPDF_TuneCP5_13TeV_powheg2-minlo-pythia','MC',1975),
 
 'tZq_ll_4f_13TeV-amcatnlo-pythia8':('tZq_ll_4f_13TeV-amcatnlo-pythia8','MC',0.0758),
 'tZq_nunu_4f_13TeV-amcatnlo-pythia8_TuneCUETP8M1':('tZq_nunu_4f_13TeV-amcatnlo-pythia8_TuneCUETP8M1','MC',0.1379),
@@ -90,5 +91,11 @@ processes =	{
 'WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8','MC',20508.9*3),
 
 'DarkPhoton_ZH_powheg_M-125':('DarkPhoton_ZH_powheg_M-125','MC',0.8839*0.101*0.10),
+
+#'DYJetsToNuNu_PtZ-50To100_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('ZtoNuNu_pt50to100','MC',593.9),
+#'DYJetsToNuNu_PtZ-100To250_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('ZtoNuNu_pt100to250','MC',3*54.8229),
+#'DYJetsToNuNu_PtZ-250To400_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('ZtoNuNu_pt250to400','MC',3*2.0705),
+#'DYJetsToNuNu_PtZ-400To650_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('ZtoNuNu_pt400to650','MC',3*0.2779),
+#'DYJetsToNuNu_PtZ-650ToInf_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('ZtoNuNu_pt650toinf','MC',3*0.0261),
 
 						}
