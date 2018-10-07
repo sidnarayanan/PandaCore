@@ -125,7 +125,7 @@ processes =    {
     'TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8':('TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8','MC',831.76*0.1086*3*(1-0.1086*3)*2),
 
     'WZTo3LNu_13TeV-powheg-pythia8':('WZTo3LNu_13TeV-powheg-pythia8','MC',4.65800*1.109),
-    'WZTo3LNu_TuneCP5_13TeV-amcatnloFXFX-pythia8':('WZTo3LNu_TuneCP5_13TeV-amcatnloFXFX-pythia8','MC',5.06180*1.109),
+    'WZTo3LNu_TuneCP5_13TeV-amcatnloFXFX-pythia8':('WZTo3LNu_TuneCP5_13TeV-amcatnloFXFX-pythia8','MC',5.06180*1.109/1.18),
     'WZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8':('WZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8','MC',4.9*1.109),
     'WZTo3LNu_0Jets_MLL-50_TuneCP5_13TeV-madgraphMLM-pythia8':('WZTo3LNu_0Jets_MLL-50_TuneCP5_13TeV-madgraphMLM-pythia8','MC',0.63820*1.109),
     'WZTo3LNu_1Jets_MLL-50_TuneCP5_13TeV-madgraphMLM-pythia8':('WZTo3LNu_1Jets_MLL-50_TuneCP5_13TeV-madgraphMLM-pythia8','MC',0.33815*1.109),
