@@ -74,6 +74,28 @@ processes =    {
     'WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8','MC',20508.9*3),
 
     'DarkPhoton_ZH_powheg_M-125':('DarkPhoton_ZH_powheg_M-125','MC',0.8839*0.101*0.10),
+
+    'ggZH_HToInv_ZToLL_M125_13TeV_powheg_pythia8':('ggZH_HToInv_ZToLL_M125_13TeV_powheg_pythia8','MC',0.1227*0.101*0.10),
+    'ZH_ZToMM_HToInvisible_M110_13TeV_powheg_pythia8':('ZH_ZToMM_HToInvisible_M110_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
+    'ZH_ZToMM_HToInvisible_M125_13TeV_powheg_pythia8':('ZH_ZToMM_HToInvisible_M125_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
+    'ZH_ZToMM_HToInvisible_M150_13TeV_powheg_pythia8':('ZH_ZToMM_HToInvisible_M150_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
+    'ZH_ZToMM_HToInvisible_M200_13TeV_powheg_pythia8':('ZH_ZToMM_HToInvisible_M200_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
+    'ZH_ZToMM_HToInvisible_M300_13TeV_powheg_pythia8':('ZH_ZToMM_HToInvisible_M300_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
+    'ZH_ZToMM_HToInvisible_M400_13TeV_powheg_pythia8':('ZH_ZToMM_HToInvisible_M400_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
+    'ZH_ZToMM_HToInvisible_M500_13TeV_powheg_pythia8':('ZH_ZToMM_HToInvisible_M500_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
+    'ZH_ZToMM_HToInvisible_M600_13TeV_powheg_pythia8':('ZH_ZToMM_HToInvisible_M600_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
+    'ZH_ZToMM_HToInvisible_M800_13TeV_powheg_pythia8':('ZH_ZToMM_HToInvisible_M800_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
+    'ZH_ZToMM_HToInvisible_M1000_13TeV_powheg_pythia8':('ZH_ZToMM_HToInvisible_M1000_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
+    'ZH_ZToEE_HToInvisible_M110_13TeV_powheg_pythia8':('ZH_ZToEE_HToInvisible_M110_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
+    'ZH_ZToEE_HToInvisible_M125_13TeV_powheg_pythia8':('ZH_ZToEE_HToInvisible_M125_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
+    'ZH_ZToEE_HToInvisible_M150_13TeV_powheg_pythia8':('ZH_ZToEE_HToInvisible_M150_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
+    'ZH_ZToEE_HToInvisible_M200_13TeV_powheg_pythia8':('ZH_ZToEE_HToInvisible_M200_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
+    'ZH_ZToEE_HToInvisible_M300_13TeV_powheg_pythia8':('ZH_ZToEE_HToInvisible_M300_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
+    'ZH_ZToEE_HToInvisible_M400_13TeV_powheg_pythia8':('ZH_ZToEE_HToInvisible_M400_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
+    'ZH_ZToEE_HToInvisible_M500_13TeV_powheg_pythia8':('ZH_ZToEE_HToInvisible_M500_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
+    'ZH_ZToEE_HToInvisible_M600_13TeV_powheg_pythia8':('ZH_ZToEE_HToInvisible_M600_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
+    'ZH_ZToEE_HToInvisible_M800_13TeV_powheg_pythia8':('ZH_ZToEE_HToInvisible_M800_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
+    'ZH_ZToEE_HToInvisible_M1000_13TeV_powheg_pythia8':('ZH_ZToEE_HToInvisible_M1000_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
     
 # 2016 & 2017
     'GluGluToContinToZZTo2e2mu_13TeV_MCFM701_pythia8':('GluGluToContinToZZTo2e2mu_13TeV_MCFM701_pythia8','MC',0.003194*2.3),
