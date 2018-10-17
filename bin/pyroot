@@ -4,24 +4,20 @@ import readline
 import code
 import numpy as np
 from sys import argv, exit
-from PandaCore.Tools.Misc import logger
-from argparse import ArgumentParser 
-
-parser = ArgumentParser(description='pyroot load')
-parser.add_argument('--verbose', action='store_true')
-parser.add_argument('--python', action='store_true')
-parser.add_argument('files', type=str, nargs='+')
-args = parser.parse_args()
-
-argv = []
+from PandaCore.Tools.script import * 
 import PandaCore.Tools.root_interface as ri 
-import ROOT as root
+from PandaCore.Utils.root import root 
+
+args = parse(('--verbose', STORE_TRUE), 
+             ('--python', STORE_TRUE),
+             ('files', {'nargs':'+'}))
+_logger = Logger('pyroot')
 
 data = {}
 for fpath in args.files:
     data[fpath] = root.TFile.Open(fpath)
     if args.verbose:
-        logger.info('pyroot', fpath)
+        _logger.info(fpath)
 
 if len(data) == 1:
     d = data.values()[0]
@@ -38,5 +34,5 @@ else:
         from IPython import embed
         embed()
     except ImportError as e:
-        logger.error('npy', 'IPython not found, try passing --python for bare python shell')
+        _logger.error('IPython not found, try passing --python for bare python shell')
         exit(1)

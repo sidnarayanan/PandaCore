@@ -5,13 +5,12 @@ Essentially wrappers around root_numpy
 '''
 
 import numpy as np
+from PandaCore.Utils.root import root
 import root_numpy as rnp
-import ROOT as root
 from array import array
-from PandaCore.Utils.logging import logger 
+from PandaCore.Utils.logging import Logger 
 
-root.gROOT.SetBatch()
-
+_logger = Logger('root_interface')
 _hcounter = 0 
 
 # MISC -----------------------------------------------------------------
@@ -26,7 +25,7 @@ def rename_dtypes(xarr, repl, old_names = None):
 # FILE INPUT ------------------------------------------------------------
 def read_branches(filenames, tree, branches, cut, treename = "events", xkwargs = {}):
     if not(filenames or treename) or (filenames and tree):
-        logger.error("root_interface.read_branches", "Exactly one of filenames and tree should be specified!")
+        _logger.error("root_interface.read_branches", "Exactly one of filenames and tree should be specified!")
         return None
     if branches:
         branches_ = list(set(branches)) # remove duplicates
@@ -134,6 +133,12 @@ class Selector(object):
             _hcounter += 1
         if type(fields)==str:
             fields = [fields]
-        masked_data = self.data if mask is None else self.data[mask]
+        if mask is not None:
+            if len(mask.shape) > 1:
+                masked_data = self.data[mask.flatten()]
+            else:
+                masked_data = self.data[mask]
+        else:
+            masked_data = self.data 
         draw_hist(h, masked_data, fields, weight)
         return h
