@@ -39,7 +39,7 @@ def tNOT(w):
     ''' NOTs two strings'''
     return '!( '+w+' )'
 
-def removeCut(basecut,var):
+def remove_cut(basecut,var):
     '''
     Removes the dependence on a particular variable from a formula
 

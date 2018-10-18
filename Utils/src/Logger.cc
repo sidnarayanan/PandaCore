@@ -24,13 +24,20 @@ Logger::Logger(TString name) :
     _tmpl = "%s%s [%-"+TString::Format("%i",MAXLOGGERLEN)+"s]: %s%s";
 }
 
-void Logger::_report(const RType& r, TString title, const TString& msg, const TString& n) const 
+void Logger::_report(const RType& r, TString title, TString msg, const TString& n) const 
 { 
+
+  if (msg.Length() == 0) {
+    msg = title;
+    title = "";
+  }
+
   title = _name+title; 
   if (title.Length() > MAXLOGGERLEN) {
     title = "..." + title(title.Length()-MAXLOGGERLEN+3,
                            title.Length());
   }
+
   if (_isatty) {
     fprintf(
       r.fhandle,

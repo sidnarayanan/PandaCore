@@ -1,23 +1,20 @@
 #!/usr/bin/env python
 
 from sys import argv, exit
-import argparse
+from PandaCore.Tools.script import * 
 
-parser = argparse.ArgumentParser(description='root to npy file')
-parser.add_argument('--treename',help='input TTree name',type=str,default='events')
-parser.add_argument('--output',help='output npy file',type=str,default=None)
-parser.add_argument('--selection',help='cut to apply to trees',type=str,default=None)
-parser.add_argument('--config',help='config of branches to copy',type=str,default=None)
-parser.add_argument('infile',metavar='input',type=str,nargs='+',help='input file(s) to process')
-args = parser.parse_args()
+args = parse(('--treename', {'default':'events'}),
+             '--output',
+             '--selection',
+             '--config',
+             ('infile', {'nargs':'+'}))
 
-argv = []
-from PandaCore.Utils.logging import logger
+_logger = Logger('root2npy')
 
 infiles = args.infile
 if not args.output:
     if len(infiles)!=1:
-        logger.error('root2npy','More than one input specified, please explicitly specify output!')
+        _logger.error('More than one input specified, please explicitly specify output!')
         exit(1)
     args.output = infiles[0].replace('.root','.npy')
 

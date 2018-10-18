@@ -57,7 +57,7 @@ else:
 
 def issue_proxy():
     myinfo('job_management','Requesting proxy...')
-    cmd = 'voms-proxy-init -voms cms --valid 168:00'
+    cmd = 'voms-proxy-init -voms cms --valid 192:00'
     if SILENT:
         cmd += ' >/dev/null 2>&1'
     system(cmd)
