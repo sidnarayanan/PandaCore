@@ -120,7 +120,7 @@ class ProgressReporter {
      * \param nR  number of reports desired
      * \brief Constructor
      */
-    ProgressReporter(const char *n, unsigned int *iE, unsigned int *nE, unsigned int nR=100);
+    ProgressReporter(const char *n, const unsigned int *iE, const unsigned int *nE, unsigned int nR=100);
     /**
      * \brief Destrucctor
      */
@@ -130,11 +130,12 @@ class ProgressReporter {
      */
     void Report();
   private:
-    unsigned int *idx, *N; /**< addresses of progress trackers */
+    const unsigned int *idx, *N; /**< addresses of progress trackers */
     unsigned int frequency; /**< how often to print */
     TString name; /**< name of this task */
     float threshold=0; /**< internal tracker of next threshold */
     long globalStart; 
+    TString newline;
 };
 
 //////////////////////////////////////////////////////////////////////////////////
