@@ -24,7 +24,7 @@ Logger::Logger(TString name) :
     _tmpl = "%s%s [%-"+TString::Format("%i",MAXLOGGERLEN)+"s]: %s%s";
 }
 
-void Logger::_report(const RType& r, TString title, TString msg, const TString& n) const 
+void Logger::_report(const RType& r, TString title, TString msg, const char *n) const 
 { 
 
   if (msg.Length() == 0) {
@@ -43,12 +43,15 @@ void Logger::_report(const RType& r, TString title, TString msg, const TString& 
       r.fhandle,
       "%s",
       Form(_tmpl,
-           r.color.Data(), r.name.Data(), r.pad.Data(), title.Data(), msg.Data(), n.Data()));
+           r.color.Data(), r.name.Data(), r.pad.Data(), title.Data(), msg.Data(), n));
   } else {
     fprintf(
       r.fhandle,
       "%s",
       Form(_tmpl,
-           r.name.Data(), r.pad.Data(), title.Data(), msg.Data(), n.Data()));
+           r.name.Data(), r.pad.Data(), title.Data(), msg.Data(), n));
   }
+
+  if (r.fhandle == stdout)
+    fflush(stdout); 
 }

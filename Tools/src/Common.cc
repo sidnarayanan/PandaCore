@@ -56,12 +56,17 @@ std::vector<TString> getDependencies(TString cut) {
   return deps;
 }
 
-ProgressReporter::ProgressReporter(const char *n, unsigned int *iE, unsigned int *nE, unsigned int nR)
+ProgressReporter::ProgressReporter(const char *n, 
+                                   const unsigned int *iE, 
+                                   const unsigned int *nE, 
+                                   unsigned int nR) : 
+  idx(iE),
+  N(nE),
+  frequency(nR),
+  name(n),
+  newline(isatty(fileno(stdout)) ? "\r" : "\n")
 {
   name = n; name+="::Progress";
-  idx = iE;
-  N = nE;
-  frequency = nR;
 }
 
 void ProgressReporter::Report() {
@@ -73,8 +78,10 @@ void ProgressReporter::Report() {
                       (static_cast<long>(gSystem->Now()) - globalStart) * (1 - progress) / (1000 * progress) : 
                       -1; 
     logger.info(name.Data(),
-          TString::Format("%-40s",TString::Format("%5.2f%%, %8.2fs left (%u/%u) ",progress*100,timeLeft,*idx,*N).Data()).Data(),
-          "\n");
+          TString::Format("%-40s",
+              TString::Format("%5.2f%%, %8.2fs left (%u/%u) ",progress*100,timeLeft,*idx,*N).Data()
+            ).Data(),
+          newline);
     threshold += 1./frequency;
   }
 }

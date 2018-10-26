@@ -30,7 +30,7 @@ private:
     TString pad;
     FILE *const fhandle;
   };
-  void _report(const RType& r, TString title, TString msg, const TString& n) const;
+  void _report(const RType& r, TString title, TString msg, const char *n) const;
   bool _isatty;
   FILE *const _fhandle;
   TString _name, _tmpl;
