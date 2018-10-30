@@ -51,6 +51,17 @@ processes =    {
     'WZTo1L3Nu_13TeV_amcatnloFXFX_madspin_pythia8':('WZTo1L3Nu_13TeV_amcatnloFXFX_madspin_pythia8','MC',3.033*1.109),
     'WZTo3LNu_TuneCUETP8M1_13TeV-powheg-pythia8':('WZTo3LNu_TuneCUETP8M1_13TeV-powheg-pythia8','MC',4.42965*1.109),
 
+    'WZTo3LNu_0Jets_MLL-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('WZTo3LNu_0Jets_MLL-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8','MC',0.5770677*1.109*1.206),
+    'WZTo3LNu_1Jets_MLL-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('WZTo3LNu_1Jets_MLL-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8','MC',0.3445573*1.109*1.206),
+    'WZTo3LNu_2Jets_MLL-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('WZTo3LNu_2Jets_MLL-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8','MC',0.0768421*1.109*1.206),
+    'WZTo3LNu_3Jets_MLL-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('WZTo3LNu_3Jets_MLL-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8','MC',0.1112010*1.109*1.206),
+    'WZTo3LNu_0Jets_MLL-4To50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('WZTo3LNu_0Jets_MLL-4To50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8','MC',2.3011202*1.109*1.206),
+    'WZTo3LNu_1Jets_MLL-4To50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('WZTo3LNu_1Jets_MLL-4To50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8','MC',0.5291347*1.109*1.206),
+    'WZTo3LNu_2Jets_MLL-4To50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('WZTo3LNu_2Jets_MLL-4To50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8','MC',0.0819247*1.109*1.206),
+    'WZTo3LNu_3Jets_MLL-4To50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('WZTo3LNu_3Jets_MLL-4To50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8','MC',0.0508602*1.109*1.206),
+    'WLLJJ_WToLNu_EWK_TuneCUETP8M1_13TeV_madgraph-madspin-pythia8':('WLLJJ_WToLNu_EWK_TuneCUETP8M1_13TeV_madgraph-madspin-pythia8','MC',0.0176340),
+    'WLLJJ_WToLNu_MLL-4To60_EWK_TuneCUETP8M1_13TeV_madgraph-madspin-pythia8':('WLLJJ_WToLNu_MLL-4To60_EWK_TuneCUETP8M1_13TeV_madgraph-madspin-pythia8','MC',0.0054845),
+
     'WWTo2L2Nu_13TeV-powheg':('WWTo2L2Nu_13TeV-powheg','MC',(118.7-3.974)*0.1086*0.1086*9),
     'GluGluWWTo2L2Nu_MCFM_13TeV':('GluGluWWTo2L2Nu_MCFM_13TeV','MC',3.974*0.1086*0.1086*9*1.4),
 
