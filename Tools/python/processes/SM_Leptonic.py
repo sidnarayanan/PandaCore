@@ -86,7 +86,7 @@ processes =    {
 
     'ZH_ZToLL_HToGDarkG_M125_13TeV_powheg_pythia8':('ZH_ZToLL_HToGDarkG_M125_13TeV_powheg_pythia8','MC',0.8839*0.101*0.10),
 
-    'ggZH_HToInv_ZToLL_M125_13TeV_powheg_pythia8':('ggZH_HToInv_ZToLL_M125_13TeV_powheg_pythia8','MC',0.1227*0.101*0.10),
+    'ggZH_HToInv_ZToLL_M125_13TeV_powheg_pythia8':('ggZH_HToInv_ZToLL_M125_13TeV_powheg_pythia8','MC',0.1227*0.101),
     'ZH_ZToMM_HToInvisible_M110_13TeV_powheg_pythia8':('ZH_ZToMM_HToInvisible_M110_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
     'ZH_ZToMM_HToInvisible_M125_13TeV_powheg_pythia8':('ZH_ZToMM_HToInvisible_M125_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
     'ZH_ZToMM_HToInvisible_M150_13TeV_powheg_pythia8':('ZH_ZToMM_HToInvisible_M150_13TeV_powheg_pythia8','MC',(0.8839-0.1227)*0.101/3.),
