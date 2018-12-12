@@ -186,6 +186,10 @@ processes =    {
         'EWKZ2Jets_ZToLL_M-50_13TeV-madgraph-pythia8':('ZJets_EWK','MC',3.99),
         'EWKWPlus2Jets_WToLNu_M-50_13TeV-madgraph-pythia8':('WJets_EWKWPlus','MC',25.81),
         'EWKWMinus2Jets_WToLNu_M-50_13TeV-madgraph-pythia8':('WJets_EWKWMinus','MC',20.35),
+        'EWKZ2Jets_ZToNuNu_TuneCP5_13TeV-madgraph-pythia8':('ZtoNuNu_EWK','MC',10.04),
+        'EWKZ2Jets_ZToLL_M-50_TuneCP5_13TeV-madgraph-pythia8':('ZJets_EWK','MC',3.99),
+        'EWKWPlus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8':('WJets_EWKWPlus','MC',25.81),
+        'EWKWMinus2Jets_WToLNu_M-50_TuneCP5_13TeV-madgraph-pythia8':('WJets_EWKWMinus','MC',20.35),
 
         # regular dibosons
         'WW_TuneCUETP8M1_13TeV-pythia8':('Diboson_ww','MC',118.7),
