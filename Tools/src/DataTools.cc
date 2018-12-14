@@ -41,6 +41,18 @@ EraHandler::EraHandler(int year)
       bins = new Binner(runBounds);
       break;
     }
+    case 2018:
+    {
+      runBounds = {315252,
+                   316998,
+                   319313,
+                   320394,
+                   325274,
+                   325765};
+      eraNames = {"A","B","C","D","E"};
+      bins = new Binner(runBounds);
+      break;
+    }
     default :
     {
       logger.error("EraHandler",TString::Format("Year %i is not known",year));
@@ -50,16 +62,23 @@ EraHandler::EraHandler(int year)
 
 TString EraHandler::getEra(int runNumber) 
 {
+  unsigned eraIdx;
+
   if (runNumber<runBounds[0]) {
-    logger.error("EraHandler",
-        TString::Format("Run number (%i) is less than first run (%i)",runNumber,(int)runBounds[0]));
-    return "";
+    if (!hadError)
+      logger.error("EraHandler",
+          TString::Format("Run number (%i) is less than first run (%i)",runNumber,(int)runBounds[0]));
+    hadError = true;
+    eraIdx = bins->bin(runBounds[0]);
+  } else if (runNumber>runBounds.back()) {
+    if (!hadError)
+      logger.error("EraHandler",
+          TString::Format("Run number (%i) is greater than last run (%i)",runNumber,(int)runBounds.back()));
+    hadError = true;
+    eraIdx = bins->bin(runBounds.back());
+  } else {
+    eraIdx = bins->bin(runNumber);
   }
-  if (runNumber>runBounds.back()) {
-    logger.error("EraHandler",
-        TString::Format("Run number (%i) is greater than last run (%i)",runNumber,(int)runBounds.back()));
-    return "";
-  }
-  unsigned int eraIdx = bins->bin(runNumber);
+
   return eraNames.at(eraIdx);
 }

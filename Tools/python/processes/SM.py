@@ -9,6 +9,7 @@ processes =    {
         'DYJetsToNuNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('ZtoNuNu_nlo','MC',11433.),
         'WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8':('WJets_nlo','MC',61527.),
         'WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':('WJets_lo_incl','MC',50400.),
+        'WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8':('WJets_lo_incl_CP5','MC',50400.),
 
         # LO Z->nunu
         'ZJetsToNuNu_HT-100To200_13TeV-madgraph':('ZtoNuNu_ht100to200','MC',280.5),
@@ -146,6 +147,12 @@ processes =    {
         'ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8':('SingleTop_tW_CP5','MC', 35.6),
         'ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8':('SingleTop_tTbar_CP5','MC',80.95),
         'ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8':('SingleTop_tT_CP5','MC',136.02),
+
+        'ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8':('SingleTop_tTbar_CP518','MC',80.95),
+        'ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8':('SingleTop_tT_CP518','MC',136.02),
+        'ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8':('SingleTop_tbarW_noHad','MC',35.6*(1-0.68*0.68)),
+        'ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8':('SingleTop_tW_noHad','MC',35.6*(1-0.68*0.68)),
+
 
         # ttbar
         'TTJets_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':                    ('TTbar_MLM','MC',831.76),
