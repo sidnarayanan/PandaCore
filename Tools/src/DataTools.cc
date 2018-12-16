@@ -64,21 +64,16 @@ TString EraHandler::getEra(int runNumber)
 {
   unsigned eraIdx;
 
-  if (runNumber<runBounds[0]) {
-    if (!hadError)
+  if (!hadError) {
+    if (runNumber<runBounds[0]) 
       logger.error("EraHandler",
           TString::Format("Run number (%i) is less than first run (%i)",runNumber,(int)runBounds[0]));
-    hadError = true;
-    eraIdx = bins->bin(runBounds[0]);
-  } else if (runNumber>runBounds.back()) {
-    if (!hadError)
+    else if (runNumber>runBounds.back()) 
       logger.error("EraHandler",
           TString::Format("Run number (%i) is greater than last run (%i)",runNumber,(int)runBounds.back()));
     hadError = true;
-    eraIdx = bins->bin(runBounds.back());
-  } else {
-    eraIdx = bins->bin(runNumber);
   }
 
+  eraIdx = bins->bin(runNumber); // under/over flow is truncated, won't throw error 
   return eraNames.at(eraIdx);
 }
