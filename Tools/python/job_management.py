@@ -168,6 +168,7 @@ BOSCOCluster == "ce03.cmsaf.mit.edu" && BOSCOGroup == "bosco_cms" && HAS_CVMFS_c
         logger.error('job_management.setup_schedd','Unknown config "%s"'%(':'.join(config)))
         raise ValueError
 
+
 schedd_config = getenv('SUBMIT_CONFIG')
 schedd_config = 'T3' if not schedd_config else schedd_config
 setup_schedd(schedd_config)

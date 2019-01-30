@@ -79,20 +79,27 @@ def _isfn(f):
     return type(f) == types.FunctionType
 
 # HISTOGRAM MANIPULATION ---------------------------------------------------
-def draw_hist(hist, xarr, fields, weight = None):
+def draw_hist(hist, xarr, fields, weight = None, mask=None):
     warr = xarr[weight] if (weight is not None) else None
     if (warr is not None) and len(warr.shape)>1:
         warr = warr[:,0]
+    if mask is not None:
+        mask = mask.flatten()
+
     if len(fields) == 1:
         if _isfn(fields[0]):
-            return rnp.fill_hist(hist = hist, array = fields[0](xarr).flatten(), weights = warr)
+            varr = fields[0](xarr).flatten()
         else:
-            return rnp.fill_hist(hist = hist, array = xarr[fields[0]].flatten(), weights = warr)
+            varr = xarr[fields[0]].flatten()
+        if mask is not None:
+            varr = varr[mask]
     else:
         varr = [f(xarr).flatten() if _isfn(f) else xarr[f].flatten() for f in fields]
+        if mask is not None:
+            varr = [v[mask] for v in varr]
         varr = np.array(varr)
         varr = varr.transpose()
-        return rnp.fill_hist(hist = hist, array = varr, weights = warr)
+    return rnp.fill_hist(hist = hist, array = varr, weights = warr)
 
 
 # Put everything into a class ---------------------------------------------
@@ -100,6 +107,15 @@ class Selector(object):
     def __init__(self):
         self.data = None
         self._nicknames = {}
+    def to_dict(self):
+        if self.data is None:
+            return
+        self.data = {k:self.data[k] for k in self.data.dtype.names}
+    def flatten(self):
+        if self.data is None:
+            return 
+        self.to_dict()
+        self.data = {k:v.flatten() for k,v in self.data.iteritems()}
     def read_files(self, *args, **kwargs):
         self.data = read_files(*args, **kwargs)
     def read_tree(self, *args, **kwargs):
@@ -109,6 +125,8 @@ class Selector(object):
             self._nicknames[a] = b
         else:
             self._nicknames.update(a)
+    def __setitem__(self, k, item):
+        self.data[k] = item
     def __getitem__(self, k):
         if type(k)==list:
             keys = [self._nicknames[kk] if kk in self._nicknames else kk for kk in k]
@@ -141,12 +159,5 @@ class Selector(object):
             _hcounter += 1
         if type(fields)==str:
             fields = [fields]
-        if mask is not None:
-            if len(mask.shape) > 1:
-                masked_data = self.data[mask.flatten()]
-            else:
-                masked_data = self.data[mask]
-        else:
-            masked_data = self.data 
-        draw_hist(h, masked_data, fields, weight)
+        draw_hist(h, self.data, fields, weight, mask)
         return h
